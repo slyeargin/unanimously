@@ -12,17 +12,20 @@ class User{
         fn(null);
       }else{
         var user = new User();
+        user._id = Mongo.ObjectID(obj._id);
         user.email = obj.email;
-        user.name = obj.name ? obj.name : '';
+        user.name = obj.name ? obj.name : obj.email;
         user.photo = gravatar.url(user.email, {s: '80', r: 'pg', d: 'mm'}, false);
         user.password = obj.password ? bcrypt.hashSync(obj.password, 8) : '';
         user.isValid = obj.isValid ? obj.isValid : false;
 
-        if (!obj.password){
-          userCollection.save(user, ()=>{
+        userCollection.save(user, ()=>{
+          if (!user.password){
             sendVerificationEmail(user, fn);
-          });
-        }
+          }else{
+            fn(user);
+          }
+        });
       }
     });
   }
@@ -43,7 +46,7 @@ class User{
   }
 
   static findById(id, fn){
-    if(typeof id === 'string'){
+    if(typeof id === 'string' && id.length === 24){
       id = Mongo.ObjectID(id);
     }
 
@@ -58,10 +61,15 @@ class User{
   }
 
   changePassword(password, fn){
-    this.password = bcrypt.hashSync(password, 8);
-    this.isValid = true;
-
-    userCollection.save(this, fn);
+    if(this){
+      this.password = bcrypt.hashSync(password, 8);
+      this.isValid = true;
+      userCollection.save(this, ()=>{
+        fn(this);
+      });
+    }else{
+      fn(null);
+    }
   }
 }
 
