@@ -1,25 +1,40 @@
 var campaignCollection = global.nss.db.collection('campaigns');
 // var request = require('request');
+var _ = require('lodash');
 var Mongo = require('mongodb');
 var traceur = require('traceur');
 var Base = traceur.require(__dirname + '/base.js');
 
 class Campaign{
-  static create(obj, owner, fn){
+  static create(obj, fn){
     var campaign = new Campaign();
     campaign._id = Mongo.ObjectID(obj._id);
     campaign.name = obj.name;
     campaign.description = obj.description;
-    campaign.ownerId = owner._id;
+    campaign.ownerId = Mongo.ObjectID(obj.ownerId);
     campaign.editorIds = [];
 
     campaignCollection.save(campaign, ()=>{
-      fn(this);
+      fn(campaign);
     });
   }
 
   static findById(id, fn){
     Base.findById(id, campaignCollection, Campaign, fn);
+  }
+
+  static findAllByOwnerId(id, fn){
+    if(typeof id === 'string'){
+      if(id.length !== 24){fn(null); return;}
+      id = Mongo.ObjectID(id);
+    }
+
+    if(!(id instanceof Mongo.ObjectID)){fn(null); return;}
+
+    campaignCollection.find({ownerId:id}).toArray((e,objs)=>{
+      objs = objs.map(o=>_.create(Campaign.prototype, o));
+      fn(objs);
+    });
   }
 }
 
