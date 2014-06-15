@@ -1,0 +1,7 @@
+extends ../shared/template
+
+block content
+  form#register(action='/verify/#{u._id}', method='post')
+    label Your password
+    input(name='password', type='password')
+    button Complete registration!
