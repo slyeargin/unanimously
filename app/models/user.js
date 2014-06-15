@@ -1,9 +1,10 @@
 var userCollection = global.nss.db.collection('users');
 var request = require('request');
 var Mongo = require('mongodb');
-var _ = require('lodash');
 var bcrypt = require('bcrypt');
 var gravatar = require('gravatar');
+var traceur = require('traceur');
+var Base = traceur.require(__dirname + '/base.js');
 
 class User{
   static create(obj, fn){
@@ -46,18 +47,7 @@ class User{
   }
 
   static findById(id, fn){
-    if(typeof id === 'string' && id.length === 24){
-      id = Mongo.ObjectID(id);
-    }
-
-    userCollection.findOne({_id:id}, (e,u)=>{
-      if(u){
-        u = _.create(User.prototype, u);
-        fn(u);
-      }else{
-        fn(null);
-      }
-    });
+    Base.findById(id, userCollection, User, fn);
   }
 
   changePassword(password, fn){
