@@ -2,6 +2,7 @@
 
 var traceur = require('traceur');
 var User = traceur.require(__dirname + '/../models/user.js');
+var Campaign = traceur.require(__dirname + '/../models/campaign.js');
 
 exports.register = (req, res)=>{
   res.render('users/register', {title: 'Register User'});
@@ -69,5 +70,9 @@ exports.logout = (req, res)=>{
 };
 
 exports.dashboard = (req, res)=>{
-  res.render('users/dashboard', {title: 'Unanimously | Dashboard'});
+  Campaign.findAllByOwnerId(res.locals.user, campaigns=>{
+    console.log('Campaigns? ');
+    console.log(campaigns);
+    res.render('users/dashboard', {campaigns: campaigns, title: 'Unanimously | Dashboard'});
+  });
 };

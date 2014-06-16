@@ -3,4 +3,18 @@ extends ../shared/template
 block content
   h1= title
 
-  img(src=user.photo)
+  div.sidebar
+    img(src=user.photo)
+    p #{user.name}
+
+  div.main
+    div.add
+      include ../campaigns/addCampaign
+    div.list
+      if(campaigns)
+        ul
+          each campaign in campaigns
+            li
+              a(href='/campaign/#{campaign._id}') #{campaign.name}
+      else
+        p You haven't created any campaigns!
