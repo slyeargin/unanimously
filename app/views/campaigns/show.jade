@@ -1,0 +1,20 @@
+extends ../shared/template
+
+block content
+  h1= campaign.name
+  p #{campaign.description}
+
+  div.sidebar
+    include userinfo
+
+  div.main
+    div.add
+      include ../projects/addProject
+    div.list
+      if(projects)
+        ul
+          each project in projects
+            li
+              a(href='/project/#{project._id}') #{project.name}
+      else
+        p You haven't created any projects!

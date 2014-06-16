@@ -4,8 +4,7 @@ block content
   h1= title
 
   div.sidebar
-    img(src=user.photo)
-    p #{user.name}
+    include userinfo
 
   div.main
     div.add
@@ -15,6 +14,6 @@ block content
         ul
           each campaign in campaigns
             li
-              a(href='/campaign/#{campaign._id}') #{campaign.name}
-      else
+              a(href='/campaigns/#{campaign._id}') #{campaign.name}
+      if(!campaigns)
         p You haven't created any campaigns!
