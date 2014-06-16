@@ -53,11 +53,7 @@ exports.login = (req, res)=>{
 };
 
 exports.authenticate = (req, res)=>{
-  console.log('For the test: ');
-  console.log(req.body);
   User.login(req.body, user=>{
-    console.log('Is it user? ');
-    console.log(user);
     if(user){
       req.session.userId = user._id;
       res.redirect('/dashboard');

@@ -51,7 +51,7 @@ describe('users', function(){
       .end(function(err, res){
         expect(res.status).to.equal(302);
         expect(res.headers.location).to.equal('/dashboard');
-        // expect(res.headers['set-cookie']).to.be.ok;
+        expect(res.headers['set-cookie']).to.be.ok;
         done();
       });
     });
@@ -63,7 +63,7 @@ describe('users', function(){
       .send('password=5678')
       .end(function(err, res){
         expect(res.status).to.equal(302);
-        // expect(res.headers.location).to.equal('/login');
+        expect(res.headers.location).to.equal('/login');
         // expect(res.headers['set-cookie']).to.not.be.ok;
         done();
       });
@@ -76,7 +76,7 @@ describe('users', function(){
       .send('password=wrong')
       .end(function(err, res){
         expect(res.status).to.equal(302);
-        // expect(res.headers.location).to.equal('/login');
+        expect(res.headers.location).to.equal('/login');
         // expect(res.headers['set-cookie']).to.not.be.ok;
         done();
       });
@@ -89,7 +89,7 @@ describe('users', function(){
       .post('/logout')
       .end(function(err, res){
         expect(res.status).to.equal(302);
-        // expect(res.headers.location).to.equal('/login');
+        expect(res.headers.location).to.equal('/login');
         // expect(res.headers['set-cookie']).to.be.ok;
         done();
       });

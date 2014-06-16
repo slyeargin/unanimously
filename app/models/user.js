@@ -33,13 +33,9 @@ class User{
 
   static login(obj, fn){
     userCollection.findOne({email:obj.email}, (e,user)=>{
-      console.log('User? ');
-      console.log(user);
       if(user){
         var isGood = bcrypt.compareSync(obj.password, user.password);
         if(isGood && user.isValid){
-          console.log('It is good!');
-          console.log(user);
           fn(user);
         }else{
           fn(null);

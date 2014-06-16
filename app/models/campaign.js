@@ -1,4 +1,5 @@
 var campaignCollection = global.nss.db.collection('campaigns');
+// var userCollection = global.nss.db.collection('users');
 // var request = require('request');
 var _ = require('lodash');
 var Mongo = require('mongodb');

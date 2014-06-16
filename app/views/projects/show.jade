@@ -1,0 +1,24 @@
+extends ../shared/template
+
+block content
+  h1= project.name
+  p #{project.notes}
+  p #{project.medium}
+
+  div.sidebar
+    include ../users/userinfo
+
+  div.main
+    div.add
+      //- include ../projects/addProject
+    div.list
+      if(docs)
+        ul
+          each doc in docs
+            li
+              div.content
+                div.copy #{doc.copy}
+                div.diff
+              div.notes #{doc.notes}
+      else
+        include ../projects/addContent

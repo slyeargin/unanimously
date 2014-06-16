@@ -5,7 +5,7 @@ block content
   p #{campaign.description}
 
   div.sidebar
-    include userinfo
+    include ../users/userinfo
 
   div.main
     div.add
@@ -15,6 +15,6 @@ block content
         ul
           each project in projects
             li
-              a(href='/project/#{project._id}') #{project.name}
+              a(href='/projects/#{project._id}') #{project.name}
       else
         p You haven't created any projects!

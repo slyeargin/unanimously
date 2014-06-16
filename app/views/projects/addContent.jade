@@ -1,0 +1,6 @@
+form#addContent(action='/docs/create', method='post')
+  textarea(name='copy', placeholder='Enter Your Copy Here')
+  input(name='notes', type='text', placeholder='Notes')
+  input(name='projectId', type='hidden', value='#{project._id}')
+  //- input(name='ownerId', type='hidden', value='#{user._id}')
+  button Add

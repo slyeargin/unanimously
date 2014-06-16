@@ -3,7 +3,7 @@
 var traceur = require('traceur');
 // var User = traceur.require(__dirname + '/../models/user.js');
 var Campaign = traceur.require(__dirname + '/../models/campaign.js');
-// var Project = traceur.require(__dirname + '/../models/project.js');
+var Project = traceur.require(__dirname + '/../models/project.js');
 
 exports.create = (req, res)=>{
   Campaign.create(req.body, campaign=>{
@@ -11,14 +11,14 @@ exports.create = (req, res)=>{
   });
 };
 
-exports.dashboard = (req, res)=>{
-  Campaign.findAllByOwnerId(res.locals.user._id, campaigns=>{
-    res.render('users/dashboard', {campaigns: campaigns, title: 'Unanimously | Dashboard'});
+exports.show = (req, res)=>{
+  Campaign.findById(req.params.id, campaign=>{
+    if(campaign){
+      Project.findAllByCampaignId(campaign._id, projects=>{
+        res.render('campaigns/show', {campaign:campaign, projects:projects, title: 'Unanimously | Campaign: ' + campaign.name});
+      });
+    } else {
+      res.redirect('/dashboard');
+    }
   });
 };
-
-// exports.show = (req, res)=>{
-//   Campaign.findById(req.params.id, campaign=>{
-//     res.render('campaigns/show', {campaign:campaign, title: 'Unanimously | Campaign: ' + campaign.name});
-//   });
-// };

@@ -17,6 +17,8 @@ function load(app, fn){
   var home = traceur.require(__dirname + '/../routes/home.js');
   var users = traceur.require(__dirname + '/../routes/users.js');
   var campaigns = traceur.require(__dirname + '/../routes/campaigns.js');
+  var projects = traceur.require(__dirname + '/../routes/projects.js');
+  var docs = traceur.require(__dirname + '/../routes/docs.js');
 
   app.all('*', users.lookup);
 
@@ -37,8 +39,12 @@ function load(app, fn){
   app.get('/dashboard', dbg, users.dashboard);
 
   app.post('/campaigns/create', dbg, campaigns.create);
-  app.get('/campaigns', dbg, campaigns.index);
-  // app.get('/campaigns/:id', dbg, campaigns.show);
+  app.get('/campaigns/:id', dbg, campaigns.show);
+
+  app.post('/projects/create', dbg, projects.create);
+  app.get('/projects/:id', dbg, projects.show);
+
+  app.post('/docs/create', dbg, docs.create);
 
   console.log('Routes Loaded');
   fn();
