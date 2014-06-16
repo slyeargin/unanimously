@@ -32,7 +32,7 @@ describe('User', function(){
   describe('.create', function(){
     it('should successfully create a user', function(done){
       var fields = {
-        email:'samantha@yearg.in'
+        email:'samantha+test@yearg.in'
       };
 
       User.create(fields, function(u){

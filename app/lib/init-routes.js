@@ -38,7 +38,7 @@ function load(app, fn){
 
   app.post('/campaigns/create', dbg, campaigns.create);
   app.get('/campaigns', dbg, campaigns.index);
-  app.get('/campaigns/:id', dbg, campaigns.show);
+  // app.get('/campaigns/:id', dbg, campaigns.show);
 
   console.log('Routes Loaded');
   fn();
