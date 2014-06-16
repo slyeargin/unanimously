@@ -1,0 +1,13 @@
+[
+  {
+    "_id":"7023456789abcdef01234567",
+    "projectId":"6023456789abcdef01234567",
+    "copy":"Keep contamination under control.",
+    "notes":"First draft"
+  },
+  {
+    "projectId":"6023456789abcdef01234567",
+    "copy":"Keeping contamination under control.",
+    "notes":"Emphasis on what we do, rather than what they could do"
+  }
+]
