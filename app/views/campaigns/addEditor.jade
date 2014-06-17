@@ -1,0 +1,5 @@
+form#addEditor(action='/campaigns/addEditor', method='post')
+  input(name='email', type='email', placeholder='E-mail Address')
+  input(name='campaignId', type='hidden', value='#{campaign._id}')
+  input(name='from', type='hidden', value='#{user._id}')
+  button Invite

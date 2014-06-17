@@ -3,6 +3,7 @@
 var traceur = require('traceur');
 var User = traceur.require(__dirname + '/../models/user.js');
 var Campaign = traceur.require(__dirname + '/../models/campaign.js');
+var Invitation = traceur.require(__dirname + '/../models/invitation.js');
 
 exports.register = (req, res)=>{
   res.render('users/register', {title: 'Register User'});
@@ -42,9 +43,17 @@ exports.verify = (req, res)=>{
   });
 };
 
-exports.password = (req, res)=>{
+exports.verifyAccount = (req, res)=>{
   User.findById(req.params.id, user=>{
-    user.changePassword(req.body.password, ()=>res.redirect('/login'));
+    user.changePassword(req.body.password, user=>{
+      Invitation.findAllByEmail(user, invites=>{
+        if(invites){
+          console.log(invites);
+          //  objs = objs.map(o=>_.create(Campaign.prototype, o));
+        }
+        res.redirect('/login');
+      });
+    });
   });
 };
 

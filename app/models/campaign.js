@@ -37,9 +37,42 @@ class Campaign{
       fn(objs);
     });
   }
+
+  addEditor(user, fn){
+    console.log('User Id?');
+    console.log(user._id);
+    console.log('OwnerId?');
+    console.log(this.ownerId);
+
+    if(this && this.ownerId.toString() !== user._id.toString()){
+      console.log('This editor is not the owner!');
+      console.log('Editor IDs: ');
+      console.log(this.editorIds);
+
+      var dup = _.contains(this.editorIds, user._id.toString());
+      console.log('Dup?');
+      console.log(dup);
+      if(dup === false){
+        this.editorIds.push(user._id.toString());
+        campaignCollection.save(this, ()=>{
+          console.log('User: ');
+          console.log(user);
+          console.log('This: ');
+          console.log(this);
+          // sendAddNoticeEmail(user, this, fn);
+        });
+      }else{
+        console.log('This user is already an editor on this project.');
+        fn(null);
+      }
+    }else{
+      console.log('You cannot be added as an editor to your own project.');
+      fn(null);
+    }
+  }
 }
 
-// function sendVerificationEmail(user, fn){
+// function sendAddNoticeEmail(user, campaign, fn){
 //   'use strict';
 //   var key = process.env.MAILGUN;
 //   var url = 'https://api:' + key + '@api.mailgun.net/v2/sandboxcf74801602ec4522bb675027e5f4e47c.mailgun.org/messages'; //sandbox... is my subdomain they gave me, if add my website, then it would go there
@@ -52,8 +85,8 @@ class Campaign{
 //   var form = post.form();
 //   form.append('from', 'admin@slyeargin.com');
 //   form.append('to', user.email);
-//   form.append('subject', 'Please verify your e-mail address.');
-//   form.append('html', '<a href="http://localhost:4000/verify/' + user._id + '">Click to Verify</a>');
+//   form.append('subject', 'You\'ve been added to the' + campaign.name + 'campaign.');
+  // form.append('html', 'You\'ve been added to the <a href="http://localhost:4000/campaigns/' + campaign._id + '">' + campaign.name + '</a> campaign.');
 // }
 
 module.exports = Campaign;

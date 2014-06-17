@@ -28,7 +28,7 @@ function load(app, fn){
   app.post('/register', dbg, users.validate);
 
   app.get('/verify/:id', dbg, users.verify);
-  app.post('/verify/:id', dbg, users.password);
+  app.post('/verify/:id', dbg, users.verifyAccount);
 
   app.get('/login', dbg, users.login);
   app.post('/login', dbg, users.authenticate);
@@ -40,6 +40,7 @@ function load(app, fn){
 
   app.post('/campaigns/create', dbg, campaigns.create);
   app.get('/campaigns/:id', dbg, campaigns.show);
+  app.post('/campaigns/addEditor', dbg, campaigns.addEditor);
 
   app.post('/projects/create', dbg, projects.create);
   app.get('/projects/:id', dbg, projects.show);

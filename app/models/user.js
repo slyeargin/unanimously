@@ -3,6 +3,7 @@ var request = require('request');
 var Mongo = require('mongodb');
 var bcrypt = require('bcrypt');
 var gravatar = require('gravatar');
+var _ = require('lodash');
 var traceur = require('traceur');
 var Base = traceur.require(__dirname + '/base.js');
 
@@ -48,6 +49,18 @@ class User{
 
   static findById(id, fn){
     Base.findById(id, userCollection, User, fn);
+  }
+
+  static findByEmail(email, fn){
+    if(!email){fn(null); return;}
+    userCollection.findOne({email:email}, (e,o)=>{
+      if(o){
+        o = _.create(User.prototype, o);
+        fn(o);
+      }else{
+        fn(null);
+      }
+    });
   }
 
   changePassword(password, fn){

@@ -94,7 +94,7 @@ describe('Project', function(){
   });
 
   describe('.findAllByCampaignId', function(){
-    it('should successfully find projects by owner ID - string', function(done){
+    it('should successfully find projects by campaign ID - string', function(done){
       Project.findAllByCampaignId('4023456789abcdef01234567', function(projects){
         expect(projects).to.be.ok;
         expect(projects).to.be.an('array');
@@ -108,7 +108,7 @@ describe('Project', function(){
       });
     });
 
-    it('should successfully find projects by owner ID - object id', function(done){
+    it('should successfully find projects by campaign ID - object id', function(done){
       Project.findAllByCampaignId(Mongo.ObjectID('4023456789abcdef01234567'), function(projects){
         expect(projects).to.be.ok;
         expect(projects).to.be.an('array');
