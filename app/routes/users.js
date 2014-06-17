@@ -46,10 +46,31 @@ exports.verify = (req, res)=>{
 exports.verifyAccount = (req, res)=>{
   User.findById(req.params.id, user=>{
     user.changePassword(req.body.password, user=>{
-      Invitation.findAllByEmail(user, invites=>{
+      Invitation.findAllByInviteeEmail(user, invites=>{
         if(invites){
+          console.log('Here are the invites!');
           console.log(invites);
-          //  objs = objs.map(o=>_.create(Campaign.prototype, o));
+          invites = invites.map(i=>{
+            console.log('Each individual invite: ');
+            console.log(i);
+            Campaign.findById(i.campaignId, campaign=>{
+              campaign.addEditor(user, user=>{
+                if(user){
+                  // added first time
+                  console.log('Added user');
+                  i.remove(()=>{
+                    res.redirect('/campaigns/' + req.body.campaignId);
+                  });
+                } else {
+                  // send null if not added because of duplicate
+                  console.log('User was already added');
+                  i.remove(()=>{
+                    res.redirect('/campaigns/' + req.body.campaignId);
+                  });
+                }
+              });
+            });
+          });
         }
         res.redirect('/login');
       });

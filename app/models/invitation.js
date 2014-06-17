@@ -55,6 +55,13 @@ class Invitation{
       }
     });
   }
+
+  remove(fn){
+    invitationCollection.findAndRemove({_id:this._id}, invite=>{
+      fn(invite);
+    });
+  }
+
 }
 
 // function sendVerificationEmail(user, fn){
