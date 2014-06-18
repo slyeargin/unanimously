@@ -1,5 +1,5 @@
 var invitationCollection = global.nss.db.collection('invitations');
-// var request = require('request');
+var request = require('request');
 var _ = require('lodash');
 var Mongo = require('mongodb');
 // var traceur = require('traceur');
@@ -14,8 +14,8 @@ class Invitation{
     invitation.from = Mongo.ObjectID(obj.from);
 
     invitationCollection.save(invitation, ()=>{
-      // send the invitenotify e-mail
-      fn(invitation);
+      // send notice e-mail
+      sendAddNoticeEmail(invitation, fn);
     });
   }
 
@@ -68,21 +68,21 @@ class Invitation{
 
 }
 
-// function sendVerificationEmail(user, fn){
-//   'use strict';
-//   var key = process.env.MAILGUN;
-//   var url = 'https://api:' + key + '@api.mailgun.net/v2/sandboxcf74801602ec4522bb675027e5f4e47c.mailgun.org/messages'; //sandbox... is my subdomain they gave me, if add my website, then it would go there
-//   var post = request.post(url, function(err, response, body){
-//     console.log('--------sending message--------');
-//     console.log(body);
-//     fn(user);
-//   });
-//
-//   var form = post.form();
-//   form.append('from', 'admin@slyeargin.com');
-//   form.append('to', user.email);
-//   form.append('subject', 'Please verify your e-mail address.');
-//   form.append('html', '<a href="http://localhost:4000/verify/' + user._id + '">Click to Verify</a>');
-// }
+function sendAddNoticeEmail(invitation, fn){
+  'use strict';
+  var key = process.env.MAILGUN;
+  var url = 'https://api:' + key + '@api.mailgun.net/v2/sandboxcf74801602ec4522bb675027e5f4e47c.mailgun.org/messages'; //sandbox... is my subdomain they gave me, if add my website, then it would go there
+  var post = request.post(url, function(err, response, body){
+    console.log('--------sending message--------');
+    console.log(body);
+    fn(invitation);
+  });
+
+  var form = post.form();
+  form.append('from', 'admin@slyeargin.com');
+  form.append('to', invitation.invitee);
+  form.append('subject', 'You\'ve been added to a campaign on Unanimously.');
+  form.append('html', 'You\'ve been added to a campaign on Unanimously. <a href="http://localhost:4000/register">Register</a> to begin writing collaboratively.');
+}
 
 module.exports = Invitation;

@@ -59,7 +59,7 @@ class Campaign{
       console.log('You cannot be added as an editor to your own project.');
       fn(null);
     }
-    // fn(null);
+    fn(null);
   }
 }
 
@@ -76,7 +76,7 @@ function sendAddNoticeEmail(user, campaign, fn){
   var form = post.form();
   form.append('from', 'admin@slyeargin.com');
   form.append('to', user.email);
-  form.append('subject', 'You\'ve been added to the' + campaign.name + 'campaign.');
+  form.append('subject', 'You\'ve been added to the ' + campaign.name + ' campaign.');
   form.append('html', 'You\'ve been added to the <a href="http://localhost:4000/campaigns/' + campaign._id + '">' + campaign.name + '</a> campaign.');
 }
 
