@@ -31,6 +31,87 @@ describe('users', function(){
     });
   });
 
+  describe('GET /register', function(){
+    it('should show the registration page', function(done){
+      request(app)
+      .get('/register')
+      .end(function(err, res){
+        expect(res.status).to.equal(200);
+        done();
+      });
+    });
+  });
+
+  describe('POST /register', function(){
+    it('registers a user', function(done){
+      request(app)
+      .post('/register')
+      .send('email=slyeargin+test6@gmail.com')
+      .end(function(err, res){
+        expect(res.status).to.equal(302);
+        expect(res.headers.location).to.equal('/');
+        done();
+      });
+    });
+
+    it('doesn\'t register a user - e-mail address already in use', function(done){
+      request(app)
+      .post('/register')
+      .send('email=samantha@yearg.in')
+      .end(function(err, res){
+        expect(res.status).to.equal(302);
+        expect(res.headers.location).to.equal('/register');
+        done();
+      });
+    });
+  });
+
+
+  describe('GET /verify/:id', function(){
+    it('should show an individual verification page', function(done){
+      request(app)
+      .get('/verify/0123456789abcdef01234567')
+      .end(function(err, res){
+        expect(res.status).to.equal(200);
+        done();
+      });
+    });
+
+    it('should NOT show an individual verification page - user doesn\'t exist', function(done){
+      request(app)
+      .get('/verify/9123456789abcdef01234567')
+      .end(function(err, res){
+        expect(res.status).to.equal(302);
+        expect(res.headers.location).to.equal('/');
+        done();
+      });
+    });
+  });
+
+  describe('POST /verify/:id', function(){
+    it('verify a user', function(done){
+      request(app)
+      .post('/verify/0123456789abcdef01234567')
+      .send('password=1234')
+      .end(function(err, res){
+        expect(res.status).to.equal(302);
+        expect(res.headers.location).to.equal('/login');
+        done();
+      });
+    });
+
+    it('should not verify a user - user does not exist', function(done){
+      request(app)
+      .post('/verify/9123456789abcdef01234567')
+      .send('password=1234')
+      .end(function(err, res){
+        expect(res.status).to.equal(302);
+        expect(res.headers.location).to.equal('/');
+        done();
+      });
+    });
+  });
+
   describe('GET /login', function(){
     it('should show the login page', function(done){
       request(app)
@@ -96,16 +177,43 @@ describe('users', function(){
     });
   });
 
-  // app.all('*', users.lookup);
-  //
-  // app.get('/register', dbg, users.register);
-  // app.post('/register', dbg, users.validate);
-  //
-  // app.get('/verify/:id', dbg, users.verify);
-  // app.post('/verify/:id', dbg, users.verifyAccount);
-  // 
-  // app.all('*', users.bounce);
-  //
-  // app.get('/dashboard', dbg, users.dashboard);
+  describe('Authentication', function(){
+    var cookie;
 
+    beforeEach(function(done){
+      request(app)
+      .post('/login')
+      .send('email=samantha@yearg.in')
+      .send('password=1234')
+      .end(function(err, res){
+        var cookies = res.headers['set-cookie'];
+        var one = cookies[0].split(';')[0];
+        var two = cookies[1].split(';')[0];
+        cookie = one + '; ' + two;
+        done();
+      });
+    });
+
+    describe('GET /dashboard', function(){
+      it('should show the dashboard page', function(done){
+        request(app)
+        .get('/dashboard')
+        .set('cookie', cookie)
+        .end(function(err, res){
+          expect(res.status).to.equal(200);
+          done();
+        });
+      });
+
+      it('should NOT show the dashboard page - not logged in', function(done){
+        request(app)
+        .get('/dashboard')
+        .end(function(err, res){
+          expect(res.status).to.equal(302);
+          expect(res.headers.location).to.equal('/login');
+          done();
+        });
+      });
+    });
+  });
 });

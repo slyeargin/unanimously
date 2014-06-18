@@ -24,7 +24,7 @@ class Invitation{
   // }
 
   static findAllByInviteeEmail(user, fn){
-    if(!user.email){fn(null); return;}
+    if(!user || !user.email){fn(null); return;}
     invitationCollection.find({invitee:user.email}).toArray((e,objs)=>{
       objs = objs.map(o=>_.create(Invitation.prototype, o));
       fn(objs);
@@ -57,7 +57,11 @@ class Invitation{
   }
 
   remove(fn){
+    console.log('This id: ');
+    console.log(this._id);
     invitationCollection.findAndRemove({_id:this._id}, invite=>{
+      console.log('returned');
+      console.log(invite);
       fn(invite);
     });
   }

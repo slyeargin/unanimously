@@ -39,42 +39,32 @@ exports.bounce = (req, res, next)=>{
 
 exports.verify = (req, res)=>{
   User.findById(req.params.id, u=>{
-    res.render('users/verify', {u:u, title: 'User Verification'});
+    if(u){
+      res.render('users/verify', {u:u, title: 'User Verification'});
+    }else{
+      res.redirect('/');
+    }
   });
 };
 
 exports.verifyAccount = (req, res)=>{
   User.findById(req.params.id, user=>{
-    user.changePassword(req.body.password, user=>{
-      Invitation.findAllByInviteeEmail(user, invites=>{
-        if(invites){
-          console.log('Here are the invites!');
-          console.log(invites);
-          invites = invites.map(i=>{
-            console.log('Each individual invite: ');
-            console.log(i);
-            Campaign.findById(i.campaignId, campaign=>{
-              campaign.addEditor(user, user=>{
-                if(user){
-                  // added first time
-                  console.log('Added user');
-                  i.remove(()=>{
-                    res.redirect('/campaigns/' + req.body.campaignId);
-                  });
-                } else {
-                  // send null if not added because of duplicate
-                  console.log('User was already added');
-                  i.remove(()=>{
-                    res.redirect('/campaigns/' + req.body.campaignId);
-                  });
-                }
+    if(user){
+      user.changePassword(req.body.password, user=>{
+        Invitation.findAllByInviteeEmail(user, invites=>{
+          if(invites){
+            invites = invites.map(i=>{
+              Campaign.findById(i.campaignId, campaign=>{
+                campaign.addEditor(user, ()=>i.remove());
               });
             });
-          });
-        }
-        res.redirect('/login');
+          }
+          res.redirect('/login');
+        });
       });
-    });
+    } else {
+      res.redirect('/');
+    }
   });
 };
 

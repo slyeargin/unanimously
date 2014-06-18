@@ -33,10 +33,9 @@ describe('Doc', function(){
     it('should successfully create a doc', function(done){
       var fields = {
         copy: 'A disability doesn’t hinder someone from being a productive and valuable employee. We’ve helped many people with disabilities find jobs — people like Jose.',
-        notes: 'Will run on July 30'
+        notes: 'Will run on July 30',
+        projectId: '6023456789abcdef01234567'
       };
-      var project = '6023456789abcdef01234567';
-      fields.projectId = project;
 
       Doc.create(fields, function(d){
         expect(d).to.be.ok;
