@@ -150,7 +150,6 @@ describe('campaigns', function(){
         .send('campaignId=4023456789abcdef01234567')
         .send('from=0123456789abcdef01234567')
         .end(function(err, res){
-          console.log(res);
           expect(res.status).to.equal(302);
           expect(res.headers.location).to.equal('/campaigns/4023456789abcdef01234567');
           done();

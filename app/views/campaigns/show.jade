@@ -7,6 +7,7 @@ block content
   div.sidebar
     include ../users/userinfo
 
+  if(user._id === campaign.ownerId)
     include ../campaigns/addEditor
 
   div.main

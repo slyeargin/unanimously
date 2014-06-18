@@ -81,8 +81,6 @@ function sendVerificationEmail(user, fn){
   var key = process.env.MAILGUN;
   var url = 'https://api:' + key + '@api.mailgun.net/v2/sandboxcf74801602ec4522bb675027e5f4e47c.mailgun.org/messages'; //sandbox... is my subdomain they gave me, if add my website, then it would go there
   var post = request.post(url, function(err, response, body){
-    console.log('--------sending message--------');
-    console.log(body);
     fn(user);
   });
 

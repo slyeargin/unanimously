@@ -4,6 +4,6 @@
     "name" : "My Fantastic Ad Campaign",
     "description" : "It's amazing.",
     "ownerId" : "0123456789abcdef01234567",
-    "editorIds" : ["0123456789abcdef01234569"]
+    "editorIds" : [ "0123456789abcdef01234569" ]
   }
 ]

@@ -90,7 +90,7 @@ exports.logout = (req, res)=>{
 };
 
 exports.dashboard = (req, res)=>{
-  Campaign.findAllByOwnerId(res.locals.user._id, campaigns=>{
-    res.render('users/dashboard', {campaigns: campaigns, title: 'Unanimously | Dashboard'});
+  Campaign.findAllByOwnerId(res.locals.user._id, myCampaigns=>{
+    res.render('users/dashboard', {myCampaigns: myCampaigns, title: 'Unanimously | Dashboard'});
   });
 };

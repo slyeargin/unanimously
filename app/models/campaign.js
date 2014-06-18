@@ -12,7 +12,7 @@ class Campaign{
     campaign.name = obj.name;
     campaign.description = obj.description;
     campaign.ownerId = Mongo.ObjectID(obj.ownerId);
-    campaign.editorIds = [];
+    campaign.editorIds = obj.editorIds ? obj.editorIds : [];
 
     campaignCollection.save(campaign, ()=>{
       fn(campaign);
@@ -39,27 +39,18 @@ class Campaign{
 
   addEditor(user, fn){
     if(this && this.ownerId.toString() !== user._id.toString()){
-      console.log('This: ');
-      console.log(this);
-      console.log('this.editorIds');
-      console.log(this.editorIds);
       var dup = _.contains(this.editorIds, user._id.toString());
-      console.log('Dup?');
-      console.log(dup);
       if(dup === false){
         this.editorIds.push(user._id.toString());
         campaignCollection.save(this, ()=>{
           sendAddNoticeEmail(user, this, fn);
         });
       }else{
-        console.log('This user is already an editor on this project.');
         fn(null);
       }
     }else{
-      console.log('You cannot be added as an editor to your own project.');
       fn(null);
     }
-    // fn(null);
   }
 }
 
@@ -68,8 +59,6 @@ function sendAddNoticeEmail(user, campaign, fn){
   var key = process.env.MAILGUN;
   var url = 'https://api:' + key + '@api.mailgun.net/v2/sandboxcf74801602ec4522bb675027e5f4e47c.mailgun.org/messages'; //sandbox... is my subdomain they gave me, if add my website, then it would go there
   var post = request.post(url, function(err, response, body){
-    console.log('--------sending message--------');
-    console.log(body);
     fn(user);
   });
 
