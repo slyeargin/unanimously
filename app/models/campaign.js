@@ -59,7 +59,7 @@ class Campaign{
       console.log('You cannot be added as an editor to your own project.');
       fn(null);
     }
-    fn(null);
+    // fn(null);
   }
 }
 

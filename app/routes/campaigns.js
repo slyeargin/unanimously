@@ -27,9 +27,15 @@ exports.show = (req, res)=>{
 exports.addEditor = (req, res)=>{
   User.findByEmail(req.body.email, user=>{
     if(user){
+      console.log('Found user!');
+      console.log(user);
       Campaign.findById(req.body.campaignId, campaign=>{
+        console.log('Found campaign!');
+        console.log(campaign);
         campaign.addEditor(user, user=>{
           if(user){
+            console.log('Returned user: ');
+            console.log(user);
             res.redirect('/campaigns/' + req.body.campaignId);
           } else {
             res.redirect('/campaigns/' + req.body.campaignId);
@@ -37,8 +43,10 @@ exports.addEditor = (req, res)=>{
         });
       });
     } else {
+      console.log('Did not find user');
       Invitation.duplicateCheck(req.body.email, req.body.campaignId, invite=>{
         if(!invite){
+          console.log('No duplicate invites');
           Invitation.create(req.body, ()=>{
             res.redirect('/campaigns/' + req.body.campaignId);
           });
