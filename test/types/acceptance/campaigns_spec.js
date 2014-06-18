@@ -114,5 +114,79 @@ describe('campaigns', function(){
       });
     });
 
+    describe('POST /campaigns/addEditor', function(){
+      it('should add an existing user to a campaign', function(done){
+        request(app)
+        .post('/campaigns/addEditor')
+        .set('cookie', cookie)
+        .send('email=slyeargin+tester@gmail.com')
+        .send('campaignId=4023456789abcdef01234567')
+        .send('from=0123456789abcdef01234567')
+        .end(function(err, res){
+          expect(res.status).to.equal(302);
+          expect(res.headers.location).to.equal('/campaigns/4023456789abcdef01234567');
+          done();
+        });
+      });
+
+      it('should NOT add an existing user to a campaign - not logged in', function(done){
+        request(app)
+        .post('/campaigns/addEditor')
+        .send('email=slyeargin+tester@gmail.com')
+        .send('campaignId=4023456789abcdef01234567')
+        .send('from=0123456789abcdef01234567')
+        .end(function(err, res){
+          expect(res.status).to.equal(302);
+          expect(res.headers.location).to.equal('/login');
+          done();
+        });
+      });
+
+      it('should NOT add an existing user to a campaign - user is owner', function(done){
+        request(app)
+        .post('/campaigns/addEditor')
+        .set('cookie', cookie)
+        .send('email=slyeargin+test1@gmail.com')
+        .send('campaignId=4023456789abcdef01234567')
+        .send('from=0123456789abcdef01234567')
+        .end(function(err, res){
+          console.log(res);
+          expect(res.status).to.equal(302);
+          expect(res.headers.location).to.equal('/campaigns/4023456789abcdef01234567');
+          done();
+        });
+      });
+
+      it('should NOT add an existing user to a campaign - user is already an editor', function(done){
+        request(app)
+        .post('/campaigns/addEditor')
+        .set('cookie', cookie)
+        .send('email=slyeargin+test1@gmail.com')
+        .send('campaignId=4023456789abcdef01234567')
+        .send('from=0123456789abcdef01234567')
+        .end(function(err, res){
+          expect(res.status).to.equal(302);
+          expect(res.headers.location).to.equal('/campaigns/4023456789abcdef01234567');
+          done();
+        });
+      });
+
+      it('should invite a new user to campaign', function(done){
+        request(app)
+        .post('/campaigns/addEditor')
+        .set('cookie', cookie)
+        .send('email=slyeargin@gmail.com')
+        .send('campaignId=4023456789abcdef01234567')
+        .send('from=0123456789abcdef01234567')
+        .end(function(err, res){
+          expect(res.status).to.equal(302);
+          expect(res.headers.location).to.equal('/campaigns/4023456789abcdef01234567');
+          done();
+        });
+      });
+
+    });
+
+
   }); // close auth
 });
