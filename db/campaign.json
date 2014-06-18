@@ -1,3 +1,11 @@
 [
-  {"_id":"4023456789abcdef01234567","name":"My Fantastic Ad Campaign","description":"It's amazing.","ownerId":"0123456789abcdef01234567", "editorIds": []}
+  {
+    "_id" : "4023456789abcdef01234567",
+    "name" : "My Fantastic Ad Campaign",
+    "description" : "It's amazing.",
+    "ownerId" : "0123456789abcdef01234567",
+    "editorIds" : [
+        "0123456789abcdef01234569"
+    ]
+  }
 ]

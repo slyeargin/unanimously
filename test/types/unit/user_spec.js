@@ -127,4 +127,29 @@ describe('User', function(){
     });
   });
 
+  describe('.findByEmail', function(){
+    it('should successfully find a user', function(done){
+      User.findByEmail('slyeargin+test1@gmail.com', function(u){
+        expect(u).to.be.instanceof(User);
+        expect(u._id.toString()).to.equal('0123456789abcdef01234567');
+        expect(u.email).to.equal('slyeargin+test1@gmail.com');
+        done();
+      });
+    });
+
+    it('should NOT successfully find a user - does not exist', function(done){
+      User.findByEmail('not an id', function(u){
+        expect(u).to.be.null;
+        done();
+      });
+    });
+
+    it('should NOT successfully find a user - NULL', function(done){
+      User.findByEmail(null, function(u){
+        expect(u).to.be.null;
+        done();
+      });
+    });
+  });
+
 });

@@ -12,19 +12,25 @@ var db = traceur.require(__dirname + '/../../helpers/db.js');
 var factory = traceur.require(__dirname + '/../../helpers/factory.js');
 
 var Campaign;
+var User;
 
 describe('Campaign', function(){
   before(function(done){
     db(function(){
       Campaign = traceur.require(__dirname + '/../../../app/models/campaign.js');
+      User = traceur.require(__dirname + '/../../../app/models/user.js');
       done();
     });
   });
 
   beforeEach(function(done){
     global.nss.db.collection('campaigns').drop(function(){
-      factory('campaign', function(campaigns){
-        done();
+      global.nss.db.collection('users').drop(function(){
+        factory('campaign', function(campaigns){
+          factory('user', function(users){
+            done();
+          });
+        });
       });
     });
   });
@@ -122,6 +128,48 @@ describe('Campaign', function(){
       Campaign.findAllByOwnerId(null, function(campaigns){
         expect(campaigns).to.be.null;
         done();
+      });
+    });
+  });
+
+  describe('#addEditor', function(){
+    it('should successfully add an editor to a campaign', function(done){
+      User.findById('0123456789abcdef01234568', function(user){
+        Campaign.findById('4023456789abcdef01234567', function(campaign){
+          campaign.addEditor(user, function(u){
+            expect(u).to.be.ok;
+            expect(u).to.be.an.instanceof(User);
+            expect(u.email).to.equal('slyeargin+test3@gmail.com');
+            expect(u._id).to.be.an.instanceof(Mongo.ObjectID);
+            done();
+          });
+        });
+      });
+    });
+
+    it('should NOT add an editor to a campaign - user is campaign owner', function(done){
+      User.findById('0123456789abcdef01234567', function(user){
+        Campaign.findById('4023456789abcdef01234567', function(campaign){
+          campaign.addEditor(user, function(u){
+            expect(u).to.be.null;
+            done();
+          });
+        });
+      });
+    });
+
+    it('should NOT add an editor to a campaign - user already an editor', function(done){
+      User.findById('0123456789abcdef01234569', function(user){
+        Campaign.findById('4023456789abcdef01234567', function(campaign){
+          console.log('Campaign: ');
+          console.log(campaign);
+          campaign.addEditor(user, function(u){
+            console.log('What is returning?');
+            console.log(u);
+            expect(u).to.be.null;
+            done();
+          });
+        });
       });
     });
   });

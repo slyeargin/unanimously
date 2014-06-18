@@ -1,6 +1,5 @@
 var campaignCollection = global.nss.db.collection('campaigns');
-// var userCollection = global.nss.db.collection('users');
-// var request = require('request');
+var request = require('request');
 var _ = require('lodash');
 var Mongo = require('mongodb');
 var traceur = require('traceur');
@@ -39,27 +38,18 @@ class Campaign{
   }
 
   addEditor(user, fn){
-    console.log('User Id?');
-    console.log(user._id);
-    console.log('OwnerId?');
-    console.log(this.ownerId);
-
     if(this && this.ownerId.toString() !== user._id.toString()){
-      console.log('This editor is not the owner!');
-      console.log('Editor IDs: ');
+      console.log('This: ');
+      console.log(this);
+      console.log('this.editorIds');
       console.log(this.editorIds);
-
       var dup = _.contains(this.editorIds, user._id.toString());
       console.log('Dup?');
       console.log(dup);
       if(dup === false){
         this.editorIds.push(user._id.toString());
         campaignCollection.save(this, ()=>{
-          console.log('User: ');
-          console.log(user);
-          console.log('This: ');
-          console.log(this);
-          // sendAddNoticeEmail(user, this, fn);
+          sendAddNoticeEmail(user, this, fn);
         });
       }else{
         console.log('This user is already an editor on this project.');
@@ -69,24 +59,25 @@ class Campaign{
       console.log('You cannot be added as an editor to your own project.');
       fn(null);
     }
+    // fn(null);
   }
 }
 
-// function sendAddNoticeEmail(user, campaign, fn){
-//   'use strict';
-//   var key = process.env.MAILGUN;
-//   var url = 'https://api:' + key + '@api.mailgun.net/v2/sandboxcf74801602ec4522bb675027e5f4e47c.mailgun.org/messages'; //sandbox... is my subdomain they gave me, if add my website, then it would go there
-//   var post = request.post(url, function(err, response, body){
-//     console.log('--------sending message--------');
-//     console.log(body);
-//     fn(user);
-//   });
-//
-//   var form = post.form();
-//   form.append('from', 'admin@slyeargin.com');
-//   form.append('to', user.email);
-//   form.append('subject', 'You\'ve been added to the' + campaign.name + 'campaign.');
-  // form.append('html', 'You\'ve been added to the <a href="http://localhost:4000/campaigns/' + campaign._id + '">' + campaign.name + '</a> campaign.');
-// }
+function sendAddNoticeEmail(user, campaign, fn){
+  'use strict';
+  var key = process.env.MAILGUN;
+  var url = 'https://api:' + key + '@api.mailgun.net/v2/sandboxcf74801602ec4522bb675027e5f4e47c.mailgun.org/messages'; //sandbox... is my subdomain they gave me, if add my website, then it would go there
+  var post = request.post(url, function(err, response, body){
+    console.log('--------sending message--------');
+    console.log(body);
+    fn(user);
+  });
+
+  var form = post.form();
+  form.append('from', 'admin@slyeargin.com');
+  form.append('to', user.email);
+  form.append('subject', 'You\'ve been added to the' + campaign.name + 'campaign.');
+  form.append('html', 'You\'ve been added to the <a href="http://localhost:4000/campaigns/' + campaign._id + '">' + campaign.name + '</a> campaign.');
+}
 
 module.exports = Campaign;

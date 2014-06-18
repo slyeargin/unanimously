@@ -96,32 +96,16 @@ describe('users', function(){
     });
   });
 
-  // describe('POST /users', function(){
-  //   it('should create a new user', function(done){
-  //     request(app)
-  //     .post('/users')
-  //     .send('email=bob@aol.com')
-  //     .send('password=abc')
-  //     .end(function(err, res){
-  //       expect(res.status).to.equal(302);
-  //       expect(res.headers.location).to.equal('/');
-  //       expect(res.headers['set-cookie']).to.be.ok;
-  //       done();
-  //     });
-  //   });
+  // app.all('*', users.lookup);
   //
-  //   it('should NOT create a new user', function(done){
-  //     request(app)
-  //     .post('/users')
-  //     .send('email=sue@aol.com')
-  //     .send('password=doesnotmatter')
-  //     .end(function(err, res){
-  //       expect(res.status).to.equal(302);
-  //       expect(res.headers.location).to.equal('/login');
-  //       expect(res.headers['set-cookie']).to.not.be.ok;
-  //       done();
-  //     });
-  //   });
-  // });
+  // app.get('/register', dbg, users.register);
+  // app.post('/register', dbg, users.validate);
+  //
+  // app.get('/verify/:id', dbg, users.verify);
+  // app.post('/verify/:id', dbg, users.verifyAccount);
+  // 
+  // app.all('*', users.bounce);
+  //
+  // app.get('/dashboard', dbg, users.dashboard);
 
 });
