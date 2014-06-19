@@ -92,6 +92,42 @@ describe('Campaign', function(){
     });
   });
 
+  describe('.findByIdFullObject', function(){
+    it('should successfully find a Campaign - String', function(done){
+      Campaign.findByIdFullObject('4023456789abcdef01234567', function(c){
+        expect(c).to.be.instanceof(Campaign);
+        expect(c.name).to.equal('My Fantastic Ad Campaign');
+        expect(c.description).to.equal('It\'s amazing.');
+        expect(c.ownerId.toString()).to.equal('0123456789abcdef01234567');
+        done();
+      });
+    });
+
+    it('should successfully find a Campaign - object id', function(done){
+      Campaign.findByIdFullObject(Mongo.ObjectID('4023456789abcdef01234567'), function(c){
+        expect(c).to.be.instanceof(Campaign);
+        expect(c.name).to.equal('My Fantastic Ad Campaign');
+        expect(c.description).to.equal('It\'s amazing.');
+        expect(c.ownerId.toString()).to.equal('0123456789abcdef01234567');
+        done();
+      });
+    });
+
+    it('should NOT successfully find a Campaign - Bad Id', function(done){
+      Campaign.findByIdFullObject('not an id', function(c){
+        expect(c).to.be.null;
+        done();
+      });
+    });
+
+    it('should NOT successfully find a Campaign - NULL', function(done){
+      Campaign.findByIdFullObject(null, function(c){
+        expect(c).to.be.null;
+        done();
+      });
+    });
+  });
+
   describe('.findAllByOwnerId', function(){
     it('should successfully find campaigns by owner ID - string', function(done){
       Campaign.findAllByOwnerId('0123456789abcdef01234567', function(campaigns){
