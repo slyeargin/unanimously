@@ -3,11 +3,13 @@
     "_id":"7023456789abcdef01234567",
     "projectId":"6023456789abcdef01234567",
     "copy":"Keep contamination under control.",
-    "notes":"First draft"
+    "notes":"First draft",
+    "creatorId": "0123456789abcdef01234567"
   },
   {
     "projectId":"6023456789abcdef01234567",
     "copy":"Keeping contamination under control.",
-    "notes":"Emphasis on what we do, rather than what they could do"
+    "notes":"Emphasis on what we do, rather than what they could do",
+    "creatorId": "0123456789abcdef01234569"
   }
 ]

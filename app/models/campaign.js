@@ -3,6 +3,7 @@ var request = require('request');
 var _ = require('lodash');
 var Mongo = require('mongodb');
 var traceur = require('traceur');
+var async = require('async');
 var Base = traceur.require(__dirname + '/base.js');
 
 class Campaign{
@@ -21,6 +22,29 @@ class Campaign{
 
   static findById(id, fn){
     Base.findById(id, campaignCollection, Campaign, fn);
+  }
+
+  static findByIdFullObject(id, fn){
+    if(typeof id === 'string'){
+      if(id.length !== 24){fn(null); return;}
+      id = Mongo.ObjectID(id);
+    }
+
+    if(!(id instanceof Mongo.ObjectID)){fn(null); return;}
+
+    campaignCollection.findOne({_id:id}, (e,campaign)=>{
+      if(campaign){
+        campaign = _.create(Campaign.prototype, campaign);
+        campaign.owner = addOwnerInfo(campaign.ownerId, fn);
+        async.map(campaign.editorIds, addEditorInfo, (e, editors)=>{
+          campaign.editors = editors;
+          fn(campaign.editors);
+        });
+        fn(o);
+      }else{
+        fn(null);
+      }
+    });
   }
 
   static findAllByOwnerId(id, fn){
@@ -72,6 +96,33 @@ class Campaign{
     }
   }
 }
+
+function addOwnerInfo(ownerId, fn){
+  'use strict';
+
+  User.findById(id, user=>{
+    campaign.owner = user;
+    fn(null, user);
+  });
+}
+
+function addOwnerInfo(editorId, fn){
+  'use strict';
+
+  User.findById(id, user=>{
+    campaign.owner = user;
+    fn(null, user);
+  });
+}
+
+// function addOwnerInfo(doc, fn){
+//   'use strict';
+//
+//   User.findById(id, user=>{
+//     campaign.owner = user;
+//     fn(null, doc);
+//   });
+// }
 
 function sendAddNoticeEmail(user, campaign, fn){
   'use strict';

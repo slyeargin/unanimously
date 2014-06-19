@@ -1,9 +1,11 @@
 var docCollection = global.nss.db.collection('docs');
 // var request = require('request');
 var _ = require('lodash');
+var async = require('async');
 var Mongo = require('mongodb');
 var traceur = require('traceur');
 var Base = traceur.require(__dirname + '/base.js');
+var User = traceur.require(__dirname + '/../models/user.js');
 
 class Doc{
   static create(obj, fn){
@@ -26,6 +28,8 @@ class Doc{
   }
 
   static findAllByProjectId(id, fn){
+    console.log('Id: ');
+    console.log(id);
     if(typeof id === 'string'){
       if(id.length !== 24){fn(null); return;}
       id = Mongo.ObjectID(id);
@@ -35,10 +39,35 @@ class Doc{
 
     docCollection.find({projectId:id}).toArray((e,objs)=>{
       objs = objs.map(o=>_.create(Doc.prototype, o));
-      fn(objs);
+      async.map(objs, addUserInfo, (e, docs)=>{
+        objs = docs;
+        fn(objs);
+      });
     });
   }
 }
+
+function addUserInfo(doc, fn){
+  'use strict';
+
+  User.findById(doc.creatorId, user=>{
+    doc.creator = user;
+    fn(null, doc);
+  });
+}
+
+// static findByIdFullObject(id, fn){
+//     Base.findById(id, buildingCollection, Building, bldg=>{
+//
+//       Location.findById(bldg.locationId, loc=>{
+//         bldg.location = loc;
+//         async.map(bldg.rooms, transformRoom, (e, docs)=>{
+//           bldg.rooms = rooms;
+//           fn(bldg);
+//         });
+//       });
+//     });
+//   }
 
 // function sendVerificationEmail(user, fn){
 //   'use strict';
