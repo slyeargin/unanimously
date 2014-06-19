@@ -12,6 +12,7 @@ class Doc{
     doc.projectId = Mongo.ObjectID(obj.projectId);
     doc.copy = obj.copy;
     doc.notes = obj.notes;
+    doc.creatorId = Mongo.ObjectID(obj.creatorId);
     doc.date = new Date();
     doc.isFinal = false;
 

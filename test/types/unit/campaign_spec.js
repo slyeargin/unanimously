@@ -132,6 +132,48 @@ describe('Campaign', function(){
     });
   });
 
+  describe('.findAllByEditorIds', function(){
+    it('should successfully find campaigns by editor Ids - string', function(done){
+      Campaign.findAllByEditorIds('0123456789abcdef01234569', function(campaigns){
+        expect(campaigns).to.be.ok;
+        expect(campaigns).to.be.an('array');
+        expect(campaigns[0]).to.be.instanceof(Campaign);
+        expect(campaigns[0].name).to.equal('My Fantastic Ad Campaign');
+        expect(campaigns[0].description).to.equal('It\'s amazing.');
+        expect(campaigns[0].ownerId.toString()).to.equal('0123456789abcdef01234567');
+        expect(campaigns[0]._id.toString()).to.equal('4023456789abcdef01234567');
+        done();
+      });
+    });
+
+    it('should successfully find campaigns by editor IDs - object id', function(done){
+      Campaign.findAllByEditorIds(Mongo.ObjectID('0123456789abcdef01234569'), function(campaigns){
+        expect(campaigns).to.be.ok;
+        expect(campaigns).to.be.an('array');
+        expect(campaigns[0]).to.be.instanceof(Campaign);
+        expect(campaigns[0].name).to.equal('My Fantastic Ad Campaign');
+        expect(campaigns[0].description).to.equal('It\'s amazing.');
+        expect(campaigns[0].ownerId.toString()).to.equal('0123456789abcdef01234567');
+        expect(campaigns[0]._id.toString()).to.equal('4023456789abcdef01234567');
+        done();
+      });
+    });
+
+    it('should NOT successfully find any campaigns - bad ID', function(done){
+      Campaign.findAllByEditorIds('not an id', function(campaigns){
+        expect(campaigns).to.be.null;
+        done();
+      });
+    });
+
+    it('should NOT successfully find any campaigns - NULL', function(done){
+      Campaign.findAllByEditorIds(null, function(campaigns){
+        expect(campaigns).to.be.null;
+        done();
+      });
+    });
+  });
+
   describe('#addEditor', function(){
     it('should successfully add an editor to a campaign', function(done){
       User.findById('0123456789abcdef01234568', function(user){

@@ -11,16 +11,18 @@ block content
       include ../campaigns/addCampaign
     div.list
       div#mylist
-        if(myCampaigns)
-          ul
-            each campaign in myCampaigns
-              li
-                a(href='/campaigns/#{campaign._id}') #{campaign.name}
-        if(!myCampaigns)
-          p You haven't created any campaigns!
+        h3 Your Campaigns
+        ul
+          each campaign in myCampaigns
+            li
+              a(href='/campaigns/#{campaign._id}') #{campaign.name}
+          if(myCampaigns == 0)
+            li You haven't created any campaigns!
       div#otherlist
-        if(otherCampaigns)
-          ul
-            each campaign in otherCampaigns
-              li
-                a(href='/campaigns/#{campaign._id}') #{campaign.name}
+        h3 Others' Campaigns
+        ul
+          each campaign in otherCampaigns
+            li
+              a(href='/campaigns/#{campaign._id}') #{campaign.name}
+          if(otherCampaigns == 0)
+            li You haven't been invited to any campaigns.

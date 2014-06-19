@@ -37,6 +37,25 @@ class Campaign{
     });
   }
 
+  static findAllByEditorIds(id, fn){
+    if (!id){fn(null); return;}
+    if(id instanceof Mongo.ObjectID){
+      console.log('Id was an OID: ');
+      console.log(id);
+      id = id.toString();
+    }
+    if(typeof id === 'string'){
+      console.log('Id is a string: ');
+      console.log(id);
+      if(id.length !== 24){fn(null); return;}
+    }
+
+    campaignCollection.find({ editorIds: { '$in' : [id]} }).toArray((e,objs)=>{
+      objs = objs.map(o=>_.create(Campaign.prototype, o));
+      fn(objs);
+    });
+  }
+
   addEditor(user, fn){
     if(this && this.ownerId.toString() !== user._id.toString()){
       var dup = _.contains(this.editorIds, user._id.toString());

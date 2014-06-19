@@ -91,6 +91,8 @@ exports.logout = (req, res)=>{
 
 exports.dashboard = (req, res)=>{
   Campaign.findAllByOwnerId(res.locals.user._id, myCampaigns=>{
-    res.render('users/dashboard', {myCampaigns: myCampaigns, title: 'Unanimously | Dashboard'});
+    Campaign.findAllByEditorIds(res.locals.user._id, otherCampaigns=>{
+      res.render('users/dashboard', {myCampaigns: myCampaigns, otherCampaigns: otherCampaigns, title: 'Unanimously | Dashboard'});
+    });
   });
 };

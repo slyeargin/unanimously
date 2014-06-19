@@ -34,7 +34,8 @@ describe('Doc', function(){
       var fields = {
         copy: 'A disability doesn’t hinder someone from being a productive and valuable employee. We’ve helped many people with disabilities find jobs — people like Jose.',
         notes: 'Will run on July 30',
-        projectId: '6023456789abcdef01234567'
+        projectId: '6023456789abcdef01234567',
+        creatorId: '0123456789abcdef01234569'
       };
 
       Doc.create(fields, function(d){
@@ -45,6 +46,8 @@ describe('Doc', function(){
         expect(d.notes).to.equal('Will run on July 30');
         expect(d.projectId).to.be.an.instanceof(Mongo.ObjectID);
         expect(d.projectId.toString()).to.deep.equal('6023456789abcdef01234567');
+        expect(d.creatorId).to.be.an.instanceof(Mongo.ObjectID);
+        expect(d.creatorId.toString()).to.deep.equal('0123456789abcdef01234569');
         done();
       });
     });
