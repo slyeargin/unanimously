@@ -7,8 +7,6 @@ html
   body
     nav
       ul
-        li
-          a(href='/') Home
         if(!user)
           li
             a(href='/register') Register
@@ -16,6 +14,9 @@ html
             a(href='/login') Login
         if(user)
           li #{user.email}
+          if (user && title !== 'Unanimously | Dashboard')
+            li
+              a(href='/dashboard') Dashboard
           li
             a(href='/logout') Logout
 
