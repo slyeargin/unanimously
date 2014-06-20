@@ -8,6 +8,8 @@ block content
   div.sidebar
     include ../users/userinfo
 
+    include ../campaigns/campaigninfo
+
   div.main
     div.add
       include ../projects/addContent
@@ -16,6 +18,7 @@ block content
         ul
           each doc in docs
             li
+              div.author #{doc.creator.name} wrote:
               div.content
                 div.copy #{doc.copy}
                 div.diff

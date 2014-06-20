@@ -16,7 +16,7 @@ exports.show = (req, res)=>{
   Project.findById(req.params.id, project=>{
     if(project){
       Doc.findAllByProjectId(project._id, docs=>{
-        Campaign.findById(project.campaignId, campaign=>{
+        Campaign.findByIdFullObject(project.campaignId, campaign=>{
           res.render('projects/show', {campaign: campaign, project:project, docs:docs, title: 'Unanimously | Project: ' + project.name});
         });
       });

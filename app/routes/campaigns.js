@@ -13,7 +13,7 @@ exports.create = (req, res)=>{
 };
 
 exports.show = (req, res)=>{
-  Campaign.findById(req.params.id, campaign=>{
+  Campaign.findByIdFullObject(req.params.id, campaign=>{
     if(campaign){
       Project.findAllByCampaignId(campaign._id, projects=>{
         res.render('campaigns/show', {campaign:campaign, projects:projects, title: 'Unanimously | Campaign: ' + campaign.name});

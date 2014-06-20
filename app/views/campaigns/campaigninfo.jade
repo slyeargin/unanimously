@@ -1,0 +1,11 @@
+h3 Campaign Owner:
+
+img(src=campaign.owner.photo)
+p #{campaign.owner.name}
+
+if(campaign.editors.length !== 0)
+  h3 Campaign Editors
+
+  each editor in campaign.editors
+    img(src=editor.photo)
+    p #{editor.name}

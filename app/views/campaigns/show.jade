@@ -6,9 +6,12 @@ block content
 
   div.sidebar
     include ../users/userinfo
+    include ../campaigns/campaigninfo
 
-  if(user._id = campaign.ownerId)
-    include ../campaigns/addEditor
+    if(user._id = campaign.ownerId)
+      include ../campaigns/addEditor
+
+
 
   div.main
     div.add

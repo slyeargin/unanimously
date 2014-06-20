@@ -37,7 +37,7 @@ class Doc{
 
     if(!(id instanceof Mongo.ObjectID)){fn(null); return;}
 
-    docCollection.find({projectId:id}).toArray((e,objs)=>{
+    docCollection.find({projectId:id}).sort( { date: -1 } ).toArray((e,objs)=>{
       objs = objs.map(o=>_.create(Doc.prototype, o));
       async.map(objs, addUserInfo, (e, docs)=>{
         objs = docs;
@@ -55,19 +55,6 @@ function addUserInfo(doc, fn){
     fn(null, doc);
   });
 }
-
-// static findByIdFullObject(id, fn){
-//     Base.findById(id, buildingCollection, Building, bldg=>{
-//
-//       Location.findById(bldg.locationId, loc=>{
-//         bldg.location = loc;
-//         async.map(bldg.rooms, transformRoom, (e, docs)=>{
-//           bldg.rooms = rooms;
-//           fn(bldg);
-//         });
-//       });
-//     });
-//   }
 
 // function sendVerificationEmail(user, fn){
 //   'use strict';

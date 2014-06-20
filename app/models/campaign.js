@@ -95,14 +95,6 @@ class Campaign{
   }
 }
 
-// function addOwnerInfo(id, fn){
-//   'use strict';
-//
-//   User.findById(id, user=>{
-//     return user;
-//   });
-// }
-
 function addEditorInfo(id, fn){
   'use strict';
 
@@ -110,15 +102,6 @@ function addEditorInfo(id, fn){
     fn(null, user);
   });
 }
-
-// function addOwnerInfo(doc, fn){
-//   'use strict';
-//
-//   User.findById(id, user=>{
-//     campaign.owner = user;
-//     fn(null, doc);
-//   });
-// }
 
 function sendAddNoticeEmail(user, campaign, fn){
   'use strict';
