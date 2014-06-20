@@ -5,23 +5,40 @@ block content
   p #{project.notes}
   p #{project.medium}
 
-  div.sidebar
-    include ../users/userinfo
+  div.col-sm-3.col-md-2.sidebar
+    ul.nav.nav-sidebar
+      include ../users/userinfo
 
-    include ../campaigns/campaigninfo
+      include ../campaigns/campaigninfo
 
-  div.main
-    div.add
-      include ../projects/addContent
+  div.col-sm-9.col-sm-offset-3.col-md-10.col-md-offset-2.main
+    h1.page-header #{project.name}
+      //- small &mdash; #{project.notes}
+
     div.list
       if(docs)
-        ul
-          each doc in docs
-            li
-              div.author #{doc.creator.name} wrote:
-              div.content
-                div.copy #{doc.copy}
-                div.diff
-              div.notes #{doc.notes}
+        div.add
+          h3
+          include ../projects/editContent
+
+        - var x = 1
+        each doc in docs
+          - var divname = 'collapse' + x
+          - var linkname = '#' + divname
+          - x++
+          #accordion.panel-group
+            .panel.panel-default
+              .panel-heading
+                h4.panel-title
+                  a(data-toggle='collapse', data-parent='#accordion', href=linkname)
+                    | #{doc.date}: #{doc.creator.name} wrote …
+              div(id=divname class='panel-collapse collapse in')
+                .panel-body
+                  div.content
+                    div.copy #{doc.copy}
+                    div.diff
+                      p Where the diff goes, yo. #{divname}
+                  div.notes #{doc.notes}
+
       else
         include ../projects/addContent

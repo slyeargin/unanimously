@@ -1,7 +1,8 @@
-form#addCampaign(action='/projects/create', method='post')
-  input(name='name', type='text', placeholder='Name Your Project')
-  input(name='medium', type='text', placeholder='Project Medium')
-  input(name='notes', type='text', placeholder='Describe Your Project')
-  input(name='campaignId', type='hidden', value='#{campaign._id}')
-  //- input(name='ownerId', type='hidden', value='#{user._id}')
-  button Create a Campaign
+div.well
+  form#addProject(action='/projects/create', method='post')
+    input(name='name', type='text', placeholder='Name Your Project')
+    input(name='medium', type='text', placeholder='Project Medium')
+    input(name='notes', type='text', placeholder='Describe Your Project')
+    input(name='campaignId', type='hidden', value='#{campaign._id}')
+    //- input(name='ownerId', type='hidden', value='#{user._id}')
+    button Create a Project

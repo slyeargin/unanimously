@@ -13,6 +13,7 @@ class Project{
     project.medium = obj.medium;
     project.notes = obj.notes;
     project.campaignId = Mongo.ObjectID(obj.campaignId);
+    //project.creatorId = Mongo.ObjectID(obj.creatorId);
 
     projectCollection.save(project, ()=>{
       fn(project);

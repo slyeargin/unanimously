@@ -1,5 +1,6 @@
-form#addCampaign(action='/campaigns/create', method='post')
-  input(name='name', type='text', placeholder='Name Your Campaign')
-  input(name='description', type='text', placeholder='Describe Your Campaign')
-  input(name='ownerId', type='hidden', value='#{user._id}')
-  button Create a Campaign
+div.well
+  form#addCampaign(action='/campaigns/create', method='post')
+    input(name='name', type='text', placeholder='Name Your Campaign')
+    input(name='description', type='text', placeholder='Describe Your Campaign')
+    input(name='ownerId', type='hidden', value='#{user._id}')
+    button Create a Campaign
