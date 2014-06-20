@@ -69,6 +69,8 @@ describe('campaigns', function(){
         .send('copy=Keeping all contamination under control.')
         .send('notes=We should oversell it.')
         .send('projectId=6023456789abcdef01234567')
+        .send('date=6/3/2014')
+        .send('creatorId=0123456789abcdef01234567')
         .end(function(err, res){
           expect(res.status).to.equal(302);
           expect(res.headers.location).to.equal('/projects/6023456789abcdef01234567');

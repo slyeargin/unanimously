@@ -99,7 +99,7 @@ describe('Doc', function(){
         expect(docs).to.have.length(2);
         expect(docs[0]).to.be.instanceof(Doc);
         expect(docs[0].projectId.toString()).to.deep.equal('6023456789abcdef01234567');
-        expect(docs[0]._id.toString()).to.equal('7023456789abcdef01234567');
+        expect(docs[0]._id.toString()).to.equal('7023456789abcdef01234568');
         done();
       });
     });
@@ -111,7 +111,7 @@ describe('Doc', function(){
         expect(docs).to.have.length(2);
         expect(docs[0]).to.be.instanceof(Doc);
         expect(docs[0].projectId.toString()).to.deep.equal('6023456789abcdef01234567');
-        expect(docs[0]._id.toString()).to.equal('7023456789abcdef01234567');
+        expect(docs[0]._id.toString()).to.equal('7023456789abcdef01234568');
         done();
       });
     });

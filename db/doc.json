@@ -4,12 +4,15 @@
     "projectId":"6023456789abcdef01234567",
     "copy":"Keep contamination under control.",
     "notes":"First draft",
+    "date": "6/1/2014",
     "creatorId": "0123456789abcdef01234567"
   },
   {
+    "_id":"7023456789abcdef01234568",
     "projectId":"6023456789abcdef01234567",
     "copy":"Keeping contamination under control.",
     "notes":"Emphasis on what we do, rather than what they could do",
+    "date": "6/2/2014",
     "creatorId": "0123456789abcdef01234569"
   }
 ]

@@ -15,7 +15,7 @@ class Doc{
     doc.copy = obj.copy;
     doc.notes = obj.notes;
     doc.creatorId = Mongo.ObjectID(obj.creatorId);
-    doc.date = new Date();
+    doc.date = obj.date ? new Date(obj.date) : new Date();
     doc.isFinal = false;
 
     docCollection.save(doc, ()=>{
