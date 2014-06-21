@@ -47,7 +47,8 @@ block content
                 .panel-body
                   ul.nav.nav-tabs
                     li.active
-                        a(href=copylink, data-toggle='tab') Copy
+                      a(href=copylink, data-toggle='tab') Copy
+                    if(x <= docs.length)
                       li
                         a(href=difflink, data-toggle='tab') Changes
 
@@ -55,9 +56,11 @@ block content
                     div(id=copydiv class='tab-pane active')
                       div.copy
                         p!= copy.replace(/\r/g, '').replace(/\n/g, '</p><p>')
-                    div(id=diffdiv class='tab-pane')
-                      div.diff
-                        p The diff
+
+                    if(x <= docs.length)
+                      div(id=diffdiv class='tab-pane')
+                        div.diff
+                          p The diff
                   div.panel.panel-default
                     .panel-heading
                       h4.panel-title Notes
