@@ -1,7 +1,7 @@
 div.well
   form#addContent(action='/docs/create', method='post')
-    textarea(name='copy', placeholder='Enter Your Copy Here')
-    input(name='notes', type='text', placeholder='Notes')
-    input(name='projectId', type='hidden', value='#{project._id}')
-    input(name='creatorId', type='hidden', value='#{user._id}')
-    button Add
+    textarea.form-control(name='copy', rows=3, placeholder='Enter Your Copy Here').
+    input.form-control(name='notes', type='text', placeholder='Notes')
+    input.form-control(name='projectId', type='hidden', value='#{project._id}')
+    input.form-control(name='creatorId', type='hidden', value='#{user._id}')
+    button.btn.btn-default Add
