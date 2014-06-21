@@ -8,6 +8,14 @@ block content
       include ../campaigns/campaigninfo
 
   div.col-sm-9.col-sm-offset-3.col-md-10.col-md-offset-2.main
+    ol.breadcrumb
+      li
+        a(href='/dashboard') Home
+      li
+        a(href='/campaigns/#{campaign._id}') #{campaign.name}
+      li.active
+        a(href='/projects/#{project._id}') #{project.name}
+
     h1.page-header #{project.name}
       small  &mdash; #{project.medium}
     h2 #{project.notes}
@@ -22,7 +30,13 @@ block content
         each doc in docs
           - var divname = 'collapse' + x
           - var linkname = '#' + divname
+          - var copydiv = 'copy' + x
+          - var copylink = '#' + copydiv
+          - var diffdiv = 'diff' + x
+          - var difflink = '#' + diffdiv
+          - var copy = doc.copy
           - x++
+
           #accordion.panel-group
             .panel.panel-default
               .panel-heading
@@ -31,11 +45,23 @@ block content
                     | #{doc.date}: #{doc.creator.name} wrote …
               div(id=divname class='panel-collapse collapse in')
                 .panel-body
-                  div.content
-                    div.copy #{doc.copy}
-                    div.diff
-                      p Where the diff goes, yo. #{divname}
-                  div.notes #{doc.notes}
+                  ul.nav.nav-tabs
+                    li.active
+                        a(href=copylink, data-toggle='tab') Copy
+                      li
+                        a(href=difflink, data-toggle='tab') Changes
+
+                  .tab-content
+                    div(id=copydiv class='tab-pane active')
+                      div.copy
+                        p!= copy.replace(/\r/g, '').replace(/\n/g, '</p><p>')
+                    div(id=diffdiv class='tab-pane')
+                      div.diff
+                        p The diff
+                  div.panel.panel-default
+                    .panel-heading
+                      h4.panel-title Notes
+                    p.panel-body #{doc.notes}
 
       else
         include ../projects/addContent

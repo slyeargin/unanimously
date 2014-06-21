@@ -2,7 +2,6 @@ extends ../shared/template
 
 block content
   div.col-sm-3.col-md-2.sidebar
-    //- ul.nav.nav-sidebar
     include userinfo
 
   div.col-sm-9.col-sm-offset-3.col-md-10.col-md-offset-2.main
@@ -12,19 +11,27 @@ block content
       h4 Create a Campaign
       include ../campaigns/addCampaign
     div.list
-      div#mylist.panel
-        h3.panel-heading Your Campaigns
-        ul.panel-body
-          each campaign in myCampaigns
-            li
-              a(href='/campaigns/#{campaign._id}') #{campaign.name}
-          if(myCampaigns == 0)
-            li You haven't created any campaigns!
-      div#otherlist.panel
-        h3.panel-heading Others' Campaigns
-        ul.panel-body
-          each campaign in otherCampaigns
-            li
-              a(href='/campaigns/#{campaign._id}') #{campaign.name}
+      div#mylist.table-responsive
+        table.table.table-striped
+          thead
+            th Your Campaigns
+          tbody
+            each campaign in myCampaigns
+              tr
+                td
+                  a(href='/campaigns/#{campaign._id}') #{campaign.name}
+            if(myCampaigns == 0)
+              tr You haven't created any campaigns!
+      div#otherlist.table-responsive
+        table.table.table-striped
+          thead
+            th Others' Campaigns
+          tbody
+            each campaign in otherCampaigns
+              tr
+                td
+                  a(href='/campaigns/#{campaign._id}') #{campaign.name}
           if(otherCampaigns == 0)
-            li You haven't been invited to any campaigns.
+            tr
+              td
+                You haven't been invited to any campaigns.
