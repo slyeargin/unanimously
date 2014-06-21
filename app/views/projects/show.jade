@@ -1,19 +1,16 @@
 extends ../shared/template
 
 block content
-  h1= project.name
-  p #{project.notes}
-  p #{project.medium}
 
   div.col-sm-3.col-md-2.sidebar
-    ul.nav.nav-sidebar
-      include ../users/userinfo
 
+    ul.nav.nav-sidebar
       include ../campaigns/campaigninfo
 
   div.col-sm-9.col-sm-offset-3.col-md-10.col-md-offset-2.main
     h1.page-header #{project.name}
-      //- small &mdash; #{project.notes}
+      small  &mdash; #{project.medium}
+    h2 #{project.notes}
 
     div.list
       if(docs)

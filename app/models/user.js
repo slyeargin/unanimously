@@ -17,7 +17,7 @@ class User{
         user._id = Mongo.ObjectID(obj._id);
         user.email = obj.email;
         user.name = obj.name ? obj.name : obj.email;
-        user.photo = gravatar.url(user.email, {s: '80', r: 'pg', d: 'mm'}, false);
+        user.photo = gravatar.url(user.email, {s: '200', r: 'pg', d: 'mm'}, false);
         user.password = obj.password ? bcrypt.hashSync(obj.password, 8) : '';
         user.isValid = obj.isValid ? obj.isValid : false;
 

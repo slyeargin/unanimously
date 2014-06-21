@@ -1,6 +1,10 @@
 extends ../shared/template
 
 block content
+  div.col-sm-3.col-md-2.sidebar
+    //- ul.nav.nav-sidebar
+    include userinfo
+
   div.col-sm-9.col-sm-offset-3.col-md-10.col-md-offset-2.main
     h1.page-header Dashboard
 
@@ -24,7 +28,3 @@ block content
               a(href='/campaigns/#{campaign._id}') #{campaign.name}
           if(otherCampaigns == 0)
             li You haven't been invited to any campaigns.
-
-  div.col-sm-3.col-md-2.sidebar
-    ul.nav.nav-sidebar
-      include userinfo
