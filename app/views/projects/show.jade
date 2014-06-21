@@ -37,7 +37,7 @@ block content
           - var copy = doc.copy
 
           #accordion.panel-group
-            .panel.panel-default(data-id=x)
+            .panel.panel-default.copyblock(data-id=x)
               .panel-heading
                 h4.panel-title
                   a(data-toggle='collapse', data-parent='#accordion', href=linkname)
@@ -47,7 +47,7 @@ block content
                   ul.nav.nav-tabs
                     li.active
                       a(href=copylink, data-toggle='tab') Copy
-                    if(x <= docs.length)
+                    if(x < docs.length)
                       li
                         a(href=difflink, data-toggle='tab') Changes
 
@@ -56,9 +56,9 @@ block content
                       div.copy
                         p!= copy.replace(/\r/g, '').replace(/\n/g, '</p><p>')
 
-                    if(x <= docs.length)
-                      div(id=diffdiv class='tab-pane')
-                        div.diff
+                    if(x < docs.length)
+                      div(id=diffdiv class='tab-pane diff')
+                        //- div.diff
                           p The diff
                   div.panel.panel-default
                     .panel-heading
@@ -73,3 +73,4 @@ block content
 block scripts
   script(src='/js/vendor/diff_match_patch.js')
   script(src='/js/vendor/jquery.pretty-text-diff.js')
+  script(src='/js/es6/compiled/diff.js')
