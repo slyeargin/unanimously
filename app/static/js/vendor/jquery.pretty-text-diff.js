@@ -21,20 +21,20 @@ See https://github.com/arnab/jQuery.PrettyTextDiff/
         debug: false
       };
       settings = $.extend(settings, options);
-      $.fn.prettyTextDiff.debug("Options: ", settings, settings);
+      // $.fn.prettyTextDiff.debug("Options: ", settings, settings);
       dmp = new diff_match_patch();
       return this.each(function() {
         var changed, diff_as_html, diffs, original;
         // original = $(settings.originalContainer, this).text();
         original = $(settings.originalContainer).text();
-        $.fn.prettyTextDiff.debug("Original text found: ", original, settings);
+        // $.fn.prettyTextDiff.debug("Original text found: ", original, settings);
         changed = $(settings.changedContainer, this).text();
-        $.fn.prettyTextDiff.debug("Changed  text found: ", changed, settings);
+        // $.fn.prettyTextDiff.debug("Changed  text found: ", changed, settings);
         diffs = dmp.diff_main(original, changed);
         if (settings.cleanup) {
           dmp.diff_cleanupSemantic(diffs);
         }
-        $.fn.prettyTextDiff.debug("Diffs: ", diffs, settings);
+        // $.fn.prettyTextDiff.debug("Diffs: ", diffs, settings);
         diff_as_html = $.map(diffs, function(diff) {
           return $.fn.prettyTextDiff.createHTML(diff);
         });
@@ -44,11 +44,11 @@ See https://github.com/arnab/jQuery.PrettyTextDiff/
     }
   });
 
-  $.fn.prettyTextDiff.debug = function(message, object, settings) {
-    if (settings.debug) {
-      return console.log(message, object);
-    }
-  };
+  // $.fn.prettyTextDiff.debug = function(message, object, settings) {
+  //   if (settings.debug) {
+  //     return console.log(message, object);
+  //   }
+  // };
 
   $.fn.prettyTextDiff.createHTML = function(diff) {
     var data, html, operation, pattern_amp, pattern_gt, pattern_lt, pattern_para, text;

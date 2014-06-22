@@ -41,8 +41,11 @@ block content
               .panel-heading
                 h4.panel-title
                   a(data-toggle='collapse', data-parent='#accordion', href=linkname)
-                    | #{doc.date}: #{doc.creator.name} wrote …
-              div(id=divname class='panel-collapse collapse')
+                    img(src='#{doc.creator.photo}', class='doclist')
+                    | #{doc.creator.name} wrote:
+                    span(class='timestamp') #{doc.date.toDateString()}
+
+              div(id=divname class=(x == 1) ? 'panel-collapse collapse in' : 'panel-collapse collapse')
                 .panel-body
                   ul.nav.nav-tabs
                     li.active
@@ -60,6 +63,7 @@ block content
                       div(id=diffdiv class='tab-pane diff')
                         //- div.diff
                           p The diff
+
                   div.panel.panel-default
                     .panel-heading
                       h4.panel-title Notes
@@ -74,3 +78,4 @@ block scripts
   script(src='/js/vendor/diff_match_patch.js')
   script(src='/js/vendor/jquery.pretty-text-diff.js')
   script(src='/js/es6/compiled/diff.js')
+  //- script(src='/js/vendor/moment.js')

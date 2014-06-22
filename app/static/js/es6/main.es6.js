@@ -6,6 +6,4 @@
   function init(){
     $('.dropdown-toggle').dropdown();
   }
-
-
 })();

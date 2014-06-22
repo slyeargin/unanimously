@@ -16,7 +16,7 @@
       changedContainer: '#copy' + current,
       diffContainer: '#diff' + current,
       cleanup: true,
-      debug: true
+      debug: false
     });
   }
 
