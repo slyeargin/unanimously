@@ -21,7 +21,7 @@ block content
     h3 #{project.notes}
 
     div.list
-      if(docs)
+      if(docs.length > 0)
         div.add
           h3
           include ../projects/editContent
@@ -78,4 +78,3 @@ block scripts
   script(src='/js/vendor/diff_match_patch.js')
   script(src='/js/vendor/jquery.pretty-text-diff.js')
   script(src='/js/es6/compiled/diff.js')
-  //- script(src='/js/vendor/moment.js')

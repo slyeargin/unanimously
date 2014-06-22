@@ -1,6 +1,29 @@
 extends ../shared/template
 
 block content
-  div.jumbotron
-    h1 Unanimously
-    h2 Write collaboratively.
+  .jumbotron
+    .container
+      h1 Unanimous.ly
+      p Write collaboratively.
+      if(!user)
+        p
+          a.btn.btn-primary.btn-lg(role='button', href='/register') Sign up today »
+  .container
+    .row
+      .col-md-4
+        h2 We're flexible.
+        p Use Unanimous.ly to craft multichannel advertising campaigns or to get constructive feedback on creative writing projects.
+        p It's up to you.
+      .col-md-4
+        h2 Invite your friends.
+        p Unanimous.ly works best when working with others.
+        p When you're ready to share, invite collaborators by e-mail address.
+      .col-md-4
+        h2 All together now.
+        p No more managing multiple e-mail threads.  Everyone's on the same page.
+        p With Unanimous.ly, you know when and where changes were made, and by whom.
+
+    hr
+    footer
+      p
+      | Made with love in Nashville, Tennessee by #[a(href='http://portfolio.slyeargin.com/') Samantha Yeargin].
