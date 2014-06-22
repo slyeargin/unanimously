@@ -1,6 +1,14 @@
 div.well
-  form#addCampaign(action='/campaigns/create', method='post')
-    input(name='name', type='text', placeholder='Name Your Campaign')
-    input(name='description', type='text', placeholder='Describe Your Campaign')
+  form#addCampaign.form-horizontal(action='/campaigns/create', method='post')
+    .form-group
+      label.col-sm-2.control-label(for='campaignName') Campaign Name:
+      .col-sm-10
+        input#campaignName.form-control(name='name', type='text', placeholder='Name Your Campaign')
+    .form-group
+      label.col-sm-2.control-label(for='campaignDescription') Description:
+      .col-sm-10
+        input#campaignDescription.form-control(name='description', type='text', placeholder='Describe Your Campaign')
     input(name='ownerId', type='hidden', value='#{user._id}')
-    button Create a Campaign
+    .form-group
+      .col-sm-offset-2.col-sm-10
+        button.btn.btn-default Create a Campaign

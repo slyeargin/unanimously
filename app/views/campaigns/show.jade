@@ -1,5 +1,8 @@
 extends ../shared/template
 
+- var userId = user._id.toString
+- var ownerId = campaign.ownerId.toString
+
 block content
   div.col-sm-9.col-sm-offset-3.col-md-10.col-md-offset-2.main
     ol.breadcrumb
@@ -11,8 +14,9 @@ block content
     h1.page-header #{campaign.name}
 
     div.add
-      h4 Create a Project
-      include ../projects/addProject
+      if user._id.equals(campaign.ownerId)
+        h4 Create a Project
+        include ../projects/addProject
     div#projects.table-responsive
       table.table.table-striped
         thead
@@ -26,12 +30,14 @@ block content
               td #{project.medium}
           if(projects == 0)
             tr
-              td You haven't created any projects!
+              if user._id.equals(campaign.ownerId)
+                td You haven't created any projects!
+                td
+              else
+                td The campaign owner hasn't created any projects.
+                td
 
 
   div.col-sm-3.col-md-2.sidebar
     ul.nav.nav-sidebar
       include ../campaigns/campaigninfo
-
-      if(user._id = campaign.ownerId)
-        include ../campaigns/addEditor

@@ -1,10 +1,24 @@
 .sidebar {
   margin: 0 auto;
-  text-align: center;
-  img {
-    height: 80px;
-    width: 80px;
-    border-radius: 80px;
+  padding-left: 40px;
+  .name{
+    img {
+      height: 25px;
+      width: 25px;
+      border-radius: 25px;
+      margin: 0 10px 0 0;
+      float: left;
+    }
+  }
+  h4, h5 {
+    padding: 10px 0 0 0;
+    display: block;
+    color: #555;
+    border-bottom: 1px solid #ddd;
+    width: 85%;
+  }
+  h5 {
+    text-transform: uppercase;
   }
 }
 
@@ -19,4 +33,18 @@ ins {
 
 del {
     background-color: #ffc6c6;
+}
+
+#addEditor{
+  margin-top: 25px;
+  h5 {
+    padding: 0;
+    border-bottom: 1px solid #bbb;
+  }
+  padding: 5px 15px 15px 15px;
+  width: 90%;
+  background-color: #ddd;
+  .btn {
+    text-align: right;
+  }
 }

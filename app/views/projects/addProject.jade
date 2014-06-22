@@ -1,8 +1,19 @@
 div.well
-  form#addProject(action='/projects/create', method='post')
-    input(name='name', type='text', placeholder='Name Your Project')
-    input(name='medium', type='text', placeholder='Project Medium')
-    input(name='notes', type='text', placeholder='Describe Your Project')
+  form#addProject.form-horizontal(action='/projects/create', method='post')
+    .form-group
+      label.col-sm-2.control-label(for='projectName') Project Name:
+      .col-sm-10
+        input#projectName.form-control(name='name', type='text', placeholder='Name Your Project')
+    .form-group
+      label.col-sm-2.control-label(for='projectMedium') Medium:
+      .col-sm-10
+        input#projectMedium.form-control(name='medium', type='text', placeholder='Project Medium')
+    .form-group
+      label.col-sm-2.control-label(for='projectDescription') Description:
+      .col-sm-10
+        input#projectDescription.form-control(name='notes', type='text', placeholder='Describe Your Project')
     input(name='campaignId', type='hidden', value='#{campaign._id}')
     //- input(name='ownerId', type='hidden', value='#{user._id}')
-    button Create a Project
+    .form-group
+      .col-sm-offset-2.col-sm-10
+        button.btn.btn-default Create a Project

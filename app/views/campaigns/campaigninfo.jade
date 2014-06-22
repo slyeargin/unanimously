@@ -1,15 +1,23 @@
-h3
-  a(href='/campaigns/#{campaign._id}') #{campaign.name}
-h4 #{campaign.description}
+div.campaigninfo
+  h3
+    a(href='/campaigns/#{campaign._id}') #{campaign.name}
 
-h5 Campaign Owner:
+  h4 Description
+  p #{campaign.description}
 
-img(src=campaign.owner.photo)
-p #{campaign.owner.name}
+  h5 Campaign Owner
 
-if(campaign.editors.length !== 0)
-  h5 Campaign Editors
+  div.name
+    img(src=campaign.owner.photo)
+    p #{campaign.owner.name}
 
-  each editor in campaign.editors
-    img(src=editor.photo)
-    p #{editor.name}
+  if(campaign.editors.length !== 0)
+    h5 Campaign Editors
+
+    div.name
+      each editor in campaign.editors
+        img(src=editor.photo)
+        p #{editor.name}
+
+  if user._id.equals(campaign.ownerId)
+    include ../campaigns/addEditor

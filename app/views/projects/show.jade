@@ -8,17 +8,17 @@ block content
       include ../campaigns/campaigninfo
 
   div.col-sm-9.col-sm-offset-3.col-md-10.col-md-offset-2.main
-    ol.breadcrumb
-      li
-        a(href='/dashboard') Home
-      li
-        a(href='/campaigns/#{campaign._id}') #{campaign.name}
-      li.active
-        a(href='/projects/#{project._id}') #{project.name}
+    //- ol.breadcrumb
+    //-   li
+    //-     a(href='/dashboard') Home
+    //-   li
+    //-     a(href='/campaigns/#{campaign._id}') #{campaign.name}
+    //-   li.active
+    //-     a(href='/projects/#{project._id}') #{project.name}
 
     h1.page-header #{project.name}
       small  &mdash; #{project.medium}
-    h2 #{project.notes}
+    h3 #{project.notes}
 
     div.list
       if(docs)
@@ -42,7 +42,7 @@ block content
                 h4.panel-title
                   a(data-toggle='collapse', data-parent='#accordion', href=linkname)
                     | #{doc.date}: #{doc.creator.name} wrote …
-              div(id=divname class='panel-collapse collapse in')
+              div(id=divname class='panel-collapse collapse')
                 .panel-body
                   ul.nav.nav-tabs
                     li.active

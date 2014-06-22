@@ -1,5 +1,6 @@
 form#addEditor(action='/campaigns/addEditor', method='post')
-  input(name='email', type='email', placeholder='E-mail Address')
+  h5 Invite an Editor
+  input.form-control(name='email', type='email', placeholder='E-mail Address')
   input(name='campaignId', type='hidden', value='#{campaign._id}')
   input(name='from', type='hidden', value='#{user._id}')
-  button Invite
+  button.btn.btn-default Invite
