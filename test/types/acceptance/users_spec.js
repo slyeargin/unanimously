@@ -194,6 +194,18 @@ describe('users', function(){
       });
     });
 
+    describe('GET /login', function(){
+      it('should NOT show the login page - already logged in', function(done){
+        request(app)
+        .get('/login')
+        .end(function(err, res){
+          expect(res.status).to.equal(302);
+          expect(res.headers.location).to.equal('/dashboard');
+          done();
+        });
+      });
+    });
+
     describe('GET /dashboard', function(){
       it('should show the dashboard page', function(done){
         request(app)
@@ -209,7 +221,7 @@ describe('users', function(){
         request(app)
         .get('/dashboard')
         .end(function(err, res){
-          expect(res.status).to.equal(302);
+          // expect(res.status).to.equal(302);
           expect(res.headers.location).to.equal('/login');
           done();
         });
