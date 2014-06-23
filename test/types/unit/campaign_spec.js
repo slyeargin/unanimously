@@ -248,4 +248,48 @@ describe('Campaign', function(){
     });
   });
 
+  describe('#removeEditor', function(){
+    it('should successfully remove an editor from a campaign', function(done){
+      User.findById('0123456789abcdef01234569', function(user){
+        Campaign.findById('4023456789abcdef01234567', function(campaign){
+          campaign.removeEditor(user, function(c){
+            expect(c).to.be.ok;
+            expect(c).to.be.an.instanceof(Campaign);
+            expect(c._id).to.be.an.instanceof(Mongo.ObjectID);
+            expect(c._id.toString()).to.deep.equal('4023456789abcdef01234567');
+            expect(c.name).to.equal('My Fantastic Ad Campaign');
+            expect(c.description).to.equal('It\'s amazing.');
+            expect(c.ownerId.toString()).to.deep.equal('0123456789abcdef01234567');
+            expect(c.editorIds).to.be.an('array');
+            expect(c.editorIds).to.have.length(0);
+            done();
+          });
+        });
+      });
+    });
+
+    // it('should NOT remove an editor to a campaign - user is campaign owner', function(done){
+    //   User.findById('0123456789abcdef01234567', function(user){
+    //     Campaign.findById('4023456789abcdef01234567', function(campaign){
+    //       campaign.addEditor(user, function(u){
+    //         expect(u).to.be.null;
+    //         done();
+    //       });
+    //     });
+    //   });
+    // });
+    //
+    // it('should NOT add an editor to a campaign - user already an editor', function(done){
+    //   User.findById('0123456789abcdef01234569', function(user){
+    //     Campaign.findById('4023456789abcdef01234567', function(campaign){
+    //       campaign.addEditor(user, function(u){
+    //         expect(u).to.be.null;
+    //         done();
+    //       });
+    //     });
+    //   });
+    // });
+  });
+
+
 });

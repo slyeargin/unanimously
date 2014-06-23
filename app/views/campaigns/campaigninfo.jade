@@ -7,17 +7,21 @@ div.campaigninfo
 
   h5 Campaign Owner
 
-  div.name
+  div.owner
     img(src=campaign.owner.photo)
-    p #{campaign.owner.name}
+    span #{campaign.owner.name}
 
   if(campaign.editors.length !== 0)
     h5 Campaign Editors
 
-    div.name
-      each editor in campaign.editors
+    each editor in campaign.editors
+      div.editor
         img(src=editor.photo)
-        p #{editor.name}
+        div.editorname #{editor.name}
+        if user._id.equals(campaign.ownerId)
+          include ../campaigns/removeEditor
+        if user._id.equals(editor._id)
+          include ../campaigns/removeEditor
 
   if user._id.equals(campaign.ownerId)
     include ../campaigns/addEditor

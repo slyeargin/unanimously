@@ -1,0 +1,4 @@
+form(action='/campaigns/removeEditor', method='post')
+  input(name='editorId', type='hidden', value='#{editor._id}')
+  input(name='campaignId', type='hidden', value='#{campaign._id}')
+  button.close(aria-hidden='true') ×

@@ -49,3 +49,28 @@ exports.addEditor = (req, res)=>{
     }
   });
 };
+
+exports.removeEditor = (req, res)=>{
+  User.findById(req.body.editorId, user=>{
+    if(user){
+      Campaign.findById(req.body.campaignId, campaign=>{
+        campaign.removeEditor(user, user=>{
+          console.log('What gets returned?');
+          console.log(user);
+          if (user){
+            if(req.body.editorId === res.locals.user._id){
+              res.redirect('/dashboard');
+            } else {
+              res.redirect('/campaigns/' + req.body.campaignId);
+            }
+          }
+           else {
+            res.redirect('/campaigns/' + req.body.campaignId);
+          }
+        });
+      });
+    } else {
+      res.redirect('/campaigns/' + req.body.campaignId);
+    }
+  });
+};

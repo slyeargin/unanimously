@@ -10,7 +10,6 @@ body {
   }
 }
 
-
 // rewritten Bootstrap styling
 .sidebar {
   @media (min-width: 768px) {
@@ -38,14 +37,27 @@ body {
 // local flavor
 .sidebar {
   margin: 0 auto;
-  .name{
+  .editor, .owner{
     font-size: 0.9em;
+    margin: 5px 0;
     img {
       height: 25px;
       width: 25px;
       border-radius: 25px;
       margin: 0 10px 0 0;
-      float: left;
+      // float: left;
+    }
+    .editorname {
+      display: inline;
+      width: 85%;
+      word-wrap: break-word;
+    }
+    .close {
+      margin-top: -1.25em;
+      margin-right: 30px;
+    }
+    .name:after{
+      clear:both;
     }
   }
   #userinfo {
@@ -60,6 +72,9 @@ body {
       margin: 15px 0;
       font-weight: bold;
     }
+  }
+  .campaigninfo{
+    padding: 0 0 0 20px;
   }
   h4, h5 {
     padding: 10px 0 0 0;
