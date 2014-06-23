@@ -137,4 +137,25 @@ describe('Project', function(){
     });
   });
 
+  describe('#update', function(){
+    it('should successfully update a project', function(done){
+      var fields = {
+        name: 'Great Website',
+        medium: 'Web',
+        notes: 'Copy for ad on Great Website'
+      };
+      Project.findById('6023456789abcdef01234567', function(project){
+        project.update(fields, function(p){
+          expect(p).to.be.ok;
+          expect(p).to.be.instanceof(Project);
+          expect(p.name).to.equal('Great Website');
+          expect(p.medium).to.equal('Web');
+          expect(p.notes).to.equal('Copy for ad on Great Website');
+          expect(p._id.toString()).to.deep.equal('6023456789abcdef01234567');
+          expect(p.campaignId.toString()).to.deep.equal('4023456789abcdef01234567');
+          done();
+        });
+      });
+    });
+  });
 });

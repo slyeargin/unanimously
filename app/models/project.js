@@ -37,7 +37,23 @@ class Project{
       fn(objs);
     });
   }
+
+  update(obj, fn){
+    if (obj.name.length){
+      this.name = obj.name;
+    }
+    if (obj.medium.length){
+      this.medium = obj.medium;
+    }
+    if (obj.notes.length){
+      this.notes = obj.notes;
+    }
+
+    projectCollection.save(this, ()=>fn(this));
+  }
 }
+
+
 
 // function sendVerificationEmail(user, fn){
 //   'use strict';

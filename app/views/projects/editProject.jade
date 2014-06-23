@@ -1,0 +1,26 @@
+extends ../shared/template
+
+block content
+  div.col-sm-9.col-sm-offset-3.col-md-10.col-md-offset-2.main
+    h1#dashboard.page-header Edit Your project
+
+    div.well
+      form#editContent.form-horizontal(action='/projects/edit', method='post')
+        .form-group
+          label.col-sm-2.control-label(for='projectName') Project Name:
+          .col-sm-10
+            input#projectName.form-control(name='name', type='text', placeholder='Project Name', value='#{project.name}')
+        .form-group
+          label.col-sm-2.control-label(for='projectMedium') Project Medium:
+          .col-sm-10
+            input#projectMedium.form-control(name='medium', type='text', placeholder='Project Medium', value='#{project.medium}')
+        .form-group
+          label.col-sm-2.control-label(for='projectNotes') Project Notes:
+          .col-sm-10
+            input#projectNotes.form-control(name='notes', type='text', placeholder='Project Notes', value='#{project.notes}')
+        input.form-control(name='projectId', type='hidden', value='#{project._id}')
+
+        button.btn.btn-default Update
+
+  div.col-sm-3.col-md-2.sidebar
+    include userinfo

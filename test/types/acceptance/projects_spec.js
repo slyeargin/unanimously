@@ -121,8 +121,23 @@ describe('campaigns', function(){
           done();
         });
       });
+    });
 
-      //tests to check if campaign exists before creating a project
+    describe('POST /projects/edit', function(){
+      it('should post project updates', function(done){
+        request(app)
+        .post('/projects/edit')
+        .send('name=Great Website')
+        .send('medium=Web')
+        .send('notes=Copy for ad on Great Website')
+        .send('projectId=6023456789abcdef01234567')
+        .set('cookie', cookie)
+        .end(function(err, res){
+          expect(res.status).to.equal(302);
+          expect(res.headers.location).to.equal('/projects/6023456789abcdef01234567');
+          done();
+        });
+      });
     });
 
   }); // close auth

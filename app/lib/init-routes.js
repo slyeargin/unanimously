@@ -47,6 +47,8 @@ function load(app, fn){
   app.post('/campaigns/removeEditor', dbg, campaigns.removeEditor);
 
   app.post('/projects/create', dbg, projects.create);
+  app.get('/projects/edit/:id', dbg, projects.edit);
+  app.post('/projects/edit', dbg, projects.update);
   app.get('/projects/:id', dbg, projects.show);
 
   app.post('/docs/create', dbg, docs.create);
