@@ -92,6 +92,7 @@ describe('users', function(){
     it('verify a user', function(done){
       request(app)
       .post('/verify/0123456789abcdef01234567')
+      .send('name=Sue')
       .send('password=1234')
       .end(function(err, res){
         expect(res.status).to.equal(302);

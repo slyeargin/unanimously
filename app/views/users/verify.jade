@@ -1,7 +1,17 @@
-extends ../shared/template
+doctype html
+html
+  head
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    title= title
+    link(rel='stylesheet', href='//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css')
+    link(rel='stylesheet', href='http://getbootstrap.com/examples/signin/signin.css')
+    link(href='/less/app.css', rel='stylesheet')
 
-block content
-  form#register(action='/verify/#{u._id}', method='post')
-    label Your password
-    input(name='password', type='password')
-    button Complete registration!
+  body
+    .container
+      form.form-signin#register(action='/verify/#{u._id}', method='post')
+        h2.form-signin-heading Please complete your registration.
+        input.form-control(name='name', required='required', type='text', placeholder='Your name', autofocus=true)
+        input.form-control(name='password', required='required', type='password', placeholder='Your password')
+        button.btn.btn-lg.btn-primary.btn-block Complete registration
