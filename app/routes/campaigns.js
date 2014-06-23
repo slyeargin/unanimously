@@ -55,8 +55,6 @@ exports.removeEditor = (req, res)=>{
     if(user){
       Campaign.findById(req.body.campaignId, campaign=>{
         campaign.removeEditor(user, user=>{
-          console.log('What gets returned?');
-          console.log(user);
           if (user){
             if(req.body.editorId === res.locals.user._id){
               res.redirect('/dashboard');

@@ -1,0 +1,10 @@
+[
+  {
+    "_id":"7623456789abcdef01234567",
+    "type":"doc",
+    "campaignId":"4023456789abcdef01234567",
+    "recipientId": "0123456789abcdef01234569",
+    "projectId":"6023456789abcdef01234567",
+    "fromId":"0123456789abcdef01234567"
+  }
+]

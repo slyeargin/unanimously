@@ -31,11 +31,17 @@ describe('campaigns', function(){
 
   beforeEach(function(done){
     global.nss.db.collection('users').drop(function(){
-      factory('user', function(users){
-        factory('campaign', function(campaigns){
-          factory('project', function(projects){
-            factory('doc', function(docs){
-              done();
+      global.nss.db.collection('campaigns').drop(function(){
+        global.nss.db.collection('projects').drop(function(){
+          global.nss.db.collection('docs').drop(function(){
+            factory('user', function(users){
+              factory('campaign', function(campaigns){
+                factory('project', function(projects){
+                  factory('doc', function(docs){
+                    done();
+                  });
+                });
+              });
             });
           });
         });
@@ -78,7 +84,7 @@ describe('campaigns', function(){
         });
       });
 
-      it('should NOT create a new project - not logged in', function(done){
+      it('should NOT create a new doc - not logged in', function(done){
         request(app)
         .post('/docs/create')
         .end(function(err, res){
@@ -88,7 +94,6 @@ describe('campaigns', function(){
         });
       });
 
-      //tests to check if project exists before creating a doc
     });
 
   }); // close auth

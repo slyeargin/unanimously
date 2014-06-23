@@ -19,6 +19,7 @@ function load(app, fn){
   var campaigns = traceur.require(__dirname + '/../routes/campaigns.js');
   var projects = traceur.require(__dirname + '/../routes/projects.js');
   var docs = traceur.require(__dirname + '/../routes/docs.js');
+  // var notifications = traceur.require(__dirname + '/../routes/notifications.js');
 
   app.all('*', users.lookup);
 
@@ -50,6 +51,7 @@ function load(app, fn){
   app.get('/projects/:id', dbg, projects.show);
 
   app.post('/docs/create', dbg, docs.create);
+  // app.post('/notifications/remove', dbg, notifications.remove);
 
   console.log('Routes Loaded');
   fn();

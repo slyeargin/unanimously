@@ -26,10 +26,12 @@ describe('campaigns', function(){
   });
 
   beforeEach(function(done){
-    global.nss.db.collection('users').drop(function(){
-      factory('user', function(users){
-        factory('campaign', function(campaigns){
-          done();
+    global.nss.db.collection('campaigns').drop(function(){
+      global.nss.db.collection('users').drop(function(){
+        factory('user', function(users){
+          factory('campaign', function(campaigns){
+            done();
+          });
         });
       });
     });

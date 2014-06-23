@@ -19,6 +19,7 @@ class Doc{
     doc.isFinal = false;
 
     docCollection.save(doc, ()=>{
+      console.log('Doc created!');
       fn(doc);
     });
   }
