@@ -1,0 +1,22 @@
+extends ../shared/template
+
+block content
+  div.col-sm-9.col-sm-offset-3.col-md-10.col-md-offset-2.main
+    h1#dashboard.page-header Edit Your Campaign
+
+    div.well
+      form#editContent.form-horizontal(action='/campaigns/edit', method='post')
+        .form-group
+          label.col-sm-2.control-label(for='campaignName') Campaign Name:
+          .col-sm-10
+            input#campaignName.form-control(name='name', type='text', placeholder='Campaign Name', value='#{campaign.name}')
+        .form-group
+          label.col-sm-2.control-label(for='campaignDescription') Campaign Description:
+          .col-sm-10
+            input#campaignDescription.form-control(name='medium', type='text', placeholder='Campaign Description', value='#{campaign.description}')
+        input.form-control(name='campaignId', type='hidden', value='#{campaign._id}')
+
+        button.btn.btn-default Update
+
+  div.col-sm-3.col-md-2.sidebar
+    include userinfo

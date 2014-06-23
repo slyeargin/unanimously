@@ -211,6 +211,23 @@ describe('campaigns', function(){
           done();
         });
       });
+    });
+
+    describe('POST /campaigns/edit', function(){
+      it('should post campaign updates', function(done){
+        request(app)
+        .post('/campaigns/edit')
+        .send('name=My Okay Ad Campaign')
+        .send('description=It\'s okay.')
+        .send('campaignId=4023456789abcdef01234567')
+        .set('cookie', cookie)
+        .end(function(err, res){
+          expect(res.status).to.equal(302);
+          expect(res.headers.location).to.equal('/campaigns/4023456789abcdef01234567');
+          done();
+        });
+      });
+    });
 
       // it('should NOT remove an editor from a campaign - user is owner', function(done){
       //   request(app)
@@ -254,7 +271,6 @@ describe('campaigns', function(){
       //   });
       // });
 
-    });
 
 
   }); // close auth

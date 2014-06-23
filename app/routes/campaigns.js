@@ -74,3 +74,17 @@ exports.removeEditor = (req, res)=>{
     }
   });
 };
+
+exports.edit = (req, res)=>{
+  Campaign.findById(req.params.id, campaign=>{
+    res.render('campaigns/editCampaign', {campaign: campaign, title: 'Edit Your Campaign'});
+  });
+};
+
+exports.update = (req, res)=> {
+  Campaign.findById(req.body.campaignId, campaign=>{
+    campaign.update(req.body, ()=>{
+      res.redirect('/campaigns/' + req.body.campaignId);
+    });
+  });
+};

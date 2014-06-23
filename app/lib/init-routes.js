@@ -42,8 +42,8 @@ function load(app, fn){
   app.post('/profile', dbg, users.update);
 
   app.post('/campaigns/create', dbg, campaigns.create);
-  // app.get('/campaigns/edit/:id', dbg, campaigns.edit);
-  // app.post('/campaigns/edit', dbg, campaigns.update);
+  app.get('/campaigns/edit/:id', dbg, campaigns.edit);
+  app.post('/campaigns/edit', dbg, campaigns.update);
   app.get('/campaigns/:id', dbg, campaigns.show);
   app.post('/campaigns/addEditor', dbg, campaigns.addEditor);
   app.post('/campaigns/removeEditor', dbg, campaigns.removeEditor);
