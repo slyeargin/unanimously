@@ -1,6 +1,7 @@
 var campaignCollection = global.nss.db.collection('campaigns');
 var request = require('request');
 var _ = require('lodash');
+var sanitizeHtml = require('sanitize-html');
 var Mongo = require('mongodb');
 var traceur = require('traceur');
 var async = require('async');
@@ -11,8 +12,18 @@ class Campaign{
   static create(obj, fn){
     var campaign = new Campaign();
     campaign._id = Mongo.ObjectID(obj._id);
-    campaign.name = obj.name;
-    campaign.description = obj.description;
+    campaign.name = sanitizeHtml(obj.name, {
+      allowedTags: [],
+      allowedAttributes: {},
+      selfClosing: [],
+      allowedSchemes: []
+    });
+    campaign.description = sanitizeHtml(obj.description, {
+      allowedTags: [],
+      allowedAttributes: {},
+      selfClosing: [],
+      allowedSchemes: []
+    });
     campaign.ownerId = Mongo.ObjectID(obj.ownerId);
     campaign.editorIds = obj.editorIds ? obj.editorIds : [];
 
@@ -105,10 +116,20 @@ class Campaign{
 
   update(obj, fn){
     if (obj.name.length){
-      this.name = obj.name;
+      this.name = sanitizeHtml(obj.name, {
+        allowedTags: [],
+        allowedAttributes: {},
+        selfClosing: [],
+        allowedSchemes: []
+      });
     }
     if (obj.description.length){
-      this.description = obj.description;
+      this.description = sanitizeHtml(obj.description, {
+        allowedTags: [],
+        allowedAttributes: {},
+        selfClosing: [],
+        allowedSchemes: []
+      });
     }
 
     campaignCollection.save(this, ()=>fn(this));

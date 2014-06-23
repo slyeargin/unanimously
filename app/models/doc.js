@@ -2,6 +2,7 @@ var docCollection = global.nss.db.collection('docs');
 // var request = require('request');
 var _ = require('lodash');
 var async = require('async');
+var sanitizeHtml = require('sanitize-html');
 var Mongo = require('mongodb');
 var traceur = require('traceur');
 var Base = traceur.require(__dirname + '/base.js');
@@ -12,8 +13,18 @@ class Doc{
     var doc = new Doc();
     doc._id = Mongo.ObjectID(obj._id);
     doc.projectId = Mongo.ObjectID(obj.projectId);
-    doc.copy = obj.copy;
-    doc.notes = obj.notes;
+    doc.copy = sanitizeHtml(obj.copy, {
+      allowedTags: [ 'b', 'i', 'em', 'strong' ],
+      allowedAttributes: {},
+      selfClosing: [],
+      allowedSchemes: []
+    });
+    doc.notes = sanitizeHtml(obj.notes, {
+      allowedTags: [],
+      allowedAttributes: {},
+      selfClosing: [],
+      allowedSchemes: []
+    });
     doc.creatorId = Mongo.ObjectID(obj.creatorId);
     doc.date = obj.date ? new Date(obj.date) : new Date();
     doc.isFinal = false;

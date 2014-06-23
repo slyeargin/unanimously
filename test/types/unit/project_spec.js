@@ -32,8 +32,8 @@ describe('Project', function(){
   describe('.create', function(){
     it('should successfully create a project', function(done){
       var fields = {
-        name: 'Amazing Magazine copy',
-        medium: 'Print',
+        name: 'Amazing <a href="">Magazine</a> copy',
+        medium: '<b>Print',
         notes: 'Print ad copy for the latest issue of Amazing Magazine'
       };
       var campaign = '4023456789abcdef01234567';

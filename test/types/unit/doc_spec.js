@@ -32,8 +32,8 @@ describe('Doc', function(){
   describe('.create', function(){
     it('should successfully create a doc', function(done){
       var fields = {
-        copy: 'A disability doesn’t hinder someone from being a productive and valuable employee. We’ve helped many people with disabilities find jobs — people like Jose.',
-        notes: 'Will run on July 30',
+        copy: 'A <strike>disability</strike> doesn’t hinder someone from being a productive and valuable employee. We’ve helped many people with disabilities find jobs — people like Jose.',
+        notes: '<b>Will run on July 30</b>',
         projectId: '6023456789abcdef01234567',
         creatorId: '0123456789abcdef01234569'
       };

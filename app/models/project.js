@@ -1,6 +1,7 @@
 var projectCollection = global.nss.db.collection('projects');
 // var request = require('request');
 var _ = require('lodash');
+var sanitizeHtml = require('sanitize-html');
 var Mongo = require('mongodb');
 var traceur = require('traceur');
 var Base = traceur.require(__dirname + '/base.js');
@@ -9,9 +10,24 @@ class Project{
   static create(obj, fn){
     var project = new Project();
     project._id = Mongo.ObjectID(obj._id);
-    project.name = obj.name;
-    project.medium = obj.medium;
-    project.notes = obj.notes;
+    project.name = sanitizeHtml(obj.name, {
+      allowedTags: [],
+      allowedAttributes: {},
+      selfClosing: [],
+      allowedSchemes: []
+    });
+    project.medium = sanitizeHtml(obj.medium, {
+      allowedTags: [],
+      allowedAttributes: {},
+      selfClosing: [],
+      allowedSchemes: []
+    });
+    project.notes = sanitizeHtml(obj.notes, {
+      allowedTags: [],
+      allowedAttributes: {},
+      selfClosing: [],
+      allowedSchemes: []
+    });
     project.campaignId = Mongo.ObjectID(obj.campaignId);
     //project.creatorId = Mongo.ObjectID(obj.creatorId);
 
@@ -40,13 +56,28 @@ class Project{
 
   update(obj, fn){
     if (obj.name.length){
-      this.name = obj.name;
+      this.name = sanitizeHtml(obj.name, {
+        allowedTags: [],
+        allowedAttributes: {},
+        selfClosing: [],
+        allowedSchemes: []
+      });
     }
     if (obj.medium.length){
-      this.medium = obj.medium;
+      this.medium = sanitizeHtml(obj.medium, {
+        allowedTags: [],
+        allowedAttributes: {},
+        selfClosing: [],
+        allowedSchemes: []
+      });
     }
     if (obj.notes.length){
-      this.notes = obj.notes;
+      this.notes = sanitizeHtml(obj.notes, {
+        allowedTags: [],
+        allowedAttributes: {},
+        selfClosing: [],
+        allowedSchemes: []
+      });
     }
 
     projectCollection.save(this, ()=>fn(this));

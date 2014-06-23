@@ -32,7 +32,8 @@
     "cookies":         "*",
     "async":           "*",
     "request":         "*",
-    "gravatar":        "*"
+    "gravatar":        "*",
+    "sanitize-html":   "*"
   },
   "devDependencies": {
     "grunt":                "*",

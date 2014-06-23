@@ -13,7 +13,7 @@ block content
         .form-group
           label.col-sm-2.control-label(for='campaignDescription') Campaign Description:
           .col-sm-10
-            input#campaignDescription.form-control(name='medium', type='text', placeholder='Campaign Description', value='#{campaign.description}')
+            input#campaignDescription.form-control(name='description', type='text', placeholder='Campaign Description', value='#{campaign.description}')
         input.form-control(name='campaignId', type='hidden', value='#{campaign._id}')
 
         button.btn.btn-default Update
