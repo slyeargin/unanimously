@@ -38,6 +38,9 @@ function load(app, fn){
   app.get('/logout', dbg, users.logout);
   app.get('/dashboard', dbg, users.dashboard);
 
+  app.get('/profile', dbg, users.profile);
+  app.post('/profile', dbg, users.update);
+
   app.post('/campaigns/create', dbg, campaigns.create);
   app.get('/campaigns/:id', dbg, campaigns.show);
   app.post('/campaigns/addEditor', dbg, campaigns.addEditor);

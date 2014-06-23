@@ -5,18 +5,22 @@ var User = traceur.require(__dirname + '/../models/user.js');
 var Campaign = traceur.require(__dirname + '/../models/campaign.js');
 var Invitation = traceur.require(__dirname + '/../models/invitation.js');
 
-exports.register = (req, res)=>{
-  res.render('users/register', {title: 'Register User'});
-};
-
 exports.validate = (req, res)=>{
   User.create(req.body, user=>{
     if(user){
-      res.redirect('/');
-    }else{
       res.redirect('/register');
+    }else{
+      res.redirect('/login');
     }
   });
+};
+
+exports.register = (req, res)=>{
+  if(res.locals.user){
+    res.redirect('/dashboard');
+  } else{
+    res.render('users/preverify', {title: 'Unanimously | Check Your E-mail'});
+  }
 };
 
 exports.lookup = (req, res, next)=>{
@@ -40,7 +44,11 @@ exports.bounce = (req, res, next)=>{
 exports.verify = (req, res)=>{
   User.findById(req.params.id, u=>{
     if(u){
-      res.render('users/verify', {u:u, title: 'User Verification'});
+      if (!u.isValid){
+        res.render('users/verify', {u:u, title: 'Unanimously | User Verification'});
+      } else {
+        res.redirect('/');
+      }
     }else{
       res.redirect('/');
     }
@@ -68,11 +76,23 @@ exports.verifyAccount = (req, res)=>{
   });
 };
 
+exports.profile = (req, res)=>{
+  res.render('users/editProfile', {title: 'Edit Your Profile'});
+};
+
+exports.update = (req, res)=> {
+  User.findById(req.session.userId, user=>{
+    user.update(req.body, ()=>{
+      res.redirect('/dashboard');
+    });
+  });
+};
+
 exports.login = (req, res)=>{
   if(res.locals.user){
     res.redirect('/dashboard');
   }else{
-    res.render('users/login', {title: 'User Login'});
+    res.render('users/login', {title: 'Unanimously | User Login'});
   }
 };
 
@@ -96,7 +116,7 @@ exports.logout = (req, res)=>{
 exports.dashboard = (req, res)=>{
   Campaign.findAllByOwnerId(res.locals.user._id, myCampaigns=>{
     Campaign.findAllByEditorIds(res.locals.user._id, otherCampaigns=>{
-      res.render('users/dashboard', {myCampaigns: myCampaigns, otherCampaigns: otherCampaigns, title: 'Unanimously | Dashboard'});
+      res.render('users/dashboard', {myCampaigns: myCampaigns, otherCampaigns: otherCampaigns, title: 'Dashboard'});
     });
   });
 };

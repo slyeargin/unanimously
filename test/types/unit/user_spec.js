@@ -65,6 +65,40 @@ describe('User', function(){
     });
   });
 
+  describe('#update', function(){
+    it('should successfully update a profile - name provided', function(done){
+      User.findById('0123456789abcdef01234568', function(user){
+        var fields = {
+          name: 'Test Change'
+        };
+        user.update(fields, function(u){
+          expect(u).to.be.ok;
+          expect(u).to.be.an.instanceof(User);
+          expect(u.name).to.equal('Test Change');
+          expect(u.email).to.equal('slyeargin+test3@gmail.com');
+          expect(u._id).to.be.an.instanceof(Mongo.ObjectID);
+          done();
+        });
+      });
+    });
+
+    it('should successfully update a profile - name provided', function(done){
+      User.findById('0123456789abcdef01234568', function(user){
+        var fields = {
+          name: ''
+        };
+        user.update(fields, function(u){
+          expect(u).to.be.ok;
+          expect(u).to.be.an.instanceof(User);
+          expect(u.name).to.equal('slyeargin+test3@gmail.com');
+          expect(u.email).to.equal('slyeargin+test3@gmail.com');
+          expect(u._id).to.be.an.instanceof(Mongo.ObjectID);
+          done();
+        });
+      });
+    });
+  });
+
   describe('.login', function(){
     it('should successfully login a user', function(done){
       User.login({email:'slyeargin+tester@gmail.com', password:'1234'}, function(u){

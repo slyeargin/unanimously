@@ -6,8 +6,9 @@ block content
       h1 Unanimous.ly
       p Write collaboratively.
       if(!user)
-        p
-          a.btn.btn-primary.btn-lg(role='button', href='/register') Sign up today »
+        form#register.form-inline(action='/register', method='post')
+          input#email.form-control.input-lg(name='email', type='email', placeholder='Your e-mail address', autofocus=true)
+          button.btn.btn-primary.btn-lg Sign up today »
   .container
     .row
       .col-md-4

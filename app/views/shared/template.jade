@@ -3,9 +3,9 @@ html
   head
     meta(charset='utf-8')
     meta(name='viewport', content='width=device-width, initial-scale=1')
-    title= title
+    title Unanimously | #{title}
     link(rel='stylesheet', href='//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css')
-    link(rel='stylesheet', href='http://getbootstrap.com/examples/dashboard/dashboard.css')
+    link(rel='stylesheet', href='/css/dashboard.css')
     link(href='/less/app.css', rel='stylesheet')
 
   body
@@ -17,20 +17,20 @@ html
               span.icon-bar
               span.icon-bar
               span.icon-bar
-          if(title !== 'Unanimously | Write collaboratively.')
+          if(title !== 'Write collaboratively.')
             a.navbar-brand(href='/') Unanimously
-        div.navbar-collapse.collapse.in
-          ul.nav.navbar-nav.navbar-right
-            if(!user)
-              if (title !== 'User Login')
-                form.navbar-form.navbar-right(action='/login', method='post')
-                  .form-group
-                    input.form-control(name='email', required='required', type='text', placeholder='E-mail')
-                  .form-group
-                    input.form-control(name='password', required='required', type='password', placeholder='Password')
-                  button.btn.btn-success Sign in
-            if(user)
-              if (title !== 'Unanimously | Dashboard')
+        div.navbar-collapse.collapse
+          if(!user)
+            if (title !== 'User Login')
+              form.navbar-form.navbar-right(action='/login', method='post')
+                .form-group
+                  input.form-control(name='email', required='required', type='text', placeholder='E-mail')
+                .form-group
+                  input.form-control(name='password', required='required', type='password', placeholder='Password')
+                button.btn.btn-success Sign in
+          if(user)
+            ul.nav.navbar-nav.navbar-right
+              if (title !== 'Dashboard')
                 li
                   a(href='/dashboard') Dashboard
               li.dropdown
@@ -40,8 +40,6 @@ html
                   ul.dropdown-menu
                     li
                       a(href='/profile') Edit profile
-                    li
-                      a(href='#') Change e-mail address
                     li.divider
                     li
                       a(href='/logout') Logout

@@ -1,0 +1,21 @@
+extends ../shared/template
+
+block content
+  div.col-sm-9.col-sm-offset-3.col-md-10.col-md-offset-2.main
+    h1#dashboard.page-header Edit Your Profile
+
+    div.well
+      form#editContent.form-horizontal(action='/profile', method='post')
+        .form-group
+          label.col-sm-2.control-label(for='username') Your Name:
+          .col-sm-10
+            input#username.form-control(name='name', type='text', placeholder='Your Name', value='#{user.name}')
+        .form-group
+          label.col-sm-2.control-label Your photo:
+          .col-sm-10
+            p Unanimous.ly uses Gravatar for user photos. To upload or change yours, #[a(href='http://en.gravatar.com/') visit their website].
+
+        button.btn.btn-default Update
+
+  div.col-sm-3.col-md-2.sidebar
+    include userinfo

@@ -32,7 +32,7 @@ describe('users', function(){
   });
 
   describe('GET /register', function(){
-    it('should show the registration page', function(done){
+    it('should show the registration confirmation page', function(done){
       request(app)
       .get('/register')
       .end(function(err, res){
@@ -49,7 +49,7 @@ describe('users', function(){
       .send('email=slyeargin+test6@gmail.com')
       .end(function(err, res){
         expect(res.status).to.equal(302);
-        expect(res.headers.location).to.equal('/');
+        expect(res.headers.location).to.equal('/register');
         done();
       });
     });
@@ -60,7 +60,7 @@ describe('users', function(){
       .send('email=samantha@yearg.in')
       .end(function(err, res){
         expect(res.status).to.equal(302);
-        expect(res.headers.location).to.equal('/register');
+        expect(res.headers.location).to.equal('/login');
         done();
       });
     });
@@ -199,6 +199,45 @@ describe('users', function(){
       it('should NOT show the login page - already logged in', function(done){
         request(app)
         .get('/login')
+        .set('cookie', cookie)
+        .end(function(err, res){
+          expect(res.status).to.equal(302);
+          expect(res.headers.location).to.equal('/dashboard');
+          done();
+        });
+      });
+    });
+
+    describe('GET /register', function(){
+      it('should not show the registration confirmation page - logged in', function(done){
+        request(app)
+        .get('/register')
+        .set('cookie', cookie)
+        .end(function(err, res){
+          expect(res.status).to.equal(302);
+          expect(res.headers.location).to.equal('/dashboard');
+          done();
+        });
+      });
+    });
+
+    describe('GET /profile', function(){
+      it('should show the profile edit page', function(done){
+        request(app)
+        .get('/profile')
+        .set('cookie', cookie)
+        .end(function(err, res){
+          expect(res.status).to.equal(200);
+          done();
+        });
+      });
+    });
+
+    describe('POST /profile', function(){
+      it('should post profile updates', function(done){
+        request(app)
+        .post('/profile')
+        .send('name=Samantha Yeargin')
         .set('cookie', cookie)
         .end(function(err, res){
           expect(res.status).to.equal(302);

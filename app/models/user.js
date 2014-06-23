@@ -74,6 +74,12 @@ class User{
       fn(null);
     }
   }
+
+  update(obj, fn){
+    this.name = obj.name.length ? obj.name : this.email;
+
+    userCollection.save(this, ()=>fn(this));
+  }
 }
 
 function sendVerificationEmail(user, fn){
