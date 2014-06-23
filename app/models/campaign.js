@@ -36,12 +36,12 @@ class Campaign{
     campaignCollection.findOne({_id:id}, (e,campaign)=>{
       if(campaign){
         campaign = _.create(Campaign.prototype, campaign);
-        User.findById(campaign.ownerId, user=>{
-          campaign.owner = user;
-        });
         async.map(campaign.editorIds, addEditorInfo, (e, editors)=>{
           campaign.editors = editors;
-          fn(campaign);
+          User.findById(campaign.ownerId, user=>{
+            campaign.owner = user;
+            fn(campaign);
+          });
         });
       }else{
         fn(null);
