@@ -123,6 +123,40 @@ describe('campaigns', function(){
       });
     });
 
+    describe('GET /projects/edit/:id', function(){
+      it('should show an individual project edit page', function(done){
+        request(app)
+        .get('/projects/edit/6023456789abcdef01234567')
+        .set('cookie', cookie)
+        .end(function(err, res){
+          expect(res.status).to.equal(200);
+          expect(res.text).to.include('Edit Your Project');
+          done();
+        });
+      });
+
+      it('should NOT show an individual project edit page - not logged in', function(done){
+        request(app)
+        .get('/campaigns/edit/4023456789abcdef01234567')
+        .end(function(err, res){
+          expect(res.status).to.equal(302);
+          expect(res.headers.location).to.equal('/login');
+          done();
+        });
+      });
+
+      it('should NOT show an individual project edit page - logged in but invalid project ID', function(done){
+        request(app)
+        .get('/projects/edit/wrongId')
+        .set('cookie', cookie)
+        .end(function(err, res){
+          expect(res.status).to.equal(302);
+          expect(res.headers.location).to.equal('/dashboard');
+          done();
+        });
+      });
+    });
+
     describe('POST /projects/edit', function(){
       it('should post project updates', function(done){
         request(app)

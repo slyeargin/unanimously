@@ -76,8 +76,14 @@ exports.removeEditor = (req, res)=>{
 };
 
 exports.edit = (req, res)=>{
+  console.log('Req.params.id');
+  console.log(req.params.id);
   Campaign.findById(req.params.id, campaign=>{
-    res.render('campaigns/editCampaign', {campaign: campaign, title: 'Edit Your Campaign'});
+    if(campaign){
+      res.render('campaigns/editCampaign', {campaign: campaign, title: 'Edit Your Campaign'});
+    } else {
+      res.redirect('/dashboard');
+    }
   });
 };
 

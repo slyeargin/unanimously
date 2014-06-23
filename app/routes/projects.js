@@ -28,7 +28,11 @@ exports.show = (req, res)=>{
 
 exports.edit = (req, res)=>{
   Project.findById(req.params.id, project=>{
-    res.render('projects/editProject', {project: project, title: 'Edit Your Project'});
+    if(project){
+      res.render('projects/editProject', {project: project, title: 'Edit Your Project'});
+    } else {
+      res.redirect('/dashboard');
+    }
   });
 };
 

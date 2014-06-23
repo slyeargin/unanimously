@@ -213,6 +213,40 @@ describe('campaigns', function(){
       });
     });
 
+    describe('GET /campaigns/edit/:id', function(){
+      it('should show an individual campaign edit page', function(done){
+        request(app)
+        .get('/campaigns/edit/4023456789abcdef01234567')
+        .set('cookie', cookie)
+        .end(function(err, res){
+          expect(res.status).to.equal(200);
+          expect(res.text).to.include('Edit Your Campaign');
+          done();
+        });
+      });
+
+      it('should NOT show an individual campaign edit page - not logged in', function(done){
+        request(app)
+        .get('/campaigns/edit/4023456789abcdef01234567')
+        .end(function(err, res){
+          expect(res.status).to.equal(302);
+          expect(res.headers.location).to.equal('/login');
+          done();
+        });
+      });
+
+      it('should NOT show an individual campaign edit page - logged in but invalid campaign ID', function(done){
+        request(app)
+        .get('/campaigns/edit/wrongId')
+        .set('cookie', cookie)
+        .end(function(err, res){
+          expect(res.status).to.equal(302);
+          expect(res.headers.location).to.equal('/dashboard');
+          done();
+        });
+      });
+    });
+
     describe('POST /campaigns/edit', function(){
       it('should post campaign updates', function(done){
         request(app)
