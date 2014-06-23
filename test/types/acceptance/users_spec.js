@@ -198,6 +198,7 @@ describe('users', function(){
       it('should NOT show the login page - already logged in', function(done){
         request(app)
         .get('/login')
+        .set('cookie', cookie)
         .end(function(err, res){
           expect(res.status).to.equal(302);
           expect(res.headers.location).to.equal('/dashboard');
@@ -221,7 +222,7 @@ describe('users', function(){
         request(app)
         .get('/dashboard')
         .end(function(err, res){
-          // expect(res.status).to.equal(302);
+          expect(res.status).to.equal(302);
           expect(res.headers.location).to.equal('/login');
           done();
         });
