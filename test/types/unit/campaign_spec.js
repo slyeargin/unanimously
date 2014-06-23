@@ -268,27 +268,25 @@ describe('Campaign', function(){
       });
     });
 
-    // it('should NOT remove an editor to a campaign - user is campaign owner', function(done){
-    //   User.findById('0123456789abcdef01234567', function(user){
-    //     Campaign.findById('4023456789abcdef01234567', function(campaign){
-    //       campaign.addEditor(user, function(u){
-    //         expect(u).to.be.null;
-    //         done();
-    //       });
-    //     });
-    //   });
-    // });
-    //
-    // it('should NOT add an editor to a campaign - user already an editor', function(done){
-    //   User.findById('0123456789abcdef01234569', function(user){
-    //     Campaign.findById('4023456789abcdef01234567', function(campaign){
-    //       campaign.addEditor(user, function(u){
-    //         expect(u).to.be.null;
-    //         done();
-    //       });
-    //     });
-    //   });
-    // });
+    describe('#update', function(){
+      it('should successfully update a campaign', function(done){
+        var fields = {
+          name: 'My Okay Ad Campaign',
+          description: 'It\'s okay.',
+        };
+        Campaign.findById('4023456789abcdef01234567', function(campaign){
+          campaign.update(fields, function(c){
+            expect(c).to.be.ok;
+            expect(c).to.be.instanceof(Campaign);
+            expect(c.name).to.equal('My Okay Ad Campaign');
+            expect(c.description).to.equal('It\'s okay.');
+            expect(c._id.toString()).to.deep.equal('4023456789abcdef01234567');
+            expect(c.ownerId.toString()).to.deep.equal('0123456789abcdef01234567');
+            done();
+          });
+        });
+      });
+    });
   });
 
 

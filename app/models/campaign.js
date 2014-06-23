@@ -102,6 +102,17 @@ class Campaign{
     console.log(this);
     campaignCollection.save(this, ()=>fn(this));
   }
+
+  update(obj, fn){
+    if (obj.name.length){
+      this.name = obj.name;
+    }
+    if (obj.description.length){
+      this.description = obj.description;
+    }
+
+    campaignCollection.save(this, ()=>fn(this));
+  }
 }
 
 function addEditorInfo(id, fn){
