@@ -247,6 +247,42 @@ describe('users', function(){
     });
   });
 
+  describe('GET /forgot', function(){
+    it('should show the forgotten password page', function(done){
+      request(app)
+      .get('/forgot')
+      .end(function(err, res){
+        expect(res.status).to.equal(200);
+        expect(res.text).to.include('Please enter your e-mail address.');
+        done();
+      });
+    });
+  });
+
+  describe('POST /forgot', function(){
+    it('sends a user a password reset email', function(done){
+      request(app)
+      .post('/forgot')
+      .send('email=samantha@yearg.in')
+      .end(function(err, res){
+        expect(res.status).to.equal(302);
+        expect(res.headers.location).to.equal('/login');
+        done();
+      });
+    });
+
+    it('doesn\'t send an e-mail - user does not exist', function(done){
+      request(app)
+      .post('/forgot')
+      .send('email=slyeargin+notinsystem@gmail.com')
+      .end(function(err, res){
+        expect(res.status).to.equal(302);
+        expect(res.headers.location).to.equal('/');
+        done();
+      });
+    });
+  });
+
   describe('Authentication', function(){
     var cookie;
 
@@ -281,6 +317,19 @@ describe('users', function(){
       it('should not show the registration confirmation page - logged in', function(done){
         request(app)
         .get('/register')
+        .set('cookie', cookie)
+        .end(function(err, res){
+          expect(res.status).to.equal(302);
+          expect(res.headers.location).to.equal('/dashboard');
+          done();
+        });
+      });
+    });
+
+    describe('GET /forgot', function(){
+      it('should not show the forgotten password page - logged in', function(done){
+        request(app)
+        .get('/forgot')
         .set('cookie', cookie)
         .end(function(err, res){
           expect(res.status).to.equal(302);

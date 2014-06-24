@@ -76,15 +76,19 @@ exports.password = (req, res)=>{
 };
 
 exports.forgot = (req, res)=>{
-  res.render('users/forgot', {title: 'Reset Your Password'});
+  if(res.locals.user){
+    res.redirect('/dashboard');
+  } else{
+    res.render('users/forgot', {title: 'Reset Your Password'});
+  }
 };
 
 exports.getreset = (req, res)=>{
   User.findByEmail(req.body.email, u=>{
     if(u){
-      User.reset(u, ()=>res.redirect('/logout'));
+      User.reset(u, ()=>res.redirect('/login'));
     } else {
-      res.redirect('/logout');
+      res.redirect('/');
     }
   });
 };
