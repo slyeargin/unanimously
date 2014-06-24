@@ -221,8 +221,6 @@ describe('users', function(){
     });
   });
 
-  // app.post('/changepassword', dbg, users.changePassword);
-
   describe('POST /changepassword', function(){
     it('should change a user password', function(done){
       request(app)
@@ -309,6 +307,7 @@ describe('users', function(){
         request(app)
         .post('/profile')
         .send('name=Samantha Yeargin')
+        .send('email=samantha@yearg.in')
         .set('cookie', cookie)
         .end(function(err, res){
           expect(res.status).to.equal(302);

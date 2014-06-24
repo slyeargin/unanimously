@@ -81,10 +81,53 @@ class User{
   }
 
   update(obj, fn){
-    this.name = obj.name.length ? obj.name : this.email;
-
-    userCollection.save(this, ()=>fn(this));
+    console.log('What is this?');
+    console.log(this);
+    if (!obj.name.length && !obj.email.length){fn(this); return;}
+    this.name = obj.name.length ? obj.name : obj.email;
+    console.log(this.name);
+    console.log('Obj.email.length? ');
+    console.log(obj.email.length);
+    if (obj.email.length){
+      console.log('Something was sent over.  What was it?');
+      console.log(obj.email);
+      if(this.email !== obj.email){
+        console.log('Not the old one.');
+        var user = this;
+        user.newEmail = obj.email;
+        console.log('User object: ');
+        console.log(user);
+        this.email = obj.email;
+        this.photo = gravatar.url(user.email, {s: '200', r: 'pg', d: 'mm'}, false);
+        console.log('What is this, again?');
+        console.log(this);
+        userCollection.save(this, ()=>{
+          console.log('Can I see the user object? ');
+          console.log(user);
+          sendChangeNotification(user, fn);
+        });
+      } else {
+        userCollection.save(this, ()=>fn(this));
+      }
+    } else {
+      userCollection.save(this, ()=>fn(this));
+    }
   }
+}
+
+function sendChangeNotification(user, fn){
+  'use strict';
+  var key = process.env.MAILGUN;
+  var url = 'https://api:' + key + '@api.mailgun.net/v2/sandboxcf74801602ec4522bb675027e5f4e47c.mailgun.org/messages'; //sandbox... is my subdomain they gave me, if add my website, then it would go there
+  var post = request.post(url, function(err, response, body){
+    fn(user);
+  });
+
+  var form = post.form();
+  form.append('from', 'admin@slyeargin.com');
+  form.append('to', user.email);
+  form.append('subject', 'Important: Your e-mail address was changed on Unanimous.ly.');
+  form.append('html', 'Your e-mail address was changed to ' + user.newEmail + '.  If you did not make this change, please reply to this e-mail.');
 }
 
 function sendResetEmail(user, fn){

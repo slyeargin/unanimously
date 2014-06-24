@@ -98,10 +98,11 @@ describe('User', function(){
   });
 
   describe('#update', function(){
-    it('should successfully update a profile - name provided', function(done){
+    it('should successfully update a profile - name provided, blank e-mail', function(done){
       User.findById('0123456789abcdef01234568', function(user){
         var fields = {
-          name: 'Test Change'
+          name: 'Test Change',
+          email: ''
         };
         user.update(fields, function(u){
           expect(u).to.be.ok;
@@ -114,16 +115,34 @@ describe('User', function(){
       });
     });
 
-    it('should successfully update a profile - name provided', function(done){
+    it('should successfully update a profile - nothing new provided', function(done){
       User.findById('0123456789abcdef01234568', function(user){
         var fields = {
-          name: ''
+          name: '',
+          email: ''
         };
         user.update(fields, function(u){
           expect(u).to.be.ok;
           expect(u).to.be.an.instanceof(User);
           expect(u.name).to.equal('slyeargin+test3@gmail.com');
           expect(u.email).to.equal('slyeargin+test3@gmail.com');
+          expect(u._id).to.be.an.instanceof(Mongo.ObjectID);
+          done();
+        });
+      });
+    });
+
+    it('should successfully update a profile - new e-mail provided', function(done){
+      User.findById('0123456789abcdef01234568', function(user){
+        var fields = {
+          name: '',
+          email: 'slyeargin+testingchange@gmail.com'
+        };
+        user.update(fields, function(u){
+          expect(u).to.be.ok;
+          expect(u).to.be.an.instanceof(User);
+          expect(u.name).to.equal('slyeargin+testingchange@gmail.com');
+          expect(u.newEmail).to.equal('slyeargin+testingchange@gmail.com');
           expect(u._id).to.be.an.instanceof(Mongo.ObjectID);
           done();
         });

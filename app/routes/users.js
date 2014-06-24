@@ -121,7 +121,9 @@ exports.profile = (req, res)=>{
 
 exports.update = (req, res)=> {
   User.findById(req.session.userId, user=>{
+    console.log('Found user!');
     user.update(req.body, ()=>{
+      console.log('Dashboardt');
       res.redirect('/dashboard');
     });
   });

@@ -14,6 +14,11 @@ block content
           label.col-sm-2.control-label Your photo:
           .col-sm-10
             p Unanimous.ly uses Gravatar for user photos. To upload or change yours, #[a(href='http://en.gravatar.com/') visit their website].
+        .form-group
+          label.col-sm-2.control-label Your e-mail address:
+          .col-sm-10
+            input#username.form-control(name='email', type='email', placeholder='Your E-mail Address', value='#{user.email}')
+            span.help-block Note: Changing your e-mail address will change your Gravatar photo.
 
         button.btn.btn-default Update
 
