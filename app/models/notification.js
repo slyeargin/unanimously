@@ -1,5 +1,6 @@
 var notificationCollection = global.nss.db.collection('notifications');
 // var request = require('request');
+var async = require('async');
 var _ = require('lodash');
 var Mongo = require('mongodb');
 var traceur = require('traceur');
@@ -37,21 +38,19 @@ class Notification{
     });
   }
 
-  // static duplicateCheck(id, campaignId, fn){
-  //   if(!id || !campaignId){fn(null); return;}
-  //   var dupCheck = {
-  //     recipientId: id,
-  //     campaignId: Mongo.ObjectID(campaignId)
-  //   };
-  //
-  //   notificationCollection.findOne(dupCheck, (e,o)=>{
-  //     if(o){
-  //       fn(o);
-  //     }else{
-  //       fn(null);
-  //     }
-  //   });
-  // }
+  static buildList(doc, campaign, fn){
+    var notifylist = [];
+    var dup = _.contains(campaign.editorIds, doc.creatorId.toString());
+    if(dup === false){
+      notifylist = campaign.editorIds;
+    }else{
+      notifylist = _.without(campaign.editorIds, doc.creatorId.toString());
+      notifylist.push(campaign.ownerId);
+    }
+    var objs = notifylist.map(n=> n = {recipientId: n, docId: doc._id});
+    async.map(objs, creationIterator, (e,objs)=>fn(objs));
+  }
+
 
   remove(fn){
     notificationCollection.findAndRemove({_id:this._id}, notification=>{
@@ -60,6 +59,13 @@ class Notification{
   }
 
 }
+
+function creationIterator(obj, fn){
+  'use strict';
+
+  Notification.create(obj, obj=>fn(null, obj));
+}
+
 
 // function sendAddNoticeEmail(notification, fn){
 //   'use strict';

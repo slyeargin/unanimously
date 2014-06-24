@@ -4,6 +4,8 @@ var traceur = require('traceur');
 var User = traceur.require(__dirname + '/../models/user.js');
 var Campaign = traceur.require(__dirname + '/../models/campaign.js');
 var Invitation = traceur.require(__dirname + '/../models/invitation.js');
+var Notification = traceur.require(__dirname + '/../models/notification.js');
+
 
 exports.validate = (req, res)=>{
   User.create(req.body, user=>{
@@ -173,7 +175,9 @@ exports.logout = (req, res)=>{
 exports.dashboard = (req, res)=>{
   Campaign.findAllByOwnerId(res.locals.user._id, myCampaigns=>{
     Campaign.findAllByEditorIds(res.locals.user._id, otherCampaigns=>{
-      res.render('users/dashboard', {myCampaigns: myCampaigns, otherCampaigns: otherCampaigns, title: 'Dashboard'});
+      Notification.findAllByRecipientId(res.locals.user._id, notifications=>{
+        res.render('users/dashboard', {myCampaigns: myCampaigns, otherCampaigns: otherCampaigns, notifications: notifications, title: 'Dashboard'});
+      });
     });
   });
 };
