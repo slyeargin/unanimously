@@ -58,18 +58,24 @@ exports.verify = (req, res)=>{
 exports.verifyAccount = (req, res)=>{
   User.findById(req.params.id, user=>{
     if(user){
-      user.changePassword(req.body.password, user=>{
-        Invitation.findAllByInviteeEmail(user, invites=>{
-          if(invites){
-            invites = invites.map(i=>{
-              Campaign.findById(i.campaignId, campaign=>{
-                campaign.addEditor(user, ()=>i.remove());
-              });
+      if (!user.isValid){
+        user.update(req.body, ()=>{
+          user.changePassword(req.body.password, user=>{
+            Invitation.findAllByInviteeEmail(user, invites=>{
+              if(invites){
+                invites = invites.map(i=>{
+                  Campaign.findById(i.campaignId, campaign=>{
+                    campaign.addEditor(user, ()=>i.remove());
+                  });
+                });
+              }
+              res.redirect('/login');
             });
-          }
-          res.redirect('/login');
+          });
         });
-      });
+      } else {
+        res.redirect('/login');
+      }
     } else {
       res.redirect('/');
     }

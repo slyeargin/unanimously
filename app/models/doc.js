@@ -39,8 +39,6 @@ class Doc{
   }
 
   static findAllByProjectId(id, fn){
-    console.log('Id: ');
-    console.log(id);
     if(typeof id === 'string'){
       if(id.length !== 24){fn(null); return;}
       id = Mongo.ObjectID(id);
