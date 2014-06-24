@@ -2,6 +2,7 @@
 
 var traceur = require('traceur');
 var _ = require('lodash');
+var moment = require('moment');
 // var User = traceur.require(__dirname + '/../models/user.js');
 var Campaign = traceur.require(__dirname + '/../models/campaign.js');
 var Project = traceur.require(__dirname + '/../models/project.js');
@@ -20,9 +21,9 @@ exports.show = (req, res)=>{
         Campaign.findByIdFullObject(project.campaignId, campaign=>{
           var edCheck = _.contains(campaign.editorIds, req.session.userId);
           if (req.session.userId === campaign.ownerId.toString()){
-            res.render('projects/show', {campaign: campaign, project:project, docs:docs, title: 'Project: ' + project.name});
+            res.render('projects/show', {moment: moment, campaign: campaign, project:project, docs:docs, title: 'Project: ' + project.name});
           } else if (edCheck){
-            res.render('projects/show', {campaign: campaign, project:project, docs:docs, title: 'Project: ' + project.name});
+            res.render('projects/show', {moment: moment, campaign: campaign, project:project, docs:docs, title: 'Project: ' + project.name});
           } else {
             res.redirect('/dashboard');
           }

@@ -43,7 +43,8 @@ block content
                   a(data-toggle='collapse', data-parent='#accordion', href=linkname)
                     img(src='#{doc.creator.photo}', class='doclist')
                     | #{doc.creator.name} wrote:
-                    span(class='timestamp') #{doc.date.toDateString()}
+                    span(class='timestamp') #{moment(doc.date).fromNow()  }
+                    //- span(class='timestamp') #{doc.date.toDateString()}
 
               div(id=divname class=(x == 1) ? 'panel-collapse collapse in' : 'panel-collapse collapse')
                 .panel-body
