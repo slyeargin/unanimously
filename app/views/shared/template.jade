@@ -3,6 +3,8 @@ html
   head
     meta(charset='utf-8')
     meta(name='viewport', content='width=device-width, initial-scale=1')
+    link(rel='shortcut icon', href='/img/favicon.ico')
+
     title Unanimously | #{title}
     link(rel='stylesheet', href='//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css')
     link(rel='stylesheet', href='/css/dashboard.css')
@@ -19,7 +21,8 @@ html
               span.icon-bar
               span.icon-bar
           if(title !== 'Write collaboratively.')
-            a.navbar-brand(href='/') Unanimously
+            a.navbar-brand(href='/')
+              img(src='/img/logo.svg', alt='Unanimous.ly')
         div.navbar-collapse.collapse
           if(!user)
             if (title !== 'User Login')
@@ -32,7 +35,7 @@ html
           if(user)
             ul.nav.navbar-nav.navbar-right
               if (title !== 'Dashboard')
-                li
+                li.dashboard
                   a(href='/dashboard') Dashboard
               li.dropdown
                 a.dropdown-toggle(href='#', data-toggle='dropdown')
