@@ -55,6 +55,39 @@ exports.verify = (req, res)=>{
   });
 };
 
+exports.reset = (req, res)=>{
+  User.findById(req.params.id, u=>{
+    if(u){
+      User.reset(u, ()=>res.redirect('/logout'));
+    } else {
+      res.redirect('/logout');
+    }
+  });
+};
+
+exports.password = (req, res)=>{
+  User.findById(req.params.id, u=>{
+    if(u){
+      res.render('users/reset', {user:u, title: 'Reset Your Password'});
+    } else {
+      res.redirect('/');
+    }
+  });
+};
+
+exports.changePassword = (req, res)=>{
+  User.findById(req.body.userId, user=>{
+    if(user){
+      user.changePassword(req.body.password, ()=>{
+        res.redirect('/login');
+      });
+    } else {
+      res.redirect('/');
+    }
+  });
+};
+
+
 exports.verifyAccount = (req, res)=>{
   User.findById(req.params.id, user=>{
     if(user){

@@ -17,5 +17,9 @@ block content
 
         button.btn.btn-default Update
 
+    div.well
+      form#resetPassword(action='/reset/#{user._id}', method='post')
+        button#resetPassword.btn.btn-primary.btn-lg Reset Your Password
+
   div.col-sm-3.col-md-2.sidebar
     include userinfo

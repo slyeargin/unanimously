@@ -63,6 +63,11 @@ class User{
     });
   }
 
+  static reset(user, fn){
+    if(!user){fn(null); return;}
+    sendResetEmail(user, fn);
+  }
+
   changePassword(password, fn){
     if(this){
       this.password = bcrypt.hashSync(password, 8);
@@ -80,6 +85,21 @@ class User{
 
     userCollection.save(this, ()=>fn(this));
   }
+}
+
+function sendResetEmail(user, fn){
+  'use strict';
+  var key = process.env.MAILGUN;
+  var url = 'https://api:' + key + '@api.mailgun.net/v2/sandboxcf74801602ec4522bb675027e5f4e47c.mailgun.org/messages'; //sandbox... is my subdomain they gave me, if add my website, then it would go there
+  var post = request.post(url, function(err, response, body){
+    fn(user);
+  });
+
+  var form = post.form();
+  form.append('from', 'admin@slyeargin.com');
+  form.append('to', user.email);
+  form.append('subject', 'Your password change request.');
+  form.append('html', '<a href="http://localhost:4000/reset/' + user._id + '">Reset your password.</a>');
 }
 
 function sendVerificationEmail(user, fn){
