@@ -1,4 +1,7 @@
 form(action='/campaigns/removeEditor', method='post')
   input(name='editorId', type='hidden', value='#{editor._id}')
   input(name='campaignId', type='hidden', value='#{campaign._id}')
-  button.close(aria-hidden='true') ×
+  if user._id.equals(editor._id)
+    button.close(title='Remove me from this campaign', aria-hidden='true') ×
+  if user._id.equals(campaign.ownerId)
+    button.close(title='Remove this editor from this campaign', aria-hidden='true') ×
