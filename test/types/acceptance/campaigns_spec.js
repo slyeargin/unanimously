@@ -53,13 +53,103 @@ describe('campaigns', function(){
     });
 
     describe('GET /campaigns/:id', function(){
+      it('should NOT show an individual campaign page - wrong user logged in', function(done){
+        request(app)
+        .get('/campaigns/4023456789abcdef01234567')
+        .set('cookie', cookie)
+        .end(function(err, res){
+          expect(res.status).to.equal(302);
+          expect(res.headers.location).to.equal('/dashboard');
+          done();
+        });
+      });
+    });
+
+    describe('GET /campaigns/edit/:id', function(){
+      it('should NOT show an individual campaign edit page - wrong user logged in', function(done){
+        request(app)
+        .get('/campaigns/edit/4023456789abcdef01234567')
+        .set('cookie', cookie)
+        .end(function(err, res){
+          expect(res.status).to.equal(302);
+          expect(res.headers.location).to.equal('/dashboard');
+          done();
+        });
+      });
+    });
+  });
+
+  describe('Authentication', function(){
+    var cookie;
+
+    beforeEach(function(done){
+      request(app)
+      .post('/login')
+      .send('email=stephen.yeargin@gmail.com')
+      .send('password=1234')
+      .end(function(err, res){
+        var cookies = res.headers['set-cookie'];
+        var one = cookies[0].split(';')[0];
+        var two = cookies[1].split(';')[0];
+        cookie = one + '; ' + two;
+        done();
+      });
+    });
+
+    describe('GET /campaigns/:id', function(){
+      it('should show an individual campaign page - editor logged in', function(done){
+        request(app)
+        .get('/campaigns/4023456789abcdef01234567')
+        .set('cookie', cookie)
+        .end(function(err, res){
+          expect(res.status).to.equal(200);
+          expect(res.text).to.include('SM Yeargin');
+          expect(res.text).to.include('My Fantastic Ad Campaign');
+          done();
+        });
+      });
+    });
+
+    describe('GET /campaigns/edit/:id', function(){
+      it('should NOT show an individual campaign edit page - editor logged in', function(done){
+        request(app)
+        .get('/campaigns/edit/4023456789abcdef01234567')
+        .set('cookie', cookie)
+        .end(function(err, res){
+          expect(res.status).to.equal(302);
+          expect(res.headers.location).to.equal('/dashboard');
+          done();
+        });
+      });
+    });
+
+  });
+
+  describe('Authentication', function(){
+    var cookie;
+
+    beforeEach(function(done){
+      request(app)
+      .post('/login')
+      .send('email=slyeargin@gmail.com')
+      .send('password=1234')
+      .end(function(err, res){
+        var cookies = res.headers['set-cookie'];
+        var one = cookies[0].split(';')[0];
+        var two = cookies[1].split(';')[0];
+        cookie = one + '; ' + two;
+        done();
+      });
+    });
+
+    describe('GET /campaigns/:id', function(){
       it('should show an individual campaign page', function(done){
         request(app)
         .get('/campaigns/4023456789abcdef01234567')
         .set('cookie', cookie)
         .end(function(err, res){
           expect(res.status).to.equal(200);
-          expect(res.text).to.include('Samantha Y.');
+          expect(res.text).to.include('S. Yeargin');
           expect(res.text).to.include('My Fantastic Ad Campaign');
           done();
         });
@@ -262,49 +352,6 @@ describe('campaigns', function(){
         });
       });
     });
-
-      // it('should NOT remove an editor from a campaign - user is owner', function(done){
-      //   request(app)
-      //   .post('/campaigns/addEditor')
-      //   .set('cookie', cookie)
-      //   .send('email=slyeargin@gmail.com')
-      //   .send('campaignId=4023456789abcdef01234567')
-      //   .send('from=0123456789abcdef01234567')
-      //   .end(function(err, res){
-      //     expect(res.status).to.equal(302);
-      //     expect(res.headers.location).to.equal('/campaigns/4023456789abcdef01234567');
-      //     done();
-      //   });
-      // });
-      //
-      // it('should NOT add an existing user to a campaign - user is already an editor', function(done){
-      //   request(app)
-      //   .post('/campaigns/addEditor')
-      //   .set('cookie', cookie)
-      //   .send('email=slyeargin@gmail.com')
-      //   .send('campaignId=4023456789abcdef01234567')
-      //   .send('from=0123456789abcdef01234567')
-      //   .end(function(err, res){
-      //     expect(res.status).to.equal(302);
-      //     expect(res.headers.location).to.equal('/campaigns/4023456789abcdef01234567');
-      //     done();
-      //   });
-      // });
-      //
-      // it('should invite a new user to campaign', function(done){
-      //   request(app)
-      //   .post('/campaigns/addEditor')
-      //   .set('cookie', cookie)
-      //   .send('email=slyeargin@gmail.com')
-      //   .send('campaignId=4023456789abcdef01234567')
-      //   .send('from=0123456789abcdef01234567')
-      //   .end(function(err, res){
-      //     expect(res.status).to.equal(302);
-      //     expect(res.headers.location).to.equal('/campaigns/4023456789abcdef01234567');
-      //     done();
-      //   });
-      // });
-
 
 
   }); // close auth

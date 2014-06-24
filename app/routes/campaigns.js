@@ -1,5 +1,6 @@
 'use strict';
 
+var _ = require('lodash');
 var traceur = require('traceur');
 var User = traceur.require(__dirname + '/../models/user.js');
 var Campaign = traceur.require(__dirname + '/../models/campaign.js');
@@ -15,9 +16,18 @@ exports.create = (req, res)=>{
 exports.show = (req, res)=>{
   Campaign.findByIdFullObject(req.params.id, campaign=>{
     if(campaign){
-      Project.findAllByCampaignId(campaign._id, projects=>{
-        res.render('campaigns/show', {campaign:campaign, projects:projects, title: 'Campaign: ' + campaign.name});
-      });
+      var edCheck = _.contains(campaign.editorIds, req.session.userId);
+      if (req.session.userId === campaign.ownerId.toString()){
+        Project.findAllByCampaignId(campaign._id, projects=>{
+          res.render('campaigns/show', {campaign:campaign, projects:projects, title: 'Campaign: ' + campaign.name});
+        });
+      } else if (edCheck){
+        Project.findAllByCampaignId(campaign._id, projects=>{
+          res.render('campaigns/show', {campaign:campaign, projects:projects, title: 'Campaign: ' + campaign.name});
+        });
+      } else {
+        res.redirect('/dashboard');
+      }
     } else {
       res.redirect('/dashboard');
     }
@@ -76,11 +86,13 @@ exports.removeEditor = (req, res)=>{
 };
 
 exports.edit = (req, res)=>{
-  console.log('Req.params.id');
-  console.log(req.params.id);
   Campaign.findById(req.params.id, campaign=>{
-    if(campaign){
-      res.render('campaigns/editCampaign', {campaign: campaign, title: 'Edit Your Campaign'});
+    if (campaign){
+      if (req.session.userId === campaign.ownerId.toString()){
+        res.render('campaigns/editCampaign', {campaign: campaign, title: 'Edit Your Campaign'});
+      } else {
+        res.redirect('/dashboard');
+      }
     } else {
       res.redirect('/dashboard');
     }

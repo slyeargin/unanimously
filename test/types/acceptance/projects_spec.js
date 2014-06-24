@@ -83,34 +83,6 @@ describe('campaigns', function(){
         });
       });
     });
-
-    describe('POST /projects/create', function(){
-      it('should create a new project', function(done){
-        request(app)
-        .post('/projects/create')
-        .set('cookie', cookie)
-        .send('_id=6123456789abcdef01234567')
-        .send('name=More prominent outlet')
-        .send('medium=Print')
-        .send('notes=This is a wider audience.')
-        .send('campaignId=4023456789abcdef01234567')
-        .end(function(err, res){
-          expect(res.status).to.equal(302);
-          expect(res.headers.location).to.equal('/projects/6123456789abcdef01234567');
-          done();
-        });
-      });
-
-      it('should NOT create a new project - not logged in', function(done){
-        request(app)
-        .post('/projects/create')
-        .end(function(err, res){
-          expect(res.status).to.equal(302);
-          expect(res.headers.location).to.equal('/login');
-          done();
-        });
-      });
-    });
   });
 
   describe('Authentication', function(){
@@ -141,6 +113,19 @@ describe('campaigns', function(){
           expect(res.text).to.include('Web');
           expect(res.text).to.include('Copy for ad on Okay Website');
           expect(res.text).to.include('Keep contamination under control.');
+          done();
+        });
+      });
+    });
+
+    describe('GET /projects/edit/:id', function(){
+      it('should NOT show an individual project edit page - editor logged in', function(done){
+        request(app)
+        .get('/projects/edit/6023456789abcdef01234567')
+        .set('cookie', cookie)
+        .end(function(err, res){
+          expect(res.status).to.equal(302);
+          expect(res.headers.location).to.equal('/dashboard');
           done();
         });
       });
@@ -248,6 +233,34 @@ describe('campaigns', function(){
         .end(function(err, res){
           expect(res.status).to.equal(302);
           expect(res.headers.location).to.equal('/projects/6023456789abcdef01234567');
+          done();
+        });
+      });
+    });
+
+    describe('POST /projects/create', function(){
+      it('should create a new project', function(done){
+        request(app)
+        .post('/projects/create')
+        .set('cookie', cookie)
+        .send('_id=6123456789abcdef01234567')
+        .send('name=More prominent outlet')
+        .send('medium=Print')
+        .send('notes=This is a wider audience.')
+        .send('campaignId=4023456789abcdef01234567')
+        .end(function(err, res){
+          expect(res.status).to.equal(302);
+          expect(res.headers.location).to.equal('/projects/6123456789abcdef01234567');
+          done();
+        });
+      });
+
+      it('should NOT create a new project - not logged in', function(done){
+        request(app)
+        .post('/projects/create')
+        .end(function(err, res){
+          expect(res.status).to.equal(302);
+          expect(res.headers.location).to.equal('/login');
           done();
         });
       });
