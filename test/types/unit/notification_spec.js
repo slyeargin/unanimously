@@ -1,0 +1,100 @@
+/* global describe, it, before, beforeEach */
+/* jshint expr:true */
+
+'use strict';
+
+process.env.DBNAME = 'unanimously-test';
+
+var expect = require('chai').expect;
+var Mongo = require('mongodb');
+var traceur = require('traceur');
+var db = traceur.require(__dirname + '/../../helpers/db.js');
+var factory = traceur.require(__dirname + '/../../helpers/factory.js');
+
+var Notification;
+
+describe('Notification', function(){
+  before(function(done){
+    db(function(){
+      Notification = traceur.require(__dirname + '/../../../app/models/notification.js');
+      done();
+    });
+  });
+
+  beforeEach(function(done){
+    global.nss.db.collection('notifications').drop(function(){
+      factory('notification', function(notifications){
+        done();
+      });
+    });
+  });
+
+  describe('.create', function(){
+    it('should successfully create a notification', function(done){
+      var fields = {
+        _id:'9723456789abcdef01234567',
+        recipientId:'0123456789abcdef01234567',
+        docId: '7023456789abcdef01234568'
+      };
+
+      Notification.create(fields, function(n){
+        expect(n).to.be.ok;
+        expect(n).to.be.an.instanceof(Notification);
+        expect(n._id).to.be.an.instanceof(Mongo.ObjectID);
+        expect(n._id.toString()).to.equal('9723456789abcdef01234567');
+        expect(n.recipientId).to.be.an.instanceof(Mongo.ObjectID);
+        expect(n.recipientId.toString()).to.equal('0123456789abcdef01234567');
+        expect(n.docId).to.be.an.instanceof(Mongo.ObjectID);
+        expect(n.docId.toString()).to.equal('7023456789abcdef01234568');
+        done();
+      });
+    });
+  });
+
+  describe('.findAllByRecipientId', function(){
+    it('should successfully find all of a user\'s notifications', function(done){
+      Notification.findAllByRecipientId('0123456789abcdef01234567', function(n){
+        expect(n).to.be.an('array');
+        expect(n.length).to.equal(1);
+        expect(n[0]).to.be.instanceof(Notification);
+        expect(n[0]._id.toString()).to.equal('9523456789abcdef01234567');
+        expect(n[0].recipientId).to.be.an.instanceof(Mongo.ObjectID);
+        expect(n[0].recipientId.toString()).to.equal('0123456789abcdef01234567');
+        expect(n[0].docId).to.be.an.instanceof(Mongo.ObjectID);
+        expect(n[0].docId.toString()).to.equal('7023456789abcdef01234568');
+        done();
+      });
+    });
+
+    it('should NOT successfully find any notifications - bad ID', function(done){
+      Notification.findAllByRecipientId('not an email', function(n){
+        expect(n).to.be.null;
+        done();
+      });
+    });
+
+    it('should NOT successfully find any notifications - NULL', function(done){
+      Notification.findAllByRecipientId(null, function(n){
+        expect(n).to.be.null;
+        done();
+      });
+    });
+  });
+
+
+  describe('#remove', function(){
+    it('should remove notification by ID', function(done){
+      Notification.findById('9523456789abcdef01234567', function(notice){
+        console.log('What is returned?');
+        console.log(notice);
+        notice.remove(function(n){
+          expect(notice).to.be.ok;
+          expect(notice._id.toString()).to.deep.equal('9523456789abcdef01234567');
+          expect(n).to.be.null;
+          done();
+        });
+      });
+    });
+  });
+
+});
