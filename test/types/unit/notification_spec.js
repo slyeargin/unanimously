@@ -81,6 +81,71 @@ describe('Notification', function(){
     });
   });
 
+  describe('.buildList', function(){
+    it('should build a list of recipientIds and create notifications', function(done){
+      var campaign = {
+        _id : '4023456789abcdef01234567',
+        name : 'My Fantastic Ad Campaign',
+        description : 'It\'s amazing.',
+        ownerId : '0123456789abcdef01234567',
+        editorIds : [ '0123456789abcdef01234569' ]
+      };
+      var doc = {
+        _id:'7023456789abcdef01234567',
+        projectId:'6023456789abcdef01234567',
+        copy:'Keep contamination under control.',
+        notes:'First draft',
+        date: '6/1/2014',
+        creatorId: '0123456789abcdef01234567'
+      };
+      Notification.buildList(doc, campaign, function(n){
+        expect(n).to.be.ok;
+        expect(n).to.be.an('array');
+        expect(n.length).to.equal(1);
+        expect(n[0]).to.be.an.instanceof(Notification);
+        expect(n[0]._id).to.be.an.instanceof(Mongo.ObjectID);
+        expect(n[0].recipientId).to.be.an.instanceof(Mongo.ObjectID);
+        expect(n[0].recipientId.toString()).to.equal('0123456789abcdef01234569');
+        expect(n[0].docId).to.be.an.instanceof(Mongo.ObjectID);
+        expect(n[0].docId.toString()).to.equal('7023456789abcdef01234567');
+        expect(n[0].created).to.be.an.instanceof(Date);
+        done();
+      });
+    });
+  });
+
+  describe('.countAllByRecipientId', function(){
+    it('should successfully count all of a user\'s notifications', function(done){
+      Notification.countAllByRecipientId('0123456789abcdef01234567', function(n){
+        expect(n).to.be.ok;
+        expect(n).to.equal(1);
+        done();
+      });
+    });
+
+    it('should find 0 notifications - user has none', function(done){
+      Notification.countAllByRecipientId('0123456789abcdef01234569', function(n){
+        expect(n).to.exist;
+        expect(n).to.equal(0);
+        done();
+      });
+    });
+
+    it('should NOT successfully find any notifications - bad ID', function(done){
+      Notification.findAllByRecipientId('not an email', function(n){
+        expect(n).to.be.null;
+        done();
+      });
+    });
+
+    it('should NOT successfully find any notifications - NULL', function(done){
+      Notification.findAllByRecipientId(null, function(n){
+        expect(n).to.be.null;
+        done();
+      });
+    });
+  });
+
 
   describe('#remove', function(){
     it('should remove notification by ID', function(done){

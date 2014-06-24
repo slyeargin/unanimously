@@ -38,6 +38,19 @@ class Notification{
     });
   }
 
+  static countAllByRecipientId(userId, fn){
+    if(typeof userId === 'string'){
+      if(userId.length !== 24){fn(null); return;}
+      userId = Mongo.ObjectID(userId);
+    }
+
+    if(!(userId instanceof Mongo.ObjectID)){fn(null); return;}
+
+    notificationCollection.count({recipientId:userId}, (e,count)=>{
+      fn(count);
+    });
+  }
+
   static buildList(doc, campaign, fn){
     var notifylist = [];
     var dup = _.contains(campaign.editorIds, doc.creatorId.toString());
