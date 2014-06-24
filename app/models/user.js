@@ -106,8 +106,6 @@ class User{
 
 function sendChangeNotification(user, fn){
   'use strict';
-  console.log('User object in change notification');
-  console.log(user);
   var key = process.env.MAILGUN;
   var url = 'https://api:' + key + '@api.mailgun.net/v2/sandboxcf74801602ec4522bb675027e5f4e47c.mailgun.org/messages'; //sandbox... is my subdomain they gave me, if add my website, then it would go there
   var post = request.post(url, function(err, response, body){
