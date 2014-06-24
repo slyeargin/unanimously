@@ -85,12 +85,15 @@ class User{
     this.name = obj.name.length ? obj.name : obj.email;
     if (obj.email.length){
       if(this.email !== obj.email){
-        var user = this;
-        user.newEmail = obj.email;
+        var userObject = {
+          name: this.name,
+          oldEmail: this.email,
+          newEmail: obj.email
+        };
         this.email = obj.email;
-        this.photo = gravatar.url(user.email, {s: '200', r: 'pg', d: 'mm'}, false);
+        this.photo = gravatar.url(this.email, {s: '200', r: 'pg', d: 'mm'}, false);
         userCollection.save(this, ()=>{
-          sendChangeNotification(user, fn);
+          sendChangeNotification(userObject, fn);
         });
       } else {
         userCollection.save(this, ()=>fn(this));
@@ -103,6 +106,8 @@ class User{
 
 function sendChangeNotification(user, fn){
   'use strict';
+  console.log('User object in change notification');
+  console.log(user);
   var key = process.env.MAILGUN;
   var url = 'https://api:' + key + '@api.mailgun.net/v2/sandboxcf74801602ec4522bb675027e5f4e47c.mailgun.org/messages'; //sandbox... is my subdomain they gave me, if add my website, then it would go there
   var post = request.post(url, function(err, response, body){
@@ -111,7 +116,7 @@ function sendChangeNotification(user, fn){
 
   var form = post.form();
   form.append('from', 'admin@slyeargin.com');
-  form.append('to', user.email);
+  form.append('to', user.oldEmail);
   form.append('subject', 'Important: Your e-mail address was changed on Unanimous.ly.');
   form.append('html', 'Your e-mail address was changed to ' + user.newEmail + '.  If you did not make this change, please reply to this e-mail.');
 }

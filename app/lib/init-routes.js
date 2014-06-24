@@ -31,6 +31,8 @@ function load(app, fn){
   app.post('/verify/:id', dbg, users.verifyAccount);
   app.get('/reset/:id', dbg, users.password);
   app.post('/reset/:id', dbg, users.reset);
+  app.get('/forgot', dbg, users.forgot);
+  app.post('/forgot', dbg, users.getreset);
   app.post('/changepassword', dbg, users.changePassword);
 
   app.get('/login', dbg, users.login);

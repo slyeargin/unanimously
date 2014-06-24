@@ -75,6 +75,20 @@ exports.password = (req, res)=>{
   });
 };
 
+exports.forgot = (req, res)=>{
+  res.render('users/forgot', {title: 'Reset Your Password'});
+};
+
+exports.getreset = (req, res)=>{
+  User.findByEmail(req.body.email, u=>{
+    if(u){
+      User.reset(u, ()=>res.redirect('/logout'));
+    } else {
+      res.redirect('/logout');
+    }
+  });
+};
+
 exports.changePassword = (req, res)=>{
   User.findById(req.body.userId, user=>{
     if(user){
