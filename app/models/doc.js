@@ -54,6 +54,19 @@ class Doc{
       });
     });
   }
+
+  static countAllByProjectId(id, fn){
+    if(typeof id === 'string'){
+      if(id.length !== 24){fn(null); return;}
+      id = Mongo.ObjectID(id);
+    }
+
+    if(!(id instanceof Mongo.ObjectID)){fn(null); return;}
+
+    docCollection.count({projectId:id}, (e,count)=>{
+      fn(count);
+    });
+  }
 }
 
 function addUserInfo(doc, fn){

@@ -131,4 +131,36 @@ describe('Doc', function(){
     });
   });
 
+  describe('.countAllByProjectId', function(){
+    it('should successfully count all of a project\'s docs', function(done){
+      Doc.countAllByProjectId('6023456789abcdef01234567', function(d){
+        expect(d).to.be.ok;
+        expect(d).to.equal(2);
+        done();
+      });
+    });
+
+    it('should find 0 docs - project has none', function(done){
+      Doc.countAllByProjectId('6023456789abcdef01234568', function(d){
+        expect(d).to.exist;
+        expect(d).to.equal(0);
+        done();
+      });
+    });
+
+    it('should NOT successfully find any docs - bad project ID', function(done){
+      Doc.countAllByProjectId('not an email', function(d){
+        expect(d).to.be.null;
+        done();
+      });
+    });
+
+    it('should NOT successfully find any docs - NULL', function(done){
+      Doc.countAllByProjectId(null, function(d){
+        expect(d).to.be.null;
+        done();
+      });
+    });
+  });
+
 });
