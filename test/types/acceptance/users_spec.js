@@ -178,6 +178,77 @@ describe('users', function(){
     });
   });
 
+  describe('GET /reset/:id', function(){
+    it('should show an individual verification page', function(done){
+      request(app)
+      .get('/reset/3123456789abcdef01234567')
+      .end(function(err, res){
+        expect(res.status).to.equal(200);
+        done();
+      });
+    });
+
+    it('should NOT show an individual verification page - user doesn\'t exist', function(done){
+      request(app)
+      .get('/reset/9123456789abcdef01234567')
+      .end(function(err, res){
+        expect(res.status).to.equal(302);
+        expect(res.headers.location).to.equal('/');
+        done();
+      });
+    });
+  });
+
+  describe('POST /reset/:id', function(){
+    it('send a reset password e-mail', function(done){
+      request(app)
+      .post('/reset/0123456789abcdef01234567')
+      .end(function(err, res){
+        expect(res.status).to.equal(302);
+        expect(res.headers.location).to.equal('/logout');
+        done();
+      });
+    });
+
+    it('should not send a reset password e-mail - user does not exist', function(done){
+      request(app)
+      .post('/reset/9123456789abcdef01234567')
+      .end(function(err, res){
+        expect(res.status).to.equal(302);
+        expect(res.headers.location).to.equal('/logout');
+        done();
+      });
+    });
+  });
+
+  // app.post('/changepassword', dbg, users.changePassword);
+
+  describe('POST /changepassword', function(){
+    it('should change a user password', function(done){
+      request(app)
+      .post('/changepassword')
+      .send('userId=0123456789abcdef01234567')
+      .send('password=1234')
+      .end(function(err, res){
+        expect(res.status).to.equal(302);
+        expect(res.headers.location).to.equal('/login');
+        done();
+      });
+    });
+
+    it('should not change a user password - user does not exist', function(done){
+      request(app)
+      .post('/changepassword')
+      .send('userId=9123456789abcdef01234567')
+      .send('password=1234')
+      .end(function(err, res){
+        expect(res.status).to.equal(302);
+        expect(res.headers.location).to.equal('/');
+        done();
+      });
+    });
+  });
+
   describe('Authentication', function(){
     var cookie;
 

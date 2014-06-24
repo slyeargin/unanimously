@@ -51,6 +51,38 @@ describe('User', function(){
     });
   });
 
+  describe('.reset', function(){
+    it('should send a password reset e-mail', function(done){
+      User.findById('0123456789abcdef01234568', function(user){
+        User.reset(user, function(u){
+          expect(u).to.be.ok;
+          expect(u).to.be.an.instanceof(User);
+          expect(u.email).to.equal('slyeargin+test3@gmail.com');
+          expect(u._id).to.be.an.instanceof(Mongo.ObjectID);
+          done();
+        });
+      });
+    });
+
+    it('should not send a password reset e-mail - bad ID', function(done){
+      User.findById('not an id', function(user){
+        User.reset(user, function(u){
+          expect(u).to.be.null;
+          done();
+        });
+      });
+    });
+
+    it('should not send a password reset e-mail - null', function(done){
+      User.findById(null, function(user){
+        User.reset(user, function(u){
+          expect(u).to.be.null;
+          done();
+        });
+      });
+    });
+  });
+
   describe('#changePassword', function(){
     it('should successfully change a password', function(done){
       User.findById('0123456789abcdef01234568', function(user){

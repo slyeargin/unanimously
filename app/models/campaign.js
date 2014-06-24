@@ -109,8 +109,6 @@ class Campaign{
     var removedUser = user._id.toString();
     var newList = _.without(this.editorIds, removedUser);
     this.editorIds = newList;
-    console.log('New Campaign Object: ');
-    console.log(this);
     campaignCollection.save(this, ()=>fn(this));
   }
 
