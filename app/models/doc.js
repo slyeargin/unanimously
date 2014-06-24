@@ -27,7 +27,7 @@ class Doc{
     });
     doc.creatorId = Mongo.ObjectID(obj.creatorId);
     doc.date = obj.date ? new Date(obj.date) : new Date();
-    doc.isFinal = false;
+    doc.isFinal = obj.isFinal? true : false;
 
     docCollection.save(doc, ()=>{
       fn(doc);

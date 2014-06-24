@@ -22,9 +22,10 @@ block content
 
     div.list
       if(docs.length > 0)
-        div.add
-          h3
-          include ../projects/editContent
+        if(!docs[0].isFinal)
+          div.add
+            h3
+            include ../projects/editContent
 
         - var x = 1
         each doc in docs
@@ -41,9 +42,15 @@ block content
               .panel-heading
                 h4.panel-title
                   a(data-toggle='collapse', data-parent='#accordion', href=linkname)
+                    if (doc.isFinal)
+                      span.final
+                        i.fa.fa-check Final Version
                     img(src='#{doc.creator.photo}', class='doclist')
                     | #{doc.creator.name} wrote:
                     span(class='timestamp') #{moment(doc.date).fromNow()}
+
+
+              - var classes;
 
               div(id=divname class=(x == 1) ? 'panel-collapse collapse in' : 'panel-collapse collapse')
                 .panel-body

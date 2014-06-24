@@ -81,29 +81,15 @@ class User{
   }
 
   update(obj, fn){
-    console.log('What is this?');
-    console.log(this);
     if (!obj.name.length && !obj.email.length){fn(this); return;}
     this.name = obj.name.length ? obj.name : obj.email;
-    console.log(this.name);
-    console.log('Obj.email.length? ');
-    console.log(obj.email.length);
     if (obj.email.length){
-      console.log('Something was sent over.  What was it?');
-      console.log(obj.email);
       if(this.email !== obj.email){
-        console.log('Not the old one.');
         var user = this;
         user.newEmail = obj.email;
-        console.log('User object: ');
-        console.log(user);
         this.email = obj.email;
         this.photo = gravatar.url(user.email, {s: '200', r: 'pg', d: 'mm'}, false);
-        console.log('What is this, again?');
-        console.log(this);
         userCollection.save(this, ()=>{
-          console.log('Can I see the user object? ');
-          console.log(user);
           sendChangeNotification(user, fn);
         });
       } else {

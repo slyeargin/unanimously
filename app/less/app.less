@@ -10,10 +10,15 @@ body {
   }
 }
 
-.fa-pencil{
+.fa-pencil, .final{
   color: #aaa;
   padding: 0 10px 0 0;
 }
+
+.fa-check:before {
+  margin-right: 10px;
+}
+
 
 #resetPassword{
   text-align: center;
@@ -130,6 +135,10 @@ img.doclist{
   border-radius: 15px;
   margin: 0 10px 0 0;
   float: left;
+}
+
+.final + .doclist {
+  float: none;
 }
 
 .timestamp {

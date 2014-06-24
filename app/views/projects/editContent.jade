@@ -6,4 +6,10 @@ div.well
     input.form-control(name='notes', type='text', placeholder='Notes')
     input.form-control(name='projectId', type='hidden', value='#{project._id}')
     input.form-control(name='creatorId', type='hidden', value='#{user._id}')
+    if user._id.equals(campaign.ownerId)
+      p
+        label.checkbox-inline
+            input(type='checkbox', name='isFinal', value='true')
+            | This is the final version.
+
     button.btn.btn-default Add
