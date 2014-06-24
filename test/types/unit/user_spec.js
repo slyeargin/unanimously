@@ -133,7 +133,7 @@ describe('User', function(){
     it('should successfully find a user - String', function(done){
       User.findById('0123456789abcdef01234567', function(u){
         expect(u).to.be.instanceof(User);
-        expect(u.email).to.equal('slyeargin+test1@gmail.com');
+        expect(u.email).to.equal('slyeargin@gmail.com');
         done();
       });
     });
@@ -141,7 +141,7 @@ describe('User', function(){
     it('should successfully find a user - object id', function(done){
       User.findById(Mongo.ObjectID('0123456789abcdef01234567'), function(u){
         expect(u).to.be.instanceof(User);
-        expect(u.email).to.equal('slyeargin+test1@gmail.com');
+        expect(u.email).to.equal('slyeargin@gmail.com');
         done();
       });
     });
@@ -163,10 +163,10 @@ describe('User', function(){
 
   describe('.findByEmail', function(){
     it('should successfully find a user', function(done){
-      User.findByEmail('slyeargin+test1@gmail.com', function(u){
+      User.findByEmail('slyeargin@gmail.com', function(u){
         expect(u).to.be.instanceof(User);
         expect(u._id.toString()).to.equal('0123456789abcdef01234567');
-        expect(u.email).to.equal('slyeargin+test1@gmail.com');
+        expect(u.email).to.equal('slyeargin@gmail.com');
         done();
       });
     });

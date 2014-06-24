@@ -70,7 +70,7 @@ describe('users', function(){
   describe('GET /verify/:id', function(){
     it('should show an individual verification page', function(done){
       request(app)
-      .get('/verify/0123456789abcdef01234567')
+      .get('/verify/3123456789abcdef01234567')
       .end(function(err, res){
         expect(res.status).to.equal(200);
         done();

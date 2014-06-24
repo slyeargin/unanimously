@@ -136,7 +136,7 @@ describe('Project', function(){
       });
     });
   });
-
+  
   describe('#update', function(){
     it('should successfully update a project', function(done){
       var fields = {

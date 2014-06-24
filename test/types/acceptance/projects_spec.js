@@ -58,6 +58,113 @@ describe('campaigns', function(){
       });
     });
 
+    describe('GET /projects/edit/:id', function(){
+      it('should NOT show an individual project edit page - wrong user logged in', function(done){
+        request(app)
+        .get('/projects/edit/6023456789abcdef01234567')
+        .set('cookie', cookie)
+        .end(function(err, res){
+          expect(res.status).to.equal(302);
+          expect(res.headers.location).to.equal('/dashboard');
+          done();
+        });
+      });
+    });
+
+    describe('GET /projects/:id', function(){
+      it('should NOT show an individual project page - wrong user logged in', function(done){
+        request(app)
+        .get('/projects/6023456789abcdef01234567')
+        .set('cookie', cookie)
+        .end(function(err, res){
+          expect(res.status).to.equal(302);
+          expect(res.headers.location).to.equal('/dashboard');
+          done();
+        });
+      });
+    });
+
+    describe('POST /projects/create', function(){
+      it('should create a new project', function(done){
+        request(app)
+        .post('/projects/create')
+        .set('cookie', cookie)
+        .send('_id=6123456789abcdef01234567')
+        .send('name=More prominent outlet')
+        .send('medium=Print')
+        .send('notes=This is a wider audience.')
+        .send('campaignId=4023456789abcdef01234567')
+        .end(function(err, res){
+          expect(res.status).to.equal(302);
+          expect(res.headers.location).to.equal('/projects/6123456789abcdef01234567');
+          done();
+        });
+      });
+
+      it('should NOT create a new project - not logged in', function(done){
+        request(app)
+        .post('/projects/create')
+        .end(function(err, res){
+          expect(res.status).to.equal(302);
+          expect(res.headers.location).to.equal('/login');
+          done();
+        });
+      });
+    });
+  });
+
+  describe('Authentication', function(){
+    var cookie;
+
+    beforeEach(function(done){
+      request(app)
+      .post('/login')
+      .send('email=stephen.yeargin@gmail.com')
+      .send('password=1234')
+      .end(function(err, res){
+        var cookies = res.headers['set-cookie'];
+        var one = cookies[0].split(';')[0];
+        var two = cookies[1].split(';')[0];
+        cookie = one + '; ' + two;
+        done();
+      });
+    });
+
+    describe('GET /projects/:id', function(){
+      it('should show an individual project page - editor logged in', function(done){
+        request(app)
+        .get('/projects/6023456789abcdef01234567')
+        .set('cookie', cookie)
+        .end(function(err, res){
+          expect(res.status).to.equal(200);
+          expect(res.text).to.include('Okay Website');
+          expect(res.text).to.include('Web');
+          expect(res.text).to.include('Copy for ad on Okay Website');
+          expect(res.text).to.include('Keep contamination under control.');
+          done();
+        });
+      });
+    });
+
+  });
+
+  describe('Authentication', function(){
+    var cookie;
+
+    beforeEach(function(done){
+      request(app)
+      .post('/login')
+      .send('email=slyeargin@gmail.com')
+      .send('password=1234')
+      .end(function(err, res){
+        var cookies = res.headers['set-cookie'];
+        var one = cookies[0].split(';')[0];
+        var two = cookies[1].split(';')[0];
+        cookie = one + '; ' + two;
+        done();
+      });
+    });
+
     describe('GET /projects/:id', function(){
       it('should show an individual project page', function(done){
         request(app)
@@ -95,34 +202,6 @@ describe('campaigns', function(){
       });
     });
 
-    describe('POST /projects/create', function(){
-      it('should create a new project', function(done){
-        request(app)
-        .post('/projects/create')
-        .set('cookie', cookie)
-        .send('_id=6123456789abcdef01234567')
-        .send('name=More prominent outlet')
-        .send('medium=Print')
-        .send('notes=This is a wider audience.')
-        .send('campaignId=4023456789abcdef01234567')
-        .end(function(err, res){
-          expect(res.status).to.equal(302);
-          expect(res.headers.location).to.equal('/projects/6123456789abcdef01234567');
-          done();
-        });
-      });
-
-      it('should NOT create a new project - not logged in', function(done){
-        request(app)
-        .post('/projects/create')
-        .end(function(err, res){
-          expect(res.status).to.equal(302);
-          expect(res.headers.location).to.equal('/login');
-          done();
-        });
-      });
-    });
-
     describe('GET /projects/edit/:id', function(){
       it('should show an individual project edit page', function(done){
         request(app)
@@ -137,7 +216,7 @@ describe('campaigns', function(){
 
       it('should NOT show an individual project edit page - not logged in', function(done){
         request(app)
-        .get('/campaigns/edit/4023456789abcdef01234567')
+        .get('/projects/edit/4023456789abcdef01234567')
         .end(function(err, res){
           expect(res.status).to.equal(302);
           expect(res.headers.location).to.equal('/login');

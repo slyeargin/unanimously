@@ -146,7 +146,7 @@ describe('campaigns', function(){
         request(app)
         .post('/campaigns/addEditor')
         .set('cookie', cookie)
-        .send('email=slyeargin+test1@gmail.com')
+        .send('email=slyeargin@gmail.com')
         .send('campaignId=4023456789abcdef01234567')
         .send('from=0123456789abcdef01234567')
         .end(function(err, res){
@@ -160,7 +160,7 @@ describe('campaigns', function(){
         request(app)
         .post('/campaigns/addEditor')
         .set('cookie', cookie)
-        .send('email=slyeargin+test1@gmail.com')
+        .send('email=slyeargin@gmail.com')
         .send('campaignId=4023456789abcdef01234567')
         .send('from=0123456789abcdef01234567')
         .end(function(err, res){
@@ -267,7 +267,7 @@ describe('campaigns', function(){
       //   request(app)
       //   .post('/campaigns/addEditor')
       //   .set('cookie', cookie)
-      //   .send('email=slyeargin+test1@gmail.com')
+      //   .send('email=slyeargin@gmail.com')
       //   .send('campaignId=4023456789abcdef01234567')
       //   .send('from=0123456789abcdef01234567')
       //   .end(function(err, res){
@@ -281,7 +281,7 @@ describe('campaigns', function(){
       //   request(app)
       //   .post('/campaigns/addEditor')
       //   .set('cookie', cookie)
-      //   .send('email=slyeargin+test1@gmail.com')
+      //   .send('email=slyeargin@gmail.com')
       //   .send('campaignId=4023456789abcdef01234567')
       //   .send('from=0123456789abcdef01234567')
       //   .end(function(err, res){
