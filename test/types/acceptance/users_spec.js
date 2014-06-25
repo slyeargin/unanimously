@@ -146,7 +146,6 @@ describe('users', function(){
       .end(function(err, res){
         expect(res.status).to.equal(302);
         expect(res.headers.location).to.equal('/login');
-        // expect(res.headers['set-cookie']).to.not.be.ok;
         done();
       });
     });
@@ -159,7 +158,6 @@ describe('users', function(){
       .end(function(err, res){
         expect(res.status).to.equal(302);
         expect(res.headers.location).to.equal('/login');
-        // expect(res.headers['set-cookie']).to.not.be.ok;
         done();
       });
     });
@@ -172,7 +170,6 @@ describe('users', function(){
       .end(function(err, res){
         expect(res.status).to.equal(302);
         expect(res.headers.location).to.equal('/login');
-        // expect(res.headers['set-cookie']).to.be.ok;
         done();
       });
     });

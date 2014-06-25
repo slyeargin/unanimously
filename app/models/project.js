@@ -1,5 +1,4 @@
 var projectCollection = global.nss.db.collection('projects');
-// var request = require('request');
 var _ = require('lodash');
 var sanitizeHtml = require('sanitize-html');
 var Mongo = require('mongodb');
@@ -29,7 +28,6 @@ class Project{
       allowedSchemes: []
     });
     project.campaignId = Mongo.ObjectID(obj.campaignId);
-    //project.creatorId = Mongo.ObjectID(obj.creatorId);
 
     projectCollection.save(project, ()=>{
       fn(project);
@@ -83,24 +81,5 @@ class Project{
     projectCollection.save(this, ()=>fn(this));
   }
 }
-
-
-
-// function sendVerificationEmail(user, fn){
-//   'use strict';
-//   var key = process.env.MAILGUN;
-//   var url = 'https://api:' + key + '@api.mailgun.net/v2/sandboxcf74801602ec4522bb675027e5f4e47c.mailgun.org/messages'; //sandbox... is my subdomain they gave me, if add my website, then it would go there
-//   var post = request.post(url, function(err, response, body){
-//     console.log('--------sending message--------');
-//     console.log(body);
-//     fn(user);
-//   });
-//
-//   var form = post.form();
-//   form.append('from', 'admin@slyeargin.com');
-//   form.append('to', user.email);
-//   form.append('subject', 'Please verify your e-mail address.');
-//   form.append('html', '<a href="http://localhost:4000/verify/' + user._id + '">Click to Verify</a>');
-// }
 
 module.exports = Project;

@@ -49,13 +49,6 @@ describe('Invitation', function(){
     });
   });
 
-//   if(!user.email){fn(null); return;}
-//   invitationCollection.find({invitee:user.email}).toArray((e,objs)=>{
-//     objs = objs.map(o=>_.create(Invitation.prototype, o));
-//     fn(objs);
-//   });
-// }
-
   describe('.findAllByInviteeEmail', function(){
     it('should successfully find an invitation', function(done){
       var user = {
@@ -95,7 +88,6 @@ describe('Invitation', function(){
       var campaignId = '4023456789abcdef01234567';
 
       Invitation.duplicateCheck(email, campaignId, function(i){
-        // expect(i).to.be.instanceof(Invitation);
         expect(i._id.toString()).to.equal('7523456789abcdef01234567');
         expect(i.campaignId.toString()).to.equal('4023456789abcdef01234567');
         expect(i.invitee).to.equal('slyeargin+test5@gmail.com');
@@ -114,12 +106,6 @@ describe('Invitation', function(){
       });
     });
   });
-
-  // remove(fn){
-  //   invitationCollection.findAndRemove({_id:this._id}, invite=>{
-  //     fn(invite);
-  //   });
-  // }
 
   describe('#remove', function(){
     it('should remove any matching invitation by ID', function(done){

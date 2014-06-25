@@ -354,5 +354,5 @@ describe('campaigns', function(){
     });
 
 
-  }); // close auth
+  });
 });

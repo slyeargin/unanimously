@@ -16,6 +16,7 @@ var User;
 var Campaign;
 var Project;
 var Doc;
+var Notification;
 
 describe('campaigns', function(){
 
@@ -25,6 +26,7 @@ describe('campaigns', function(){
       Campaign = traceur.require(__dirname + '/../../../app/models/campaign.js');
       Project = traceur.require(__dirname + '/../../../app/models/project.js');
       Doc = traceur.require(__dirname + '/../../../app/models/doc.js');
+      Notification = traceur.require(__dirname + '/../../../app/models/notification.js');
       done();
     });
   });
@@ -35,7 +37,9 @@ describe('campaigns', function(){
         factory('campaign', function(campaigns){
           factory('project', function(projects){
             factory('doc', function(docs){
-              done();
+              factory('notification', function(notification){
+                done();
+              });
             });
           });
         });
@@ -49,7 +53,7 @@ describe('campaigns', function(){
     beforeEach(function(done){
       request(app)
       .post('/login')
-      .send('email=samantha@yearg.in')
+      .send('email=slyeargin@gmail.com')
       .send('password=1234')
       .end(function(err, res){
         var cookies = res.headers['set-cookie'];
@@ -60,35 +64,52 @@ describe('campaigns', function(){
       });
     });
 
-    describe('POST /docs/create', function(){
-      it('should create a new doc', function(done){
+    describe('GET /notifications', function(){
+      it('should get all of a user\'s notifications', function(done){
         request(app)
-        .post('/docs/create')
+        .get('/notifications')
         .set('cookie', cookie)
-        .send('_id=7123456789abcdef01234567')
-        .send('copy=Keeping all contamination under control.')
-        .send('notes=We should oversell it.')
-        .send('projectId=6023456789abcdef01234567')
-        .send('date=6/3/2014')
-        .send('creatorId=0123456789abcdef01234567')
         .end(function(err, res){
-          expect(res.status).to.equal(302);
-          expect(res.headers.location).to.equal('/projects/6023456789abcdef01234567');
+          expect(res.status).to.equal(200);
+          expect(res.text).to.include('SM Yeargin updated Okay Website.');
           done();
         });
       });
 
-      it('should NOT create a new project - not logged in', function(done){
+      it('should NOT get all of a user\'s notifications - not logged in', function(done){
         request(app)
-        .post('/docs/create')
+        .get('/notifications')
         .end(function(err, res){
           expect(res.status).to.equal(302);
           expect(res.headers.location).to.equal('/login');
           done();
         });
       });
-
     });
 
-  }); 
+    describe('POST /notifications/remove', function(){
+      it('should delete a notification', function(done){
+        request(app)
+        .post('/notifications/remove')
+        .set('cookie', cookie)
+        .send('notificationId=9523456789abcdef01234567')
+        .end(function(err, res){
+          expect(res.status).to.equal(302);
+          expect(res.headers.location).to.equal('/notifications');
+          done();
+        });
+      });
+
+      it('should NOT delete a notification - not logged in', function(done){
+        request(app)
+        .post('/notifications/remove')
+        .end(function(err, res){
+          expect(res.status).to.equal(302);
+          expect(res.headers.location).to.equal('/login');
+          done();
+        });
+      });
+    });
+
+  });
 });

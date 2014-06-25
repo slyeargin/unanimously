@@ -107,13 +107,13 @@ class User{
 function sendChangeNotification(user, fn){
   'use strict';
   var key = process.env.MAILGUN;
-  var url = 'https://api:' + key + '@api.mailgun.net/v2/sandboxcf74801602ec4522bb675027e5f4e47c.mailgun.org/messages'; //sandbox... is my subdomain they gave me, if add my website, then it would go there
+  var url = 'https://api:' + key + '@api.mailgun.net/v2/sandboxcf74801602ec4522bb675027e5f4e47c.mailgun.org/messages';
   var post = request.post(url, function(err, response, body){
     fn(user);
   });
 
   var form = post.form();
-  form.append('from', 'admin@slyeargin.com');
+  form.append('from', 'admin@unanimous.ly');
   form.append('to', user.oldEmail);
   form.append('subject', 'Important: Your e-mail address was changed on Unanimous.ly.');
   form.append('html', 'Your e-mail address was changed to ' + user.newEmail + '.  If you did not make this change, please reply to this e-mail.');
@@ -122,31 +122,31 @@ function sendChangeNotification(user, fn){
 function sendResetEmail(user, fn){
   'use strict';
   var key = process.env.MAILGUN;
-  var url = 'https://api:' + key + '@api.mailgun.net/v2/sandboxcf74801602ec4522bb675027e5f4e47c.mailgun.org/messages'; //sandbox... is my subdomain they gave me, if add my website, then it would go there
+  var url = 'https://api:' + key + '@api.mailgun.net/v2/sandboxcf74801602ec4522bb675027e5f4e47c.mailgun.org/messages';
   var post = request.post(url, function(err, response, body){
     fn(user);
   });
 
   var form = post.form();
-  form.append('from', 'admin@slyeargin.com');
+  form.append('from', 'admin@unanimous.ly');
   form.append('to', user.email);
-  form.append('subject', 'Your password change request.');
-  form.append('html', '<a href="http://localhost:4000/reset/' + user._id + '">Reset your password.</a>');
+  form.append('subject', 'Unanimous.ly: Your password change request.');
+  form.append('html', '<a href="http://unanimous.ly/reset/' + user._id + '">Reset your Unanimous.ly password.</a>');
 }
 
 function sendVerificationEmail(user, fn){
   'use strict';
   var key = process.env.MAILGUN;
-  var url = 'https://api:' + key + '@api.mailgun.net/v2/sandboxcf74801602ec4522bb675027e5f4e47c.mailgun.org/messages'; //sandbox... is my subdomain they gave me, if add my website, then it would go there
+  var url = 'https://api:' + key + '@api.mailgun.net/v2/sandboxcf74801602ec4522bb675027e5f4e47c.mailgun.org/messages';
   var post = request.post(url, function(err, response, body){
     fn(user);
   });
 
   var form = post.form();
-  form.append('from', 'admin@slyeargin.com');
+  form.append('from', 'admin@unanimous.ly');
   form.append('to', user.email);
-  form.append('subject', 'Please verify your e-mail address.');
-  form.append('html', '<a href="http://localhost:4000/verify/' + user._id + '">Click to Verify</a>');
+  form.append('subject', 'Unanimous.ly: Please verify your e-mail address.');
+  form.append('html', '<a href="http://unanimous.ly/verify/' + user._id + '">Click to verify your e-mail address with Unanimous.ly.</a>');
 }
 
 module.exports = User;

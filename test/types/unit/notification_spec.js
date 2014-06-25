@@ -51,6 +51,48 @@ describe('Notification', function(){
     });
   });
 
+  describe('.findById', function(){
+    it('should successfully find a notification - String', function(done){
+      Notification.findById('9523456789abcdef01234567', function(n){
+        expect(n).to.be.instanceof(Notification);
+        expect(n._id).to.be.an.instanceof(Mongo.ObjectID);
+        expect(n._id.toString()).to.equal('9523456789abcdef01234567');
+        expect(n.recipientId).to.be.an.instanceof(Mongo.ObjectID);
+        expect(n.recipientId.toString()).to.equal('0123456789abcdef01234567');
+        expect(n.docId).to.be.an.instanceof(Mongo.ObjectID);
+        expect(n.docId.toString()).to.equal('7023456789abcdef01234568');
+        done();
+      });
+    });
+
+    it('should successfully find a notification - object id', function(done){
+      Notification.findById(Mongo.ObjectID('9523456789abcdef01234567'), function(n){
+        expect(n).to.be.instanceof(Notification);
+        expect(n._id).to.be.an.instanceof(Mongo.ObjectID);
+        expect(n._id.toString()).to.equal('9523456789abcdef01234567');
+        expect(n.recipientId).to.be.an.instanceof(Mongo.ObjectID);
+        expect(n.recipientId.toString()).to.equal('0123456789abcdef01234567');
+        expect(n.docId).to.be.an.instanceof(Mongo.ObjectID);
+        expect(n.docId.toString()).to.equal('7023456789abcdef01234568');
+        done();
+      });
+    });
+
+    it('should NOT successfully find a notification - Bad Id', function(done){
+      Notification.findById('not an id', function(n){
+        expect(n).to.be.null;
+        done();
+      });
+    });
+
+    it('should NOT successfully find a notification - NULL', function(done){
+      Notification.findById(null, function(n){
+        expect(n).to.be.null;
+        done();
+      });
+    });
+  });
+
   describe('.findAllByRecipientId', function(){
     it('should successfully find all of a user\'s notifications', function(done){
       Notification.findAllByRecipientId('0123456789abcdef01234567', function(n){
@@ -151,40 +193,30 @@ describe('Notification', function(){
       Notification.findAllByRecipientId('0123456789abcdef01234567', function(notifications){
         Notification.getFullObjects(notifications, function(n){
           expect(n).to.be.ok;
+          expect(n).to.be.an('array');
+          expect(n.length).to.equal(1);
+          expect(n[0].message).to.equal('SM Yeargin updated Okay Website.');
+          expect(n[0].created).to.be.an.instanceof(Date);
+          expect(n[0]).to.be.an.instanceof(Notification);
+          expect(n[0]._id).to.be.an.instanceof(Mongo.ObjectID);
+          expect(n[0]._id.toString()).to.equal('9523456789abcdef01234567');
+          expect(n[0].recipientId).to.be.an.instanceof(Mongo.ObjectID);
+          expect(n[0].recipientId.toString()).to.equal('0123456789abcdef01234567');
+          expect(n[0].docId).to.be.an.instanceof(Mongo.ObjectID);
+          expect(n[0].docId.toString()).to.equal('7023456789abcdef01234568');
+          expect(n[0].project._id).to.be.an.instanceof(Mongo.ObjectID);
+          expect(n[0].project._id.toString()).to.equal('6023456789abcdef01234567');
+          expect(n[0].docCreatorName).to.equal('SM Yeargin');
+          expect(n[0].document.isFinal).to.equal(false);
           done();
         });
       });
     });
   });
 
-//    { _id: 9523456789abcdef01234567,
-//  recipientId: 0123456789abcdef01234567,
-//  docId: 7023456789abcdef01234568,
-// created: Tue Jun 24 2014 20:02:09 GMT-0500 (CDT),
-//  document:
-// { _id: 7023456789abcdef01234568,
-// projectId: 6023456789abcdef01234567,
-// copy: 'Keeping contamination under control.',
-// notes: 'Emphasis on what we do, rather than what they could do',
-// creatorId: 0123456789abcdef01234569,
-// date: Mon Jun 02 2014 00:00:00 GMT-0500 (CDT),
-// isFinal: false },
-// project:
-// { _id: 6023456789abcdef01234567,
-//  name: 'Okay Website',
-// medium: 'Web',
-// notes: 'Copy for ad on Okay Website',
-// campaignId: 4023456789abcdef01234567 },
-// docCreatorName: 'SM Yeargin',
-// message: 'SM Yeargin updated Okay Website.' } ]
-
-
-
   describe('#remove', function(){
     it('should remove notification by ID', function(done){
       Notification.findById('9523456789abcdef01234567', function(notice){
-        console.log('What is returned?');
-        console.log(notice);
         notice.remove(function(n){
           expect(notice).to.be.ok;
           expect(notice._id.toString()).to.deep.equal('9523456789abcdef01234567');

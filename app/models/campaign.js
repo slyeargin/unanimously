@@ -145,16 +145,16 @@ function addEditorInfo(id, fn){
 function sendAddNoticeEmail(user, campaign, fn){
   'use strict';
   var key = process.env.MAILGUN;
-  var url = 'https://api:' + key + '@api.mailgun.net/v2/sandboxcf74801602ec4522bb675027e5f4e47c.mailgun.org/messages'; //sandbox... is my subdomain they gave me, if add my website, then it would go there
+  var url = 'https://api:' + key + '@api.mailgun.net/v2/sandboxcf74801602ec4522bb675027e5f4e47c.mailgun.org/messages';
   var post = request.post(url, function(err, response, body){
     fn(user);
   });
 
   var form = post.form();
-  form.append('from', 'admin@slyeargin.com');
+  form.append('from', 'admin@unanimous.ly');
   form.append('to', user.email);
   form.append('subject', 'You\'ve been added to the ' + campaign.name + ' campaign.');
-  form.append('html', 'You\'ve been added to the <a href="http://localhost:4000/campaigns/' + campaign._id + '">' + campaign.name + '</a> campaign.');
+  form.append('html', 'You\'ve been added to the <a href="http://unanimous.ly/campaigns/' + campaign._id + '">' + campaign.name + '</a> campaign.');
 }
 
 module.exports = Campaign;

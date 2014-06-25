@@ -3,7 +3,6 @@
 var traceur = require('traceur');
 var _ = require('lodash');
 var moment = require('moment');
-// var User = traceur.require(__dirname + '/../models/user.js');
 var Campaign = traceur.require(__dirname + '/../models/campaign.js');
 var Project = traceur.require(__dirname + '/../models/project.js');
 var Doc = traceur.require(__dirname + '/../models/doc.js');

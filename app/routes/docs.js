@@ -1,7 +1,6 @@
 'use strict';
 
 var traceur = require('traceur');
-// var _ = require('lodash');
 var Notification = traceur.require(__dirname + '/../models/notification.js');
 var Campaign = traceur.require(__dirname + '/../models/campaign.js');
 var Project = traceur.require(__dirname + '/../models/project.js');
