@@ -1,7 +1,7 @@
 Unanimous.ly
 ===============
 
-[Unanimous.ly](http://unanimous.ly) allows teams to work together to refine copy.  
+[Unanimous.ly](http://unanimous.ly) allows teams to write together.  
 
 - Create campaigns and projects.  
 - Add collaborators to campaigns.  
