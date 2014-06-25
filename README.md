@@ -4,6 +4,7 @@ Unanimous.ly
 [![Build Status](https://travis-ci.org/slyeargin/unanimously.svg?branch=master)](https://travis-ci.org/slyeargin/unanimously)
 
 [Unanimous.ly](http://unanimous.ly) allows teams to write together.  
+[![Coverage Status](https://coveralls.io/repos/slyeargin/unanimously/badge.png?branch=master)](https://coveralls.io/r/slyeargin/unanimously?branch=master)
 
 - Create campaigns and projects.  
 - Add collaborators to campaigns.  
