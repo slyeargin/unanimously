@@ -16,7 +16,7 @@ Unanimous.ly
 - Campaign owners can:
   - Invite editors to your campaigns, both those already using Unanimous.ly and those yet to sign up.
   - Remove editors from your campaigns.
-  - Mark a version of copy as "final.""
+  - Mark a version of copy as "final."
   - Edit campaign and project details.
 - Campaign editors can:
   - Update copy.
