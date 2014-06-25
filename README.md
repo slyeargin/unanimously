@@ -9,7 +9,7 @@ Unanimous.ly
 
 ===============
 
-Features
+## Features
 
 - Create campaigns.
 - Create projects.
@@ -18,7 +18,7 @@ Features
 - Campaign owners can:
   - Invite editors to your campaigns, both those already using Unanimous.ly and those yet to sign up.
   - Remove editors from your campaigns.
-  - Mark a version of copy as "final".
+  - Mark a version of copy as "final.""
   - Edit campaign and project details.
 - Campaign editors can:
   - Update copy.
@@ -28,7 +28,7 @@ Features
   - Forgotten password and change password functions.
   - An e-mail alert when your e-mail address is changed.
 
-Technologies
+## Technologies
 
 * Node.js
 * Express
