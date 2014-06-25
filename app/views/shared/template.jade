@@ -37,6 +37,9 @@ html
               if (title !== 'Dashboard')
                 li.dashboard
                   a(href='/dashboard') Dashboard
+              if (title === 'Dashboard')
+                li.dashboard
+                  include ../users/alerts
               li.dropdown
                 a.dropdown-toggle(href='#', data-toggle='dropdown')
                     | #{user.name}
