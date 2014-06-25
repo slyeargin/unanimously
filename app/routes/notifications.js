@@ -8,7 +8,7 @@ var Notification = traceur.require(__dirname + '/../models/notification.js');
 exports.show = (req, res)=>{
   Notification.findAllByRecipientId(req.session.userId, notifications=>{
     Notification.getFullObjects(notifications, fullNotifications=>{
-      res.render('notifications/show', {moment: moment, notifications: fullNotifications});
+      res.render('notifications/show', {moment: moment, notifications: fullNotifications, title: 'Notifications'});
     });
   });
 };

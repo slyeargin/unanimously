@@ -14,6 +14,9 @@ block content
                 td.hidden-xs #{moment(notification.created).fromNow()}
                 td
                   include removeNotifications
+            if (notifications == 0)
+              tr
+                td You don't have any notifications at this time.
 
   div.col-sm-3.col-md-2.sidebar
     ul.nav.nav-sidebar

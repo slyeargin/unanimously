@@ -1,2 +1,7 @@
-a(href='/notifications') Notifications
-  span.badge #{notifications}
+if(notifications)
+  a(href='/notifications') Notifications
+    span.badge.yes #{notifications}
+
+if(notifications == 0)
+  a(href='/notifications') Notifications
+    span.badge #{notifications}
