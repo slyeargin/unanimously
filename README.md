@@ -1,6 +1,8 @@
 Unanimous.ly
 ===============
 
+[![Build Status](https://travis-ci.org/slyeargin/unanimously.svg?branch=master)](https://travis-ci.org/slyeargin/unanimously)
+
 [Unanimous.ly](http://unanimous.ly) allows teams to write together.  
 
 - Create campaigns and projects.  
