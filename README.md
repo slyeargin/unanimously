@@ -7,8 +7,6 @@ Unanimous.ly
 - Add collaborators to campaigns.  
 - Document versioning makes that "little change" visible and trackable.
 
-===============
-
 ## Features
 
 - Create campaigns.
