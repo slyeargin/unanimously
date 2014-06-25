@@ -112,7 +112,11 @@ exports.verifyAccount = (req, res)=>{
   User.findById(req.params.id, user=>{
     if(user){
       if (!user.isValid){
-        user.update(req.body, ()=>{
+        var obj = {
+          name: req.body.name,
+          email: user.email
+        };
+        user.update(obj, ()=>{
           user.changePassword(req.body.password, user=>{
             Invitation.findAllByInviteeEmail(user, invites=>{
               if(invites){
