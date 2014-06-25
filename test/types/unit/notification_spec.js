@@ -146,6 +146,39 @@ describe('Notification', function(){
     });
   });
 
+  describe('.getFullObjects', function(){
+    it('should wrap notifications with necessary info', function(done){
+      Notification.findAllByRecipientId('0123456789abcdef01234567', function(notifications){
+        Notification.getFullObjects(notifications, function(n){
+          expect(n).to.be.ok;
+          done();
+        });
+      });
+    });
+  });
+
+//    { _id: 9523456789abcdef01234567,
+//  recipientId: 0123456789abcdef01234567,
+//  docId: 7023456789abcdef01234568,
+// created: Tue Jun 24 2014 20:02:09 GMT-0500 (CDT),
+//  document:
+// { _id: 7023456789abcdef01234568,
+// projectId: 6023456789abcdef01234567,
+// copy: 'Keeping contamination under control.',
+// notes: 'Emphasis on what we do, rather than what they could do',
+// creatorId: 0123456789abcdef01234569,
+// date: Mon Jun 02 2014 00:00:00 GMT-0500 (CDT),
+// isFinal: false },
+// project:
+// { _id: 6023456789abcdef01234567,
+//  name: 'Okay Website',
+// medium: 'Web',
+// notes: 'Copy for ad on Okay Website',
+// campaignId: 4023456789abcdef01234567 },
+// docCreatorName: 'SM Yeargin',
+// message: 'SM Yeargin updated Okay Website.' } ]
+
+
 
   describe('#remove', function(){
     it('should remove notification by ID', function(done){

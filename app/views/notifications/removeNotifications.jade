@@ -1,0 +1,3 @@
+form(action='/notifications/remove', method='post')
+  input(name='notificationId', type='hidden', value='#{notification._id}')
+  button.close(title='Delete this notification', aria-hidden='true') ×

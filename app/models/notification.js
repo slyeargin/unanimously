@@ -5,6 +5,9 @@ var _ = require('lodash');
 var Mongo = require('mongodb');
 var traceur = require('traceur');
 var Base = traceur.require(__dirname + '/base.js');
+var Doc = traceur.require(__dirname + '/../models/doc.js');
+var User = traceur.require(__dirname + '/../models/user.js');
+var Project = traceur.require(__dirname + '/../models/project.js');
 
 class Notification{
   static create(obj, fn){
@@ -32,9 +35,17 @@ class Notification{
 
     if(!(userId instanceof Mongo.ObjectID)){fn(null); return;}
 
-    notificationCollection.find({recipientId:userId}).toArray((e,objs)=>{
+    notificationCollection.find({recipientId:userId}).sort( { created: -1 } ).toArray((e,objs)=>{
       objs = objs.map(o=>_.create(Notification.prototype, o));
       fn(objs);
+    });
+  }
+
+  static getFullObjects(objs, fn){
+    async.map(objs, addDocInfo, (e, docObjs)=>{
+      async.map(docObjs, createMessage, (e, fullObjs)=>{
+        fn(fullObjs);
+      });
     });
   }
 
@@ -71,6 +82,45 @@ class Notification{
     });
   }
 
+}
+
+function createMessage(obj, fn){
+  'use strict';
+
+  var message;
+
+  if (obj.document.isFinal){
+    message = obj.docCreatorName + ' posted the final version of ' + obj.project.name + '.';
+    obj.message = message;
+    fn(null, obj);
+  } else {
+    Doc.countAllByProjectId(obj.docId, count=>{
+      if (count === 1){
+        message = obj.docCreatorName + ' created ' + obj.project.name  + '.';
+        obj.message = message;
+        fn(null, obj);
+      } else {
+        message = obj.docCreatorName + ' updated ' + obj.project.name + '.';
+        obj.message = message;
+        fn(null, obj);
+      }
+    });
+  }
+}
+
+function addDocInfo(obj, fn){
+  'use strict';
+
+  Doc.findById(obj.docId, doc=>{
+    obj.document = doc;
+    Project.findById(doc.projectId, project=>{
+      obj.project = project;
+      User.findById(doc.creatorId, user=>{
+        obj.docCreatorName = user.name;
+        fn(null, obj);
+      });
+    });
+  });
 }
 
 function creationIterator(obj, fn){

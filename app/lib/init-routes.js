@@ -16,6 +16,7 @@ module.exports = (req, res, next)=>{
 function load(app, fn){
   var home = traceur.require(__dirname + '/../routes/home.js');
   var users = traceur.require(__dirname + '/../routes/users.js');
+  var notifications = traceur.require(__dirname + '/../routes/notifications.js');
   var campaigns = traceur.require(__dirname + '/../routes/campaigns.js');
   var projects = traceur.require(__dirname + '/../routes/projects.js');
   var docs = traceur.require(__dirname + '/../routes/docs.js');
@@ -42,6 +43,9 @@ function load(app, fn){
 
   app.get('/logout', dbg, users.logout);
   app.get('/dashboard', dbg, users.dashboard);
+
+  app.get('/notifications', dbg, notifications.show);
+  app.post('/notifications/remove', dbg, notifications.destroy);
 
   app.get('/profile', dbg, users.profile);
   app.post('/profile', dbg, users.update);
