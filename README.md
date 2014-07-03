@@ -14,8 +14,7 @@ Unanimous.ly
 
 ## Features
 
-- Create campaigns.
-- Create projects.
+- Create campaigns and projects.
 - Update copy in a project, and see the difference between versions.
 - Receive in-app notifications when someone else updates a project you have access to.
 - Campaign owners can:

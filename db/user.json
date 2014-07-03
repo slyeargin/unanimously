@@ -2,6 +2,7 @@
   {"email":"slyeargin+tester@gmail.com", "name":"Samantha Y.", "password":"1234", "isValid": true},
   {"_id": "3123456789abcdef01234567", "email":"slyeargin+test7@gmail.com", "name": "S. Yeargin", "password":"1234", "isValid": false},
   {"_id": "0123456789abcdef01234567", "email":"slyeargin@gmail.com", "name": "S. Yeargin", "password":"1234", "isValid": true},
+  {"_id": "0923456789abcdef01234567", "email":"slyeargin+oversight@gmail.com", "name": "S. Yeargin", "password":"1234", "isValid": false},
   {"_id": "0123456789abcdef01234569", "email":"stephen.yeargin@gmail.com", "name": "SM Yeargin", "password":"1234", "isValid": true},
   {"email":"slyeargin+test2@gmail.com", "password":"1234"},
   {"_id": "0123456789abcdef01234568", "email":"slyeargin+test3@gmail.com"},
