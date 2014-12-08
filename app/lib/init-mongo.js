@@ -1,7 +1,7 @@
 'use strict';
 
 var MongoClient = require('mongodb').MongoClient;
-var mongoUrl = `mongodb://localhost/${process.env.DBNAME}`;
+var mongoUrl =  process.env.MONGOLAB_URI || `mongodb://localhost/${process.env.DBNAME}`;
 var initialized = false;
 
 module.exports = (req, res, next)=>{
