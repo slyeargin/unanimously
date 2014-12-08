@@ -26,7 +26,6 @@
     "morgan":          "*",
     "method-override": "*",
     "traceur":         "*",
-    "socket.io":       "*",
     "bcrypt":          "*",
     "cookie-session":  "*",
     "cookies":         "*",
